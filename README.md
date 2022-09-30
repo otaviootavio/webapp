@@ -7,13 +7,11 @@ Thiago Moreira Yanitchkis Couto
 
 # Sobre o projeto 
 
-Nosso projeto temo objetivo de desenvolver um sistema de monitoramento de voos de aviões.
+Nosso projeto tem o objetivo de desenvolver um sistema de monitoramento de voos de aviões.
 # Pré-requisitos 
 
-python>=3.6
-pip
+python>=3.6 \
 git
-github
 
 # Instalação para windows
 
@@ -25,6 +23,6 @@ Para rodar a aplicação localmente primeiro clone o repositórios usando
 <code>.\env\bin\Activate.ps1</code>\
 <code>pip install -r requirements.txt</code>\
 <code>cd mysite</code>\
-<code>python manage.py runserver</code>\
-\
+<code>python manage.py runserver</code>
+
 Acesse a url <code>localhost:8000/olamundo/</code>
