@@ -19,10 +19,10 @@ github
 
 Para rodar a aplicação localmente primeiro clone o repositórios usando
 
-<code>git clone https://github.com/otaviootavio/webapp.git </code>
-<code>cd webapp</code>
-<code>python -m venv env</code>
-<code>.\env\bin\Activate.ps1</code>
-<code>pip install -r requirements.txt</code>
-<code>cd mysite</code>
-<code>python manage.py runserver</code>
+<code>git clone https://github.com/otaviootavio/webapp.git </code>\
+<code>cd webapp</code>\
+<code>python -m venv env</code>\
+<code>.\env\bin\Activate.ps1</code>\
+<code>pip install -r requirements.txt</code>\
+<code>cd mysite</code>\
+<code>python manage.py runserver</code>\
