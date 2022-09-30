@@ -1,9 +1,11 @@
 # Autores
 Grupo 9 - Turma 
 
-Lucas Alexandre Tavares \\
-Otávio Vacari Martins \\
-Thiago Moreira Yanitchkis Couto \\
+Lucas Alexandre Tavares 
+
+Otávio Vacari Martins 
+
+Thiago Moreira Yanitchkis Couto 
 
 # Pré-requisitos 
 
