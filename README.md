@@ -25,4 +25,6 @@ Para rodar a aplicação localmente primeiro clone o repositórios usando
 <code>.\env\bin\Activate.ps1</code>\
 <code>pip install -r requirements.txt</code>\
 <code>cd mysite</code>\
-<code>python manage.py runserver</code>
+<code>python manage.py runserver</code>\
+\
+Acesse a url <code>localhost:8000/olamundo/</code>
