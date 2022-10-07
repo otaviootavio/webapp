@@ -26,3 +26,4 @@ Para rodar a aplicação localmente primeiro clone o repositórios usando
 <code>python manage.py runserver</code>
 
 Acesse a url <code>localhost:8000/olamundo/</code>
+
