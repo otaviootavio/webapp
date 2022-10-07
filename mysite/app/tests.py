@@ -1,11 +1,21 @@
-from app.models import Livro, Usuario, Emprestimo
+import datetime
+from app.models import VooBase, VooReal
 from django.test import TestCase
 # Create your tests here.
 
-class LivroModelTest(TestCase):
+class VooBaseModelTest(TestCase):
     @classmethod
     def setUpTestData(cls):
-        Livro.objects.create(titulo='Os Irmãos Karamazov',isbn='000000')
-    def test_criacao_id(self):
-        livro_1 = Livro.objects.get(titulo='Os Irmãos Karamazov')
-        self.assertEqual(livro_1.id, 1)
+        VooBase.objects.create(
+                        codigo_voo = "1234",
+                        compania_aerea = "1234",
+                        dia_da_semana = 'SEG',
+                        horario_partida_base = datetime.time(5,0,0),
+                        duracao_base = datetime.time(1,1,1),
+                        origem = "Brasilia",
+                        destino = "Guarulhos")
+        VooBase.objects.create()
+    
+    def test_criacao_voo_base(self):
+        voo_1 = VooBase.objects.get(codigo_voo="1234")
+        self.assertEqual(voo_1.codigo_voo, "1234")
