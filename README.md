@@ -20,7 +20,7 @@ Para rodar a aplicação localmente siga as instruções abaixo:
 Primeiro baixe o projeto na sua máquina local\
 <code>git clone https://github.com/otaviootavio/webapp.git </code>
 
-Em seguida entre na pasta do projeto e crie o ambiente virtual \
+Em seguida entre na pasta do projeto e crie e acesse o ambiente virtual \
 <code>cd webapp</code>\
 <code>python -m venv env</code>\
 <code>.\env\bin\Activate.ps1</code>
@@ -31,3 +31,9 @@ Instale as dependências do projeto e execute-o.\
 <code>python manage.py runserver</code>
 
 Agora, para ver o projeto rodando acesse a url <code>localhost:8000/olamundo/</code>
+
+# Testagem
+Para testar é necessário estar no ambiente virtual. Dado isso, acesse a pasta com o app:
+```cd webapp```
+Em seguida, execute os testes:
+```python manage.py test```
