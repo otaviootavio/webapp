@@ -1,0 +1,57 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+        crossorigin="anonymous"></script>
+    <title>Autenticação</title>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="row">
+            <div class="container">
+                <form action="{% url 'login' %}" method="post">
+                    {% csrf_token %}
+                    <div class="col-md-8 col-md-offset-2">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Login</div>
+                            <div class="panel-body">
+                                {% if error_message %}
+                                    <p class="bg-danger p-d ml-b">{{ error_message }}</p>
+                                {% endif %}
+                                <div class="form-group clearfix">
+                                    <label for="username" class="col-md-4 control-label text-right">Username:</label>
+                                    <div class="col-md-6">
+                                        <input name="username" value="" type="text" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group clearfix">
+                                    <label for="password" class="col-md-4 control-label text-right">Password:</label>
+                                    <div class="col-md-6">
+                                        <input name="password" type="password" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-md-offset-4">
+                                    <input name="login" type="submit" value="Login" class="btn btn-success" /> &nbsp
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+   
+</html>
