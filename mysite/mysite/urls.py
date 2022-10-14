@@ -20,4 +20,5 @@ from app import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('olamundo/', views.olamundo),
+    path('home/', views.home),
 ]
