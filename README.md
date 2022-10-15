@@ -25,9 +25,10 @@ Em seguida entre na pasta do projeto e crie e acesse o ambiente virtual \
 <code>python -m venv env</code>\
 <code>.\env\bin\Activate.ps1</code>
 
-Instale as dependências do projeto e execute-o.\
+Instale as dependências do projeto, lembrando de fazer o migrate, e execute-o.\
 <code>pip install -r requirements.txt</code>\
 <code>cd mysite</code>\
+<code>python manage.py migrate</code>\
 <code>python manage.py runserver</code>
 
 Agora, para ver o projeto rodando acesse a url <code>localhost:8000/olamundo/</code>
