@@ -6,6 +6,12 @@ from django.shortcuts import render
 def create(request):
     return render(request,"create.html")
 
+def read(request):
+    return render(request,"read.html")
+
+def crud(request):
+    return render(request,"CRUD.html")
+
 def monitoracao(request):
     return render(request,"monitoracao.html")
 
