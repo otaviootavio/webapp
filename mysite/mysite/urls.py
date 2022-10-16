@@ -20,6 +20,7 @@ from app import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('olamundo/', views.olamundo),
+    path('create/', views.create),
     path('home/', views.home),
     path('monitoracao/', views.monitoracao),
     path('login/', views.login, name='login'),

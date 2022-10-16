@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<div class="d-flex justify-content-center">Criação de um novo voo</div>
+<form>
+    <div class="row">
+      <div class="col-md-3">
+        <label for="numero-voo">Número voo</label>
+        <input type="text" id="numero-voo" class="form-control" placeholder="Número voo">
+      </div>
+    </div>
+  </form>
+  <form>
+    <div class="row">
+      <div class="col-md-3">
+        <label for="destino">Destino</label>
+        <input type="text" id="destino" class="form-control" placeholder="Destino">
+      </div>
+      <div class="col-md-3">
+        <label for="origem">Origem</label>
+        <input type="text" class="form-control" placeholder="Origem">
+      </div>
+    </div>
+  </form>
+  <form>
+    <div class="row">
+      <div class="col-md-3">
+        <label for="data-hora-partira">Data e horario da partida</label>
+        <input type="datetime-local" id="data-hora-partira" class="form-control">
+      </div>
+      <div class="col-md-3">
+        <label for="data-hora-partida">Data e hora da chegada</label>
+        <input type="datetime-local" id="data-hora-partida" class="form-control">
+      </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <input name="cadastrar" type="submit" value="Cadastrar" class="btn btn-primary">
+        </div>
+    </div>
+  </form>
+
+{% endblock %}
