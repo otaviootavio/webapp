@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row">
+  <div class="d-flex justify-content-center">
+    <h3>
+      Lista dos voos disponíveis
+    </h3>
+  </div>
+</div>
+
+<div class="row">
+  <div class="d-flex justify-content-center">
+    <a href="{% url 'crud' %}" >Voltar</a>
+</div>
+
+<table class="row table align-middle mb-0 bg-white">
+    <thead class="bg-light">
+      <tr>
+        <th>Nome</th>
+        <th>Origem</th>
+        <th>Destino</th>
+        <th>Horario previsto</th>
+        <th>Partida previsto</th>
+        <th>Horario real</th>
+        <th>Partida real</th>
+        <th>Editar</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <div class="d-flex align-items-center">
+            <div class="ms-3">
+              <p class="fw-bold mb-1">ABC 1234</p>
+            </div>
+          </div>
+        </td>
+        <td>
+          <p class="fw-normal mb-1">Guarulhos</p>
+        </td>
+        <td>
+          <p class="fw-normal mb-1">Brasília</p>
+        </td>
+        <td>
+          <p class="fw-normal mb-1">16:00 16/10/2022</p>
+        </td>
+        <td>
+          <p class="fw-normal mb-1">18:00 16/10/2022</p>
+        </td>
+        <td>
+          <p class="fw-normal mb-1">16:02 16/10/2022</p>
+        </td>
+        <td>
+          <p class="fw-normal mb-1">18:03 16/10/2022</p>
+        </td>
+        <td>
+          <a href="{% url 'update' %}" type="button" class="btn btn-link btn-sm btn-rounded">Editar</a>
+        </td>
+        <td>
+          <a href="{% url 'delete' %}" type="button" class="btn btn-link btn-sm btn-rounded">Deletar</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+{% endblock %}
