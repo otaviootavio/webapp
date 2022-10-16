@@ -22,8 +22,8 @@ urlpatterns = [
     path('olamundo/', views.olamundo),
     path('create/', views.create),
     path('home/', views.home),
-    path('monitoracao/', views.monitoracao),
     path('login/', views.login, name='login'),
     path('monitoracao/', views.monitoracao, name='monitoração'),
+    path('monitoracao/?update=', views.monitoracao_update, name='monitoração'),
     
 ]

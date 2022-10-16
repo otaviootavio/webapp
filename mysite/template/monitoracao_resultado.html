@@ -22,42 +22,58 @@
 <body class="vh-100 px-3">
   <div class="row align-items-center h-100">
     <div class="col-sm">
-      <div class="card h-100">
-        <form>
+      <div class="card h-100 text-center bg-light " style="width: 45rem;">
+        <form class="align-items-center" method="post">
+            {% csrf_token %}
             <div class="row">
               <div class="col-md-3">
                 <label for="numero-voo">Número voo</label>
-                <input type="text" id="numero-voo" class="form-control" placeholder="Número voo">
+                <input readonly type="text" id="numero-voo" class="form-control-plaintext text-center" placeholder="7" >
+              </div>
+              <div class="col-md-3">
+                <label for="destino">Estado atual do voo</label>
+                <input type="text" id="estado-do-voo" class="form-control-plaintext text-center" placeholder="Programado" readonly>
+              </div>
+              <div class="col-md-3">
+                <label for="destino">Atualizar estado do voo</label>
+                <select class="custom-select" id="inputGroupSelect01">
+                    <option selected>Novo estado...</option>
+                    <option value="EMB">Embarcando</option>
+                    <option value="CAN">Cancelado</option>
+                    <option value="PRG">Programado</option>
+                    <option value="TAX">Taxiando</option>
+                    <option value="PRT">Pronto</option>
+                    <option value="AUT">Autorizado</option>
+                    <option value="EMV">Em voo</option>
+                    <option value="ATE">Aterrisado</option>
+                  </select>
+              </div>
+              <div class="col-md-3">
+                <div class="col-md-3 center">
+                    <label for="atualizar-estado"></label>
+                    <button name="update" type="submit" class="btn btn-primary mb-2">Atualizar</button>
+                </div>
               </div>
             </div>
-          </form>
-          <form>
             <div class="row">
               <div class="col-md-3">
                 <label for="destino">Destino</label>
-                <input type="text" id="destino" class="form-control" placeholder="Destino">
+                <input type="text" id="destino" class="form-control-plaintext text-center" placeholder="Maceio" readonly>
               </div>
               <div class="col-md-3">
                 <label for="origem">Origem</label>
-                <input type="text" id="origem" class="form-control" placeholder="Origem">
+                <input type="text" id="origem" class="form-control-plaintext text-center" placeholder="Brasilia" readonly>
               </div>
             </div>
-          </form>
-          <form>
             <div class="row">
               <div class="col-md-3">
                 <label for="data-hora-partira">Data e horario da partida</label>
-                <input type="datetime-local" id="data-hora-partira" class="form-control">
+                <input type="datetime-local" id="data-hora-partira" class="form-control-plaintext text-center" value="2022-10-20T12:44" readonly>
               </div>
               <div class="col-md-3">
                 <label for="data-hora-partida">Data e hora da chegada</label>
-                <input type="datetime-local" id="data-hora-partida" class="form-control">
+                <input type="datetime-local" id="data-hora-partida" class="form-control-plaintext text-center" value="2022-10-20T17:44" readonly>
               </div>
-            </div>
-            <div class="row">
-                <div class="col-md-3">
-                    <input name="cadastrar" type="submit" value="Cadastrar" class="btn btn-primary">
-                </div>
             </div>
           </form>
          

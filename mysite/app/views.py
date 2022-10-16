@@ -16,14 +16,16 @@ def home(request):
     return render(request,"home.html")
 
 def monitoracao(request):
-    return render(request,"monitoracao.html")
-
-def monitoracao(request):
     if request.method == 'POST':
         if request.POST.get('voo_id') == "7":
             return render(request,"monitoracao_resultado.html")
         return render(request,"monitoracao.html")
     return render(request,"monitoracao.html")
+
+def monitoracao_update(request):
+    if request.method == 'POST':
+        return render(request,"monitoracao_resultado.html")
+    return render(request,"monitoracao_resultado.html")
 
 def login(request):
     if request.method == 'POST':
