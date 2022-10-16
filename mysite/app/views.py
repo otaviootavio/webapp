@@ -3,6 +3,9 @@ from django.shortcuts import render
 # Create your views here.
 
 
+def monitoracao(request):
+    return render(request,"monitoracao.html")
+
 def olamundo(request):
     return render(request,"ola_mundo.html")
 

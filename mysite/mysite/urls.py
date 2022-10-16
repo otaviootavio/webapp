@@ -21,5 +21,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('olamundo/', views.olamundo),
     path('home/', views.home),
+    path('monitoracao/', views.monitoracao),
     path('login/', views.login, name='login'),
 ]
