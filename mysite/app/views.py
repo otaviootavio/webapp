@@ -6,11 +6,15 @@ from django.shortcuts import render
 def create(request):
     return render(request,"create.html")
 
-def read(request):
-    return render(request,"read.html")
+def update(request):
+    return render(request,"update.html")
+
+def delete(request):
+    """ TODO """
+    return render(request,"CRUD.html")
 
 def flightData(request):
-    return render(request,"flight_data.html")
+    return render(request,"flight-data.html")
 
 def crud(request):
     return render(request,"CRUD.html")
@@ -19,7 +23,7 @@ def monitoracao(request):
     return render(request,"monitoracao.html")
 
 def olamundo(request):
-    return render(request,"ola_mundo.html")
+    return render(request,"ola-mundo.html")
 
 def home(request):
     return render(request,"home.html")

@@ -3,8 +3,10 @@
 
 {% block content %}
 
-<div class="d-flex justify-content-center">Criação de um novo voo</div>
-<form>
+<div class="d-flex justify-content-center">Atualização de um voo ja existente</div>
+
+
+  <form>
     <div class="row">
       <div class="col-md-3">
         <label for="numero-voo">Número voo</label>
@@ -33,9 +35,8 @@
     </div>
     <div class="row">
         <div class="col-md-3">
-          <a href="{% url 'crud' %}" id="cadastrar" type="submit" class="btn btn-primary">Cadastrar</a>
-          <a href="{% url 'crud' %}" id="cancelar" type="submit" class="btn btn-secondary">Cancelar</a>
-      </div>
+          <a href="{% url 'crud' %}" type="submit" class="btn btn-primary">Cadastrar</a>
+        </div>
     </div>
   </form>
 
