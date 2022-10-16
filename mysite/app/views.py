@@ -15,6 +15,9 @@ def olamundo(request):
 def home(request):
     return render(request,"home.html")
 
+def monitoracao(request):
+    return render(request,"monitoracao.html")
+
 def login(request):
     if request.method == 'POST':
         # Process the request if posted data are available
