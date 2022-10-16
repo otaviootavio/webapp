@@ -22,6 +22,7 @@ urlpatterns = [
     path('olamundo/', views.olamundo, name='olamundo'),
     path('create/', views.create, name='create'),
     path('read/', views.read, name='read'),
+    path('flight-data/', views.flightData, name='flight-data'),
     path('crud/', views.crud, name='crud'),
     path('home/', views.home, name='home'),
     path('login/', views.login, name='login'),

@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<table class="table align-middle mb-0 bg-white">
+    <thead class="bg-light">
+      <tr>
+        <th>Nome</th>
+        <th>Origem</th>
+        <th>Destino</th>
+        <th>Horario previsto</th>
+        <th>Partida previsto</th>
+        <th>Horario real</th>
+        <th>Partida real</th>
+        <th>Editar</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <div class="d-flex align-items-center">
+            <div class="ms-3">
+              <p class="fw-bold mb-1">ABC 1234</p>
+            </div>
+          </div>
+        </td>
+        <td>
+          <p class="fw-normal mb-1">Guarulhos</p>
+        </td>
+        <td>
+          <p class="fw-normal mb-1">Brasília</p>
+        </td>
+        <td>
+          <p class="fw-normal mb-1">16:00 16/10/2022</p>
+        </td>
+        <td>
+          <p class="fw-normal mb-1">18:00 16/10/2022</p>
+        </td>
+        <td>
+          <p class="fw-normal mb-1">16:02 16/10/2022</p>
+        </td>
+        <td>
+          <p class="fw-normal mb-1">18:03 16/10/2022</p>
+        </td>
+        <td>
+          <button type="button" class="btn btn-link btn-sm btn-rounded">
+          Edit
+        </button></td>
+      </tr>
+    </tbody>
+  </table>
+
+
+{% endblock %}

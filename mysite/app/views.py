@@ -9,6 +9,9 @@ def create(request):
 def read(request):
     return render(request,"read.html")
 
+def flightData(request):
+    return render(request,"flight_data.html")
+
 def crud(request):
     return render(request,"CRUD.html")
 
