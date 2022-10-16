@@ -18,6 +18,13 @@ def home(request):
 def monitoracao(request):
     return render(request,"monitoracao.html")
 
+def monitoracao(request):
+    if request.method == 'POST':
+        if request.POST.get('voo_id') == "7":
+            return render(request,"monitoracao_resultado.html")
+        return render(request,"monitoracao.html")
+    return render(request,"monitoracao.html")
+
 def login(request):
     if request.method == 'POST':
         # Process the request if posted data are available

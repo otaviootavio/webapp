@@ -6,7 +6,7 @@
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Página inicial</title>
+    <title>monitoração</title>
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,13 +27,17 @@
         <div class="card-body">
           <h5 class="card-title">Buscar voo</h5>
           <p class="card-text">Consulte um voo específico ou altere seu status.</p>
-            <form>
+            <form method="post">
+                {% csrf_token %}
                 <div class="form-row align-items-center">
                   <div class="col-auto">
-                    <input type="text" class="form-control mb-2" id="inlineFormInput" placeholder="Código do voo" aria-label="Código do voo">
+                    <input type="text" class="form-control mb-2" name="voo_id" placeholder="Código do voo" aria-label="Código do voo">
                   </div>
                   <div class="col-auto">
                     <button type="submit" class="btn btn-primary mb-2">Buscar</button>
+                    {% if error_message %}
+                        <p class="bg-danger p-d ml-b">{{ error_message }}</p>
+                    {% endif %}
                   </div>
                 </div>
         </div>
