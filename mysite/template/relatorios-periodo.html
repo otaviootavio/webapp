@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <body class="vh-100 px-3">
+        <div class="row align-items-center h-100">
+          <div class="col-sm">
+            <div class="card h-100">
+              <div class="card-body">
+                <h5 class="card-title">Relatório por Período de Tempo</h5>
+                <p class="card-text">Gere relatórios de voos em um aeroporto em um determinado período de tempo.</p>
+                  <form method="post">
+                      {% csrf_token %}
+                      <div class="form-row align-items-center">
+                        <div class="col-auto">
+                          <input type="text" class="form-control mb-2" name="aeroporto_id" placeholder="Aeroporto" aria-label="Aeroporto">
+                        </div>
+                      </div>
+                      <div class="row align-items-center">
+                        <div class="col-md-6">
+                          <input type="date" class="form-control mb-2" name="data_inicial_id" placeholder="Data Inicial" aria-label="Data Inicial">
+                        </div>
+                        <div class="col-md-6">
+                          <input type="date" class="form-control mb-2" name="data_final_id" placeholder="Data Final" aria-label="Data Final">
+                        </div>
+                      </div>
+                      <div class="row align-items-center">
+                        <div class="col-auto">
+                          <button type="submit" class="btn btn-primary mb-2">Gerar relatório</button>
+                          {% if error_message %}
+                              <p class="bg-danger p-d ml-b">{{ error_message }}</p>
+                          {% endif %}
+                        </div>
+                      </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </body>
+
+{% endblock %}

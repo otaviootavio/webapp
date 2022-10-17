@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="row align-items-center h-100">
+        <div class="col-sm">
+            <div class="card h-100">
+                <div class="card-body">
+                <h5 class="card-title">Relatório por Companhia Aérea</h5>
+                <p class="card-text">Gere relatórios de partida e/ou chegada de uma companhia aérea.</p>
+                <a href="{% url 'relatorios-cia-aerea' %}" class="btn btn-primary">Acesse aqui</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm">
+            <div class="card h-100">
+                <div class="card-body">
+                <h5 class="card-title">Relatório por Período de Tempo</h5>
+                <p class="card-text">Gere relatórios de voos em um aeroporto em um determinado período de tempo.</p>
+                <a href="{% url 'relatorios-periodo' %}" class="btn btn-primary">Acesse aqui</a>
+                </div>
+            </div>
+        </div>
+    
+    </div>
+
+{% endblock %}

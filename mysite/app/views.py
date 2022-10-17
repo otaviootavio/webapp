@@ -58,3 +58,23 @@ def login(request):
     else:
         # No post data availabe, let's just show the page to the user.
         return render(request, "login.html")
+
+def relatorios(request):
+    return render(request, "relatorios.html")
+
+def relatoriosCiaAerea(request):
+    if request.method == 'POST':
+        if request.POST.get('cia_id') == "Latam":
+            return render(request,"relatorios-pdf.html")
+        return render(request,"relatorios-cia-aerea.html")
+    return render(request, "relatorios-cia-aerea.html")
+
+def relatoriosPeriodo(request):
+    if request.method == 'POST':
+        if request.POST.get('aeroporto_id') == "Congonhas" and request.POST.get('data_inicial_id') == "2022-10-01" and request.POST.get('data_final_id') == "2022-10-19":
+            return render(request,"relatorios-pdf.html")
+        return render(request,"relatorios-periodo.html")
+    return render(request, "relatorios-periodo.html")
+
+def relatoriosPdf(request):
+    return render(request, "relatorios-pdf.html")
