@@ -2,6 +2,10 @@
 
 {% block content %}
 
+  {% if error_message %}
+    <p class="bg-danger p-d ml-b">{{ error_message }}</p>
+  {% endif %}
+
   <div class="row align-items-center h-100">
     <div class="col-sm">
       <div class="card h-100">
