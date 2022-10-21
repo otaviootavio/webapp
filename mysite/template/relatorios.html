@@ -8,7 +8,19 @@
                 <div class="card-body">
                 <h5 class="card-title">Relatório por Companhia Aérea</h5>
                 <p class="card-text">Gere relatórios de partida e/ou chegada de uma companhia aérea.</p>
-                <a href="{% url 'relatorios-cia-aerea' %}" class="btn btn-primary">Acesse aqui</a>
+                <form method="post">
+                  {% csrf_token %}
+                  <div class="form-row align-items-center">
+                    <div class="col-auto">
+                      <input type="text" class="form-control mb-2" name="cia_id" placeholder="Companhia Aérea" aria-label="Companhia Aérea">
+                    </div>
+                    <div class="col-auto">
+                      <button type="submit" name="btn_id" value="cia" class="btn btn-primary mb-2">Gerar relatório</button>
+                      {% if error_message %}
+                          <p class="bg-danger p-d ml-b">{{ error_message }}</p>
+                      {% endif %}
+                    </div>
+                  </div>
                 </div>
             </div>
         </div>
@@ -17,7 +29,29 @@
                 <div class="card-body">
                 <h5 class="card-title">Relatório por Período de Tempo</h5>
                 <p class="card-text">Gere relatórios de voos em um aeroporto em um determinado período de tempo.</p>
-                <a href="{% url 'relatorios-periodo' %}" class="btn btn-primary">Acesse aqui</a>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-row align-items-center">
+                      <div class="col-auto">
+                        <input type="text" class="form-control mb-2" name="aeroporto_id" placeholder="Aeroporto" aria-label="Aeroporto">
+                      </div>
+                    </div>
+                    <div class="row align-items-center">
+                      <div class="col-md-6">
+                        <input type="date" class="form-control mb-2" name="data_inicial_id" placeholder="Data Inicial" aria-label="Data Inicial">
+                      </div>
+                      <div class="col-md-6">
+                        <input type="date" class="form-control mb-2" name="data_final_id" placeholder="Data Final" aria-label="Data Final">
+                      </div>
+                    </div>
+                    <div class="row align-items-center">
+                      <div class="col-auto">
+                        <button type="submit" name="btn_id" value="periodo" class="btn btn-primary mb-2">Gerar relatório</button>
+                        {% if error_message %}
+                            <p class="bg-danger p-d ml-b">{{ error_message }}</p>
+                        {% endif %}
+                      </div>
+                    </div>
                 </div>
             </div>
         </div>

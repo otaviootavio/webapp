@@ -74,23 +74,17 @@ def login(request):
 def relatorios(request):
     global globalAccess
     if globalAccess == 'rela' or globalAccess == 'admin':
-      return render(request, "relatorios.html")
+      if request.method == 'POST':
+        if request.POST.get('btn_id')=="periodo" and request.POST.get('aeroporto_id') == "Congonhas" and request.POST.get('data_inicial_id') == "2022-10-01" and request.POST.get('data_final_id') == "2022-10-19":
+          return render(request,"relatorios-pdf.html")
+        elif request.POST.get('btn_id')=="cia" and request.POST.get('cia_id') == "Latam":
+          return render(request,"relatorios-pdf.html")
+        else:
+          return render(request, "relatorios.html")
+      else:
+        return render(request, "relatorios.html")
     else:
       return render(request,"home.html", {'error_message': 'You don\'t have permission to access this resource.'})
-
-def relatoriosCiaAerea(request):
-    if request.method == 'POST':
-        if request.POST.get('cia_id') == "Latam":
-            return render(request,"relatorios-pdf.html")
-        return render(request,"relatorios-cia-aerea.html")
-    return render(request, "relatorios-cia-aerea.html")
-
-def relatoriosPeriodo(request):
-    if request.method == 'POST':
-        if request.POST.get('aeroporto_id') == "Congonhas" and request.POST.get('data_inicial_id') == "2022-10-01" and request.POST.get('data_final_id') == "2022-10-19":
-            return render(request,"relatorios-pdf.html")
-        return render(request,"relatorios-periodo.html")
-    return render(request, "relatorios-periodo.html")
 
 def relatoriosPdf(request):
     return render(request, "relatorios-pdf.html")

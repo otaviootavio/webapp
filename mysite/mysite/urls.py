@@ -31,7 +31,5 @@ urlpatterns = [
     path('monitoracao/', views.monitoracao, name='monitoração'),
     path('monitoracao/?update=', views.monitoracao_update, name='monitoração_update'),
     path('relatorios/', views.relatorios, name='relatorios'),
-    path('relatorios-cia-aerea/', views.relatoriosCiaAerea, name='relatorios-cia-aerea'),
-    path('relatorios-periodo/', views.relatoriosPeriodo, name='relatorios-periodo'),
     path('relatorios-pdf/', views.relatoriosPdf, name='relatorios-pdf'),
 ]
