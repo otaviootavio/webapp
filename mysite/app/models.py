@@ -1,4 +1,3 @@
-import datetime
 from django.db import models
 
 class VooBase(models.Model):
@@ -12,10 +11,10 @@ class VooBase(models.Model):
         ('DOM','Domingo')
     )
     codigo_voo = models.CharField(max_length=200, null=False)
-    compania_aerea = models.CharField(max_length=200, null=False)
+    companhia_aerea = models.CharField(max_length=200, null=False)
     dia_da_semana = models.CharField(max_length = 3, choices = DIAS_SEMANA)
     horario_partida_base = models.TimeField(auto_now=False, auto_now_add=False, null=True)
-    duracao_base = models.CharField(max_length=200, null=False)
+    duracao_base = models.IntegerField(null=False)
     origem = models.CharField(max_length=200, null=False)
     destino = models.CharField(max_length=200, null=False)
 
