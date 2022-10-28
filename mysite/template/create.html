@@ -2,38 +2,44 @@
 
 
 {% block content %}
-
 <div class="d-flex justify-content-center">Criação de um novo voo</div>
-<form>
+<form method="post" action="#">
+    {% csrf_token %}
     <div class="row">
       <div class="col-md-3">
         <label for="numero-voo">Número voo</label>
-        <input type="text" id="numero-voo" class="form-control" placeholder="Número voo">
+        <input type="text" id="numero-voo" name="numero-voo" class="form-control" placeholder="Número voo">
       </div>
     </div>
     <div class="row">
       <div class="col-md-3">
         <label for="destino">Destino</label>
-        <input type="text" id="destino" class="form-control" placeholder="Destino">
+        <input type="text" id="destino" name="destino" class="form-control" placeholder="Destino">
       </div>
       <div class="col-md-3">
         <label for="origem">Origem</label>
-        <input type="text" id="origem" class="form-control" placeholder="Origem">
+        <input type="text" id="origem" name="origem" class="form-control" placeholder="Origem">
       </div>
     </div>
     <div class="row">
       <div class="col-md-3">
         <label for="data-hora-partira">Data e horario da partida</label>
-        <input type="datetime-local" id="data-hora-partira" class="form-control">
+        <input type="datetime-local" id="data-hora-partida" name="data-hora-partida" class="form-control">
       </div>
       <div class="col-md-3">
         <label for="data-hora-partida">Data e hora da chegada</label>
-        <input type="datetime-local" id="data-hora-partida" class="form-control">
+        <input type="datetime-local" id="data-hora-chegada" name="data-hora-chegada" class="form-control">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <label for="companhia-aerea">Companhia aérea</label>
+        <input type="text" id="companhia-aerea" name="companhia-aerea" class="form-control">
       </div>
     </div>
     <div class="row">
         <div class="col-md-3">
-          <a href="{% url 'crud' %}" id="cadastrar" type="submit" class="btn btn-primary">Cadastrar</a>
+          <input id="cadastrar" type="submit" class="btn btn-primary">
           <a href="{% url 'crud' %}" id="cancelar" type="submit" class="btn btn-secondary">Cancelar</a>
       </div>
     </div>

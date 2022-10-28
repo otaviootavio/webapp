@@ -1,26 +1,55 @@
+from datetime import timedelta,datetime
 from django.shortcuts import render
+from app.models import VooBase
 
 # Create your views here.
 
 globalAccess = ""
 
 def create(request):
+    if request.method == 'POST':
+        
+        data_partida_date = string_to_date(request.POST.get('data-hora-partida'))
+        data_chegada_date = string_to_date(request.POST.get('data-hora-chegada'))
+        
+        novo_voo_base = VooBase.objects.create(
+            codigo_voo = request.POST.get('numero-voo'),
+            companhia_aerea = request.POST.get('companhia-aerea'),
+            dia_da_semana = data_partida_date.weekday(),
+            horario_partida_base = data_partida_date.time(),
+            duracao_base = (data_chegada_date - data_partida_date).seconds,
+            origem = request.POST.get('origem'),
+            destino = request.POST.get('destino')
+        )
+        return render(request,"create.html")
     return render(request,"create.html")
 
+def string_to_date(str_format):
+    try:
+        date_format = datetime.strptime(str_format, "%Y-%m-%dT%H:%M")
+        return date_format
+    except:
+        return("Error at method string_to_date")
+        
 def update(request):
+    if request.method == 'POST':
+        return render(request,"update.html")
     return render(request,"update.html")
 
 def delete(request):
-    """ TODO """
+    if request.method == 'POST':
+        return render(request,"crud.html")
     return render(request,"crud.html")
 
 def flightData(request):
+    if request.method == 'POST':
+        return render(request,"crud.html")
     return render(request,"flight-data.html")
 
 def crud(request):
     global globalAccess
     if globalAccess == 'crud' or globalAccess == 'admin':
-      return render(request,"crud.html")
+      return render(request,"CRUD.html")
     else:
       return render(request,"home.html", {'error_message': 'You don\'t have permission to access this resource.'})
 
@@ -29,6 +58,8 @@ def olamundo(request):
     return render(request,"ola-mundo.html")
 
 def home(request):
+    if request.method == 'POST':
+        return render(request,"home.html")
     return render(request,"home.html")
 
 def monitoracao(request):
