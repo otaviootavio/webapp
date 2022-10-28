@@ -1,3 +1,4 @@
+import json
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 
@@ -9,6 +10,7 @@ from app.models import VooBase
 
 globalAccess = ""
 
+@login_required
 def create(request):
     if request.method == 'POST':
         
