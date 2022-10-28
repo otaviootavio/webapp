@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta, time
+from math import floor
 from django.db import models
 
 class VooBase(models.Model):
@@ -17,6 +19,31 @@ class VooBase(models.Model):
     duracao_base = models.IntegerField(null=False)
     origem = models.CharField(max_length=200, null=False)
     destino = models.CharField(max_length=200, null=False)
+
+    def get_horario_chegada(this):
+        hour_duracao = floor(this.duracao_base / 3600)
+        minute_duracao = floor((this.duracao_base - hour_duracao*3600) / 60 )
+        seconds_duracao = this.duracao_base - hour_duracao*3600 - minute_duracao*60
+        
+        hour_base = this.horario_partida_base.hour
+        minute_base = this.horario_partida_base.minute
+        second_base = this.horario_partida_base.second
+        
+        seconds_total = second_base + seconds_duracao
+        hour_total = hour_base + hour_duracao
+        minute_total = minute_base + minute_duracao
+        
+        if(seconds_total > 60 ):
+            minutes_total = minutes_total + floor(seconds_total/60)
+            seconds_total = seconds_total % 60
+        
+        if(minute_total > 60 ):
+            hour_total = hour_total + floor(minute_total/60)
+            minute_total = minute_total % 60
+        
+        time_total = time(hour = hour_total, minute = minute_total, second = seconds_total)
+
+        return time_total
 
     class Meta:
         db_table = 'voo_base'

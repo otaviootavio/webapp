@@ -4,9 +4,8 @@
 {% block content %}
 
 <div class="d-flex justify-content-center">Atualização de um voo ja existente</div>
-
-
-  <form>
+  <form action="" method="post">
+  {% csrf_token %}>
     <div class="row">
       <div class="col-md-3">
         <label for="numero-voo">Número voo</label>
