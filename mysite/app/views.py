@@ -1,5 +1,8 @@
-from datetime import timedelta,datetime
-from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
+
+from datetime import datetime
+from django.shortcuts import render, redirect
 from app.models import VooBase
 
 # Create your views here.
@@ -46,17 +49,14 @@ def flightData(request):
         return render(request,"crud.html")
     return render(request,"flight-data.html")
 
+@login_required
 def crud(request):
-    global globalAccess
-    if globalAccess == 'crud' or globalAccess == 'admin':
-      return render(request,"CRUD.html")
-    else:
-      return render(request,"home.html", {'error_message': 'You don\'t have permission to access this resource.'})
-
+      return render(request,"CRUD.html")  
 
 def olamundo(request):
     return render(request,"ola-mundo.html")
 
+@login_required
 def home(request):
     if request.method == 'POST':
         return render(request,"home.html")
@@ -77,30 +77,22 @@ def monitoracao_update(request):
         return render(request,"monitoracao_resultado.html")
     return render(request,"monitoracao_resultado.html")
 
-def login(request):
+def login_view(request):
     if request.method == 'POST':
-        # Process the request if posted data are available
         username = request.POST['username']
         password = request.POST['password']
-        global globalAccess
-        globalAccess = username
-        # Check username and password combination if correct
-        #user = authenticate(username=username, password=password)
-        if ((username == 'admin' and password == 'admin') or 
-        (username == 'crud' and password == 'crud') or
-        (username == 'moni' and password == 'moni') or
-        (username == 'rela' and password == 'rela')):
-          # Save session as cookie to login the user
-          #login(request, user)
-          # Success, now let's login the user.
-          print(globalAccess)
-          return render(request, "home.html")
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user = user)
+            return redirect(home)
         else:
-            # Incorrect credentials, let's throw an error to the screen.
-            return render(request, "login.html", {'error_message': 'Incorrect username and / or password.'})
+            return render(request, "login.html", {'error_message': 'Ops... usuário ou senha inválido'})
     else:
-        # No post data availabe, let's just show the page to the user.
         return render(request, "login.html")
+    
+def logout_view(request):
+    logout(request)
+    return render(request, "login.html")
 
 def relatorios(request):
     global globalAccess

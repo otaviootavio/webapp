@@ -1,44 +1,53 @@
 {% extends 'base.html' %}
-
 {% block content %}
 
 <body>
-
     <div class="container">
         <div class="row">
             <div class="container">
-                <form action="{% url 'login' %}" method="post">
+                <form action="{% url 'login_view' %}" method="post">
                     {% csrf_token %}
                     <div class="col-md-8 col-md-offset-2">
                         <div class="panel panel-default">
-                            <div class="panel-heading">Login</div>
-                            <div class="panel-body">
-                                {% if error_message %}
-                                    <p class="bg-danger p-d ml-b">{{ error_message }}</p>
-                                {% endif %}
-                                <div class="form-group clearfix">
-                                    <label for="username" class="col-md-4 control-label text-right">Username:</label>
-                                    <div class="col-md-6">
-                                        <input name="username" value="" type="text" class="form-control" />
+                            <form method="post" action="#">
+                                {% csrf_token %}
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="panel-heading">
+                                            <h1>Login</h1>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="form-group clearfix">
+                                                <label for="username"
+                                                    class="col-md-4 control-label text-right">Username:</label>
+                                                <div class="col-md-6">
+                                                    <input name="username" id="username" type="text"
+                                                        class="form-control" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group clearfix">
+                                                <label for="password"
+                                                    class="col-md-4 control-label text-right">Password:</label>
+                                                <div class="col-md-6">
+                                                    <input name="password" type="password" id="password" class="form-control" />
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6 col-md-offset-4 mt-2">
+                                                    <input name="login" type="submit" value="Login" class="btn btn-success" />
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group clearfix">
-                                    <label for="password" class="col-md-4 control-label text-right">Password:</label>
-                                    <div class="col-md-6">
-                                        <input name="password" type="password" class="form-control" />
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-md-offset-4">
-                                    <input name="login" type="submit" value="Login" class="btn btn-success" /> &nbsp
-                                </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
-                </form>
             </div>
+            </form>
         </div>
     </div>
-   
-</html>
+    </div>
 
-{% endblock %}
+    </html>
+
+    {% endblock %}
