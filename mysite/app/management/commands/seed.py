@@ -1,6 +1,7 @@
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User,Group
-import random
+from app.models import VooBase
+import random,datetime
 
 # python manage.py seed --mode=refresh
 
@@ -30,7 +31,7 @@ def clear_data():
     VooReal.objects.all().delete()
 
 
-def create_address():
+def create_users():
     """Creates an address object combining different elements from the list"""
     piloto = User.objects.get(username='piloto')
     if not piloto:
@@ -79,6 +80,15 @@ def create_address():
 
     return 
 
+def create_voo():
+    voo1 = VooBase.objects.create(codigo_voo='011',companhia_aerea='Tesla',dia_da_semana='Segunda',
+                                horario_partida_base=str(datetime.date.today().strftime("%H:%M:%S")), duracao_base=5,origem='SP',destino='TO')
+    voo1.save()
+    voo2 = VooBase.objects.create(codigo_voo='012',companhia_aerea='Tesla',dia_da_semana='Terça',
+                                horario_partida_base=str(datetime.date.today().strftime("%H:%M:%S")), duracao_base=5,origem='RJ',destino='PE')
+    voo2.save()
+
+
 def run_seed(self, mode):
     """ Seed database based on mode
 
@@ -91,4 +101,5 @@ def run_seed(self, mode):
       return
 
     # Creating users
-    create_address()
+    create_users()
+    create_voo()
