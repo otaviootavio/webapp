@@ -8,8 +8,6 @@ from app.models import VooBase
 
 # Create your views here.
 
-globalAccess = ""
-
 @login_required
 def create(request):
     if request.method == 'POST':
@@ -64,15 +62,12 @@ def home(request):
         return render(request,"home.html")
     return render(request,"home.html")
 
+@login_required
 def monitoracao(request):
-  global globalAccess
-  if globalAccess == 'moni' or globalAccess == 'admin':
-    if request.method == 'POST':
-      if request.POST.get('voo_id') == "7":
-        return render(request,"monitoracao_resultado.html")
-    return render(request,"monitoracao.html")
-  else:
-    return render(request,"home.html", {'error_message': 'You don\'t have permission to access this resource.'})
+  if request.method == 'POST':
+    if request.POST.get('voo_id') == "7":
+      return render(request,"monitoracao_resultado.html")
+  return render(request,"monitoracao.html")
 
 def monitoracao_update(request):
     if request.method == 'POST':
@@ -96,20 +91,20 @@ def logout_view(request):
     logout(request)
     return render(request, "login.html")
 
+@login_required
 def relatorios(request):
-    global globalAccess
-    if globalAccess == 'rela' or globalAccess == 'admin':
-      if request.method == 'POST':
-        if request.POST.get('btn_id')=="periodo" and request.POST.get('aeroporto_id') == "Congonhas" and request.POST.get('data_inicial_id') == "2022-10-01" and request.POST.get('data_final_id') == "2022-10-19":
-          return render(request,"relatorios-pdf.html")
-        elif request.POST.get('btn_id')=="cia" and request.POST.get('cia_id') == "Latam":
-          return render(request,"relatorios-pdf.html")
-        else:
-          return render(request, "relatorios.html")
-      else:
-        return render(request, "relatorios.html")
+  if request.method == 'POST':
+    if request.POST.get('btn_id')=="periodo" and request.POST.get('aeroporto_id') == "Congonhas" and request.POST.get('data_inicial_id') == "2022-10-01" and request.POST.get('data_final_id') == "2022-10-19":
+      return render(request,"relatorios-pdf.html")
+    elif request.POST.get('btn_id')=="cia" and request.POST.get('cia_id') == "Latam":
+      return render(request,"relatorios-pdf.html")
     else:
-      return render(request,"home.html", {'error_message': 'You don\'t have permission to access this resource.'})
+      return render(request, "relatorios.html")
+  else:
+    return render(request, "relatorios.html")
 
 def relatoriosPdf(request):
     return render(request, "relatorios-pdf.html")
+
+def relatoriosBase(request):
+    return render(request, "relatorios-base.html")

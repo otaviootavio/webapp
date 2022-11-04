@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <h1>Use Button to execute function in '.js' file.</h1>
+    <script src="{% static "js\relatorios-gerar.js" %}" type="text/javascript"></script>
+    <button onclick="Convert_HTML_To_PDF();">Convert HTML to PDF</button>
+
+    <div id="contentToPrint">
+      <table>
+        <tr>
+          <th>Company</th>
+          <th>Contact</th>
+          <th>Country</th>
+        </tr>
+        <tr>
+          <td>Alfreds Futterkiste</td>
+          <td>Maria Anders</td>
+          <td>Germany</td>
+        </tr>
+        <tr>
+          <td>Centro comercial Moctezuma</td>
+          <td>Francisco Chang</td>
+          <td>Mexico</td>
+        </tr>
+      </table>
+    </div>
+
+{% endblock %}

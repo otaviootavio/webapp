@@ -16,6 +16,7 @@ urlpatterns = [
     path('monitoracao/', views.monitoracao, name='monitoração'),
     path('monitoracao/?update=', views.monitoracao_update, name='monitoração_update'),
     path('relatorios/', views.relatorios, name='relatorios'),
+    path('relatorios-base/', views.relatoriosBase, name='relatorios-base'),
     path('relatorios-pdf/', views.relatoriosPdf, name='relatorios-pdf'),
     path('logout/', views.logout_view, name='logout_view'),
 ]
