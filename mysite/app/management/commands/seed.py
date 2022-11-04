@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User,Group
 import random
 
 # python manage.py seed --mode=refresh
@@ -38,6 +38,8 @@ def create_address():
         piloto = User.objects.create_user('piloto', 'piloto@mail.com', 'piloto')
         piloto.save()
         print("piloto created.")
+    pilotos, created = Group.objects.get_or_create(name='pilotos')
+    pilotos.user_set.add(piloto)
 
     funcionario = User.objects.get(username='funcionario')
     if not funcionario:
@@ -45,6 +47,8 @@ def create_address():
         funcionario = User.objects.create_user('funcionario', 'funcionario@mail.com', 'funcionario')
         funcionario.save()
         print("funcionário created.")
+    funcionarios, created = Group.objects.get_or_create(name='funcionarios')
+    funcionarios.user_set.add(funcionario)
 
     operador = User.objects.get(username='operador')
     if not operador:
@@ -52,6 +56,8 @@ def create_address():
         operador = User.objects.create_user('operador', 'operador@mail.com', 'operador')
         operador.save()
         print("operador created.")
+    operadores, created = Group.objects.get_or_create(name='operadores')
+    operadores.user_set.add(operador)
 
     torre = User.objects.get(username='torre')
     if not torre:
@@ -59,6 +65,8 @@ def create_address():
         torre = User.objects.create_user('torre', 'torre@mail.com', 'torre')
         torre.save()
         print("operador torre de controle.")
+    torres, created = Group.objects.get_or_create(name='torres')
+    torres.user_set.add(torre)
 
     gerente = User.objects.get(username='gerente')
     if not gerente:
@@ -66,6 +74,8 @@ def create_address():
         gerente = User.objects.create_user('gerente', 'gerente@mail.com', 'gerente')
         gerente.save()
         print("operador gerente.")
+    gerentes, created = Group.objects.get_or_create(name='gerentes')
+    gerentes.user_set.add(gerente)
 
     return 
 
