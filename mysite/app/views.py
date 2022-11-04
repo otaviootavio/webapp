@@ -65,8 +65,9 @@ def home(request):
     return render(request,"home.html")
 
 def monitoracao(request):
-  global globalAccess
-  if globalAccess == 'moni' or globalAccess == 'admin':
+  permissionGroup = ['pilotos','funcionarios','operadores','torres','torres','torres','admin']
+
+  if  request.user.groups.filter(name__in=permissionGroup).exists():
     if request.method == 'POST':
       if request.POST.get('voo_id') == "7":
         return render(request,"monitoracao_resultado.html")
