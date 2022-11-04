@@ -4,7 +4,7 @@ import random
 
 # python manage.py seed --mode=refresh
 
-""" Clear all data and creates addresses """
+""" Clear all data and create users """
 MODE_REFRESH = 'refresh'
 
 """ Clear all data and do not create any object """
