@@ -64,9 +64,11 @@ def home(request):
 
 @login_required
 def monitoracao(request):
-  if request.method == 'POST':
-    if request.POST.get('voo_id') == "7":
-      return render(request,"monitoracao_resultado.html")
+  permissionGroup = ['pilotos','funcionarios','operadores','torres','torres','torres','admin']
+  if  request.user.groups.filter(name__in=permissionGroup).exists():
+    if request.method == 'POST':
+      if request.POST.get('voo_id') == "7":
+        return render(request,"monitoracao_resultado.html")
   return render(request,"monitoracao.html")
 
 def monitoracao_update(request):
