@@ -6,6 +6,7 @@ from datetime import datetime
 from django.shortcuts import render, redirect
 from app.models import VooBase
 from django.forms import modelformset_factory
+from django.shortcuts import get_object_or_404
 
 from app.forms import VooBaseForm
 
@@ -35,12 +36,27 @@ from app.forms import VooBaseForm
 
 @login_required
 def createBase(request):
+
     if request.method == 'POST':
         form = VooBaseForm(request.POST)
         if form.is_valid():
             form.save()
     else:
         form = VooBaseForm()
+    return render(request, 'create-base.html', {'form': form})
+
+@login_required
+def updateBase(request, pk):
+    voo_base_obj = get_object_or_404(VooBase, codigo_voo = pk)
+    form = VooBaseForm(instance = voo_base_obj)
+                       
+    if request.method == 'POST':
+        form = VooBaseForm(request.POST, instance = voo_base_obj)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = VooBaseForm(instance = voo_base_obj)
     return render(request, 'create-base.html', {'form': form})
 
 def string_to_date(str_format):

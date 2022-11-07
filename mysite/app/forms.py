@@ -6,7 +6,13 @@ class VooBaseForm(forms.ModelForm):
     
     class Meta:
         model = VooBase
-        fields = ('codigo_voo','companhia_aerea','dia_da_semana','horario_partida_base','duracao_base','origem','destino')
+        fields = ('codigo_voo',
+                  'companhia_aerea',
+                  'dia_da_semana',
+                  'horario_partida_base',
+                  'duracao_base',
+                  'origem',
+                  'destino')
         labels = {
             'codigo_voo':'Codigo Voo',
             'companhia_aerea':'Companhia Aerea',

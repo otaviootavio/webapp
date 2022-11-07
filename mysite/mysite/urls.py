@@ -7,6 +7,7 @@ urlpatterns = [
     path('admin/', admin.site.urls, name='admin'),
     path('olamundo/', views.olamundo, name='olamundo'),
     path('create/base', views.createBase, name='create-base'),
+    path('update/base/<int:pk>', views.updateBase, name='update-base'),
     path('update/<str:codigo>', views.update, name='update'),
     path('delete/', views.delete, name='delete'),
     path('flight-data/', views.flightData, name='flight-data'),
