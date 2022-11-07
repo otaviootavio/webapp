@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 
 from datetime import datetime
 from django.shortcuts import render, redirect
-from app.models import VooBase
+from app.models import VooBase,VooReal
 
 # Create your views here.
 
@@ -67,8 +67,20 @@ def monitoracao(request):
   permissionGroup = ['pilotos','funcionarios','operadores','torres','torres','torres','admin']
   if  request.user.groups.filter(name__in=permissionGroup).exists():
     if request.method == 'POST':
-      if request.POST.get('voo_id') == "7":
-        return render(request,"monitoracao_resultado.html")
+        VooId = request.POST.get('voo_id')
+        #if True:
+        try:
+            voo = VooBase.objects.get(codigo_voo=VooId)
+            destino = voo.destino
+            origem = voo.origem
+            
+            vooreal = VooReal.objects.get(voo_base=voo)
+            estadoVoo = vooreal.estado_voo
+            context = {'voo_id' : VooId, 'destino' : destino, 'origem': origem,
+                        'estado_voo' : estadoVoo}
+            return render(request,"monitoracao_resultado.html",context)
+        except:
+            return render(request,"monitoracao.html")
   return render(request,"monitoracao.html")
 
 def monitoracao_update(request):
