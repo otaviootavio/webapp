@@ -1,9 +1,9 @@
 from datetime import datetime, timedelta, time
 from math import floor
 from django.db import models
+from django.forms import ModelForm
 
-class VooBase(models.Model):
-    DIAS_SEMANA = (
+DIAS_SEMANA = (
         ('SEG','Segunda'),
         ('TER','Terca'),
         ('QUA','Quarta'),
@@ -12,10 +12,12 @@ class VooBase(models.Model):
         ('SAB','Sabado'),
         ('DOM','Domingo')
     )
+
+class VooBase(models.Model):
     codigo_voo = models.CharField(max_length=200, null=False)
     companhia_aerea = models.CharField(max_length=200, null=False)
     dia_da_semana = models.CharField(max_length = 3, choices = DIAS_SEMANA)
-    horario_partida_base = models.TimeField(auto_now=False, auto_now_add=False, null=True)
+    horario_partida_base = models.IntegerField(null=True)
     duracao_base = models.IntegerField(null=False)
     origem = models.CharField(max_length=200, null=False)
     destino = models.CharField(max_length=200, null=False)

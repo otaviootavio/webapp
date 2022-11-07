@@ -5,29 +5,43 @@ from django.contrib.auth import authenticate, login, logout
 from datetime import datetime
 from django.shortcuts import render, redirect
 from app.models import VooBase
+from django.forms import modelformset_factory
+
+from app.forms import VooBaseForm
 
 # Create your views here.
 
-globalAccess = ""
+# @login_required
+# def createBase(request):
+#     if request.method == 'POST':
+        
+#         horario_partida_array = request.POST.get('duracao').split(":")
+#         horario_partida_sec_int = int(horario_partida_array[0])*3600 + int(horario_partida_array[1])*60
+       
+#         duracao_array = request.POST.get('duracao').split(":")
+#         duracao_sec_int = int(duracao_array[0])*3600 + int(duracao_array[1])*60
+        
+#         novo_voo_base = VooBase.objects.create(
+#             codigo_voo = request.POST.get('codigo-voo'),
+#             companhia_aerea = request.POST.get('companhia-aerea'),
+#             dia_da_semana = request.POST.get('dia-da-semana')[:3].upper(),
+#             horario_partida_base = horario_partida_sec_int,
+#             duracao_base = duracao_sec_int,
+#             origem = request.POST.get('origem'),
+#             destino = request.POST.get('destino')
+#         )
+#         return render(request,"create-base.html")
+#     return render(request,"create-base.html")
 
 @login_required
-def create(request):
+def createBase(request):
     if request.method == 'POST':
-        
-        data_partida_date = string_to_date(request.POST.get('data-hora-partida'))
-        data_chegada_date = string_to_date(request.POST.get('data-hora-chegada'))
-        
-        novo_voo_base = VooBase.objects.create(
-            codigo_voo = request.POST.get('numero-voo'),
-            companhia_aerea = request.POST.get('companhia-aerea'),
-            dia_da_semana = data_partida_date.weekday(),
-            horario_partida_base = data_partida_date.time(),
-            duracao_base = (data_chegada_date - data_partida_date).seconds,
-            origem = request.POST.get('origem'),
-            destino = request.POST.get('destino')
-        )
-        return render(request,"create.html")
-    return render(request,"create.html")
+        form = VooBaseForm(request.POST)
+        if form.is_valid():
+            form.save()
+    else:
+        form = VooBaseForm()
+    return render(request, 'create-base.html', {'form': form})
 
 def string_to_date(str_format):
     try:
