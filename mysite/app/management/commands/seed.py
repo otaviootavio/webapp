@@ -33,7 +33,10 @@ def clear_data():
 
 def create_users():
     """Creates an address object combining different elements from the list"""
-    piloto = User.objects.get(username='piloto')
+    try:
+        piloto = User.objects.get(username='piloto')
+    except:
+        piloto = None
     if not piloto:
         print("Creating piloto")
         piloto = User.objects.create_user('piloto', 'piloto@mail.com', 'piloto')
@@ -42,7 +45,10 @@ def create_users():
     pilotos, created = Group.objects.get_or_create(name='pilotos')
     pilotos.user_set.add(piloto)
 
-    funcionario = User.objects.get(username='funcionario')
+    try:
+        funcionario = User.objects.get(username='funcionario')
+    except:
+        funcionario = None
     if not funcionario:
         print("Creating funcionário")
         funcionario = User.objects.create_user('funcionario', 'funcionario@mail.com', 'funcionario')
@@ -51,7 +57,10 @@ def create_users():
     funcionarios, created = Group.objects.get_or_create(name='funcionarios')
     funcionarios.user_set.add(funcionario)
 
-    operador = User.objects.get(username='operador')
+    try:
+        operador = User.objects.get(username='operador')
+    except:
+        operador = None 
     if not operador:
         print("Creating operador")
         operador = User.objects.create_user('operador', 'operador@mail.com', 'operador')
@@ -60,7 +69,10 @@ def create_users():
     operadores, created = Group.objects.get_or_create(name='operadores')
     operadores.user_set.add(operador)
 
-    torre = User.objects.get(username='torre')
+    try:
+        torre = User.objects.get(username='torre')
+    except:
+        torre = None
     if not torre:
         print("Creating torre de controle")
         torre = User.objects.create_user('torre', 'torre@mail.com', 'torre')
@@ -69,7 +81,10 @@ def create_users():
     torres, created = Group.objects.get_or_create(name='torres')
     torres.user_set.add(torre)
 
-    gerente = User.objects.get(username='gerente')
+    try:
+        gerente = User.objects.get(username='gerente')
+    except:
+        gerente = None
     if not gerente:
         print("Creating gerente")
         gerente = User.objects.create_user('gerente', 'gerente@mail.com', 'gerente')
