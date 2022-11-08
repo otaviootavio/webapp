@@ -1,31 +1,43 @@
-import json
+from distutils.log import error
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
-
 from datetime import datetime
 from django.shortcuts import render, redirect
-from app.models import VooBase,VooReal
+from app.models import VooBase, VooReal
+from django.http import Http404
+
+from app.forms import VooBaseForm
 
 # Create your views here.
 
 @login_required
-def create(request):
+def createBase(request):
     if request.method == 'POST':
-        
-        data_partida_date = string_to_date(request.POST.get('data-hora-partida'))
-        data_chegada_date = string_to_date(request.POST.get('data-hora-chegada'))
-        
-        novo_voo_base = VooBase.objects.create(
-            codigo_voo = request.POST.get('numero-voo'),
-            companhia_aerea = request.POST.get('companhia-aerea'),
-            dia_da_semana = data_partida_date.weekday(),
-            horario_partida_base = data_partida_date.time(),
-            duracao_base = (data_chegada_date - data_partida_date).seconds,
-            origem = request.POST.get('origem'),
-            destino = request.POST.get('destino')
-        )
-        return render(request,"create.html")
-    return render(request,"create.html")
+        form = VooBaseForm(request.POST)
+        if form.is_valid():
+            form.save()
+        return redirect('crud')
+    else:
+        form = VooBaseForm()
+    return render(request, 'create-base.html', {'form': form})
+    
+@login_required
+def updateBase(request, pk):
+    try:
+        voo_base_obj = VooBase.objects.get(codigo_voo = pk)
+    except VooBase.DoesNotExist:
+        raise Http404("No MyModel matches the given query")
+    
+    form = VooBaseForm(instance = voo_base_obj)
+                       
+    if request.method == 'POST':
+        form = VooBaseForm(request.POST, instance = voo_base_obj)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = VooBaseForm(instance = voo_base_obj)
+    return render(request, 'create-base.html', {'form': form})
 
 def string_to_date(str_format):
     try:
@@ -51,7 +63,13 @@ def flightData(request):
 
 @login_required
 def crud(request):
-      return render(request,"CRUD.html")  
+    if request.method == 'POST' and request.POST['id-voo'] is not None:
+        try:
+            voo_base_obj = VooBase.objects.get(codigo_voo = request.POST["id-voo"])
+            return redirect('update-base', pk = request.POST['id-voo'])
+        except Exception as e:
+            return render(request, "CRUD.html", {"error_message": e}) 
+    return render(request,"CRUD.html") 
 
 def olamundo(request):
     return render(request,"ola-mundo.html")

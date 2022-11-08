@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<form class="d-flex" method="POST">
+  {% csrf_token %}
+  <div class="col">
+    <div class="mb-3">
+      {% for field in form %}
+        <div class="fieldWrapper">
+          {{ field.errors }}
+          {{ field.label_tag }} {{ field }}
+        </div>
+    {% endfor %}
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </div>
+</form>
+
+{% endblock %}

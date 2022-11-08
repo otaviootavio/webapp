@@ -9,7 +9,7 @@
           <h5 class="card-title">Cadastrar voo</h5>
             <p class="card-text">Crie, altere ou consulte voos no sistema.</p>
             <div class="text-center">
-              <a type="button" href="{% url 'create' %}"  class="btn-primary btn">Cadastrar</a>
+              <a type="button" href="{% url 'create-base' %}"  class="btn-primary btn">Cadastrar</a>
             </div>
         </div>
       </div>
@@ -20,11 +20,12 @@
         <div class="card-body">
           <h5 class="card-title">Buscar dados de um voo</h5>
           <p class="card-text">Consulte e atualize o estado dos voos.</p>
-          <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Codigo do voo" aria-label="Recipient's username"aria-describedby="basic-addon2">
-            <div class="input-group-append">
-              <a href="{% url 'flight-data' %}" class="btn btn-primary" type="button">Pesquisar</a>
-            </div>
+          <div>
+            <form class="d-flex" action="#" method="POST">      
+              {% csrf_token %}    
+              <input type="text" class="form-control" name="id-voo" id="id-voo" aria-describedby="helpId" placeholder="CEE3100">
+              <input type="submit" class="btn btn-primary">
+            </form>
           </div>
         </div>
       </div>
