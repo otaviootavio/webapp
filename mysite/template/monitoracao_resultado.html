@@ -1,3 +1,4 @@
+{% extends 'base.html' %}
 {% load static %}  
 {% block content %}
 <!DOCTYPE html>
@@ -28,11 +29,11 @@
             <div class="row">
               <div class="col-md-3">
                 <label for="numero-voo">Número voo</label>
-                <input readonly type="text" id="numero-voo" class="form-control-plaintext text-center" placeholder="7" >
+                <input readonly type="text" id="numero-voo" class="form-control-plaintext text-center" placeholder={{voo_id}} >
               </div>
               <div class="col-md-3">
                 <label for="destino">Estado atual do voo</label>
-                <input type="text" id="estado-do-voo" class="form-control-plaintext text-center" placeholder="Programado" readonly>
+                <input type="text" id="estado-do-voo" class="form-control-plaintext text-center" placeholder={{estado_voo}} readonly>
               </div>
               <div class="col-md-3">
                 <label for="destino">Atualizar estado do voo</label>
@@ -58,11 +59,11 @@
             <div class="row">
               <div class="col-md-3">
                 <label for="destino">Destino</label>
-                <input type="text" id="destino" class="form-control-plaintext text-center" placeholder="Maceio" readonly>
+                <input type="text" id="destino" class="form-control-plaintext text-center" placeholder={{destino}} readonly>
               </div>
               <div class="col-md-3">
                 <label for="origem">Origem</label>
-                <input type="text" id="origem" class="form-control-plaintext text-center" placeholder="Brasilia" readonly>
+                <input type="text" id="origem" class="form-control-plaintext text-center" placeholder={{origem}} readonly>
               </div>
             </div>
             <div class="row">

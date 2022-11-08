@@ -3,34 +3,13 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from datetime import datetime
 from django.shortcuts import render, redirect
-from app.models import VooBase
+from app.models import VooBase, VooReal
 from django.http import Http404
 
 from app.forms import VooBaseForm
 
 # Create your views here.
 
-# @login_required
-# def createBase(request):
-#     if request.method == 'POST':
-        
-#         horario_partida_array = request.POST.get('duracao').split(":")
-#         horario_partida_sec_int = int(horario_partida_array[0])*3600 + int(horario_partida_array[1])*60
-       
-#         duracao_array = request.POST.get('duracao').split(":")
-#         duracao_sec_int = int(duracao_array[0])*3600 + int(duracao_array[1])*60
-        
-#         novo_voo_base = VooBase.objects.create(
-#             codigo_voo = request.POST.get('codigo-voo'),
-#             companhia_aerea = request.POST.get('companhia-aerea'),
-#             dia_da_semana = request.POST.get('dia-da-semana')[:3].upper(),
-#             horario_partida_base = horario_partida_sec_int,
-#             duracao_base = duracao_sec_int,
-#             origem = request.POST.get('origem'),
-#             destino = request.POST.get('destino')
-#         )
-#         return render(request,"create-base.html")
-#     return render(request,"create-base.html")
 @login_required
 def createBase(request):
     if request.method == 'POST':
@@ -41,7 +20,7 @@ def createBase(request):
     else:
         form = VooBaseForm()
     return render(request, 'create-base.html', {'form': form})
-
+    
 @login_required
 def updateBase(request, pk):
     try:
@@ -101,15 +80,26 @@ def home(request):
         return render(request,"home.html")
     return render(request,"home.html")
 
+@login_required
 def monitoracao(request):
-  global globalAccess
-  if globalAccess == 'moni' or globalAccess == 'admin':
+  permissionGroup = ['pilotos','funcionarios','operadores','torres','torres','torres','admin']
+  if  request.user.groups.filter(name__in=permissionGroup).exists():
     if request.method == 'POST':
-      if request.POST.get('voo_id') == "7":
-        return render(request,"monitoracao_resultado.html")
-    return render(request,"monitoracao.html")
-  else:
-    return render(request,"home.html", {'error_message': 'You don\'t have permission to access this resource.'})
+        VooId = request.POST.get('voo_id')
+        #if True:
+        try:
+            voo = VooBase.objects.get(codigo_voo=VooId)
+            destino = voo.destino
+            origem = voo.origem
+            
+            vooreal = VooReal.objects.get(voo_base=voo)
+            estadoVoo = vooreal.estado_voo
+            context = {'voo_id' : VooId, 'destino' : destino, 'origem': origem,
+                        'estado_voo' : estadoVoo}
+            return render(request,"monitoracao_resultado.html",context)
+        except:
+            return render(request,"monitoracao.html")
+  return render(request,"monitoracao.html")
 
 def monitoracao_update(request):
     if request.method == 'POST':
@@ -133,20 +123,20 @@ def logout_view(request):
     logout(request)
     return render(request, "login.html")
 
+@login_required
 def relatorios(request):
-    global globalAccess
-    if globalAccess == 'rela' or globalAccess == 'admin':
-      if request.method == 'POST':
-        if request.POST.get('btn_id')=="periodo" and request.POST.get('aeroporto_id') == "Congonhas" and request.POST.get('data_inicial_id') == "2022-10-01" and request.POST.get('data_final_id') == "2022-10-19":
-          return render(request,"relatorios-pdf.html")
-        elif request.POST.get('btn_id')=="cia" and request.POST.get('cia_id') == "Latam":
-          return render(request,"relatorios-pdf.html")
-        else:
-          return render(request, "relatorios.html")
-      else:
-        return render(request, "relatorios.html")
+  if request.method == 'POST':
+    if request.POST.get('btn_id')=="periodo" and request.POST.get('aeroporto_id') == "Congonhas" and request.POST.get('data_inicial_id') == "2022-10-01" and request.POST.get('data_final_id') == "2022-10-19":
+      return render(request,"relatorios-pdf.html")
+    elif request.POST.get('btn_id')=="cia" and request.POST.get('cia_id') == "Latam":
+      return render(request,"relatorios-pdf.html")
     else:
-      return render(request,"home.html", {'error_message': 'You don\'t have permission to access this resource.'})
+      return render(request, "relatorios.html")
+  else:
+    return render(request, "relatorios.html")
 
 def relatoriosPdf(request):
     return render(request, "relatorios-pdf.html")
+
+def relatoriosBase(request):
+    return render(request, "relatorios-base.html")

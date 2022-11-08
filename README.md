@@ -31,6 +31,7 @@ Instale as dependências do projeto, lembrando de fazer o migrate, e execute-o.\
 ```pip install -r requirements.txt```\
 ```cd mysite```\
 ```python manage.py migrate```\
+```python manage.py seed ```\
 ```python manage.py runserver```
 
 Agora, para ver o projeto rodando acesse a url ```localhost:8000/olamundo/```
