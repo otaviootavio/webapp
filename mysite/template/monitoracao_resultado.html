@@ -24,7 +24,7 @@
   <div class="row align-items-center h-100">
     <div class="col-sm">
       <div class="card h-100 text-center bg-light " style="width: 45rem;">
-        <form class="align-items-center" method="post">
+        <form action="/monitoracao-update/{{voo_id}}/" class="align-items-center" method="post">
             {% csrf_token %}
             <div class="row">
               <div class="col-md-3">
@@ -37,23 +37,13 @@
               </div>
               <div class="col-md-3">
                 <label for="destino">Atualizar estado do voo</label>
-                <select class="custom-select" id="inputGroupSelect01">
-                    <option selected>Novo estado...</option>
-                    <option value="EMB">Embarcando</option>
-                    <option value="CAN">Cancelado</option>
-                    <option value="PRG">Programado</option>
-                    <option value="TAX">Taxiando</option>
-                    <option value="PRT">Pronto</option>
-                    <option value="AUT">Autorizado</option>
-                    <option value="EMV">Em voo</option>
-                    <option value="ATE">Aterrisado</option>
-                  </select>
-              </div>
-              <div class="col-md-3">
-                <div class="col-md-3 center">
-                    <label for="atualizar-estado"></label>
-                    <button name="update" type="submit" class="btn btn-primary mb-2">Atualizar</button>
-                </div>
+                <select name="novo_estado" class="custom-select" id="inputGroupSelect01">
+                  <option selected>Novo estado...</option>
+                  {% for item in estados_voo_possiveis %}
+                    <option value={{item.0}}>{{item.1}}</option>
+                  {% endfor %}
+                </select>
+                <button  type="submit" class="btn btn-primary mb-2">Atualizar</button>
               </div>
             </div>
             <div class="row">
@@ -76,7 +66,7 @@
                 <input type="datetime-local" id="data-hora-partida" class="form-control-plaintext text-center" value="2022-10-20T17:44" readonly>
               </div>
             </div>
-          </form>
+        </form>
          
            
         </div>

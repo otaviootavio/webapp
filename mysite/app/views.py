@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from datetime import datetime
 from django.shortcuts import render, redirect
-from app.models import VooBase, VooReal
+from app.models import VooBase, VooReal,ESTADOS_VOO
 from django.http import Http404
 
 from app.forms import VooBaseForm
@@ -85,25 +85,36 @@ def monitoracao(request):
   permissionGroup = ['pilotos','funcionarios','operadores','torres','torres','torres','admin']
   if  request.user.groups.filter(name__in=permissionGroup).exists():
     if request.method == 'POST':
-        VooId = request.POST.get('voo_id')
-        #if True:
-        try:
-            voo = VooBase.objects.get(codigo_voo=VooId)
+        VooId = request.POST["voo_id"]
+        if True:
+        #try:
+            voo = VooBase.objects.get(codigo_voo = VooId)
             destino = voo.destino
             origem = voo.origem
             
             vooreal = VooReal.objects.get(voo_base=voo)
-            estadoVoo = vooreal.estado_voo
+            estadoVoo = vooreal.get_estado_voo_display 
             context = {'voo_id' : VooId, 'destino' : destino, 'origem': origem,
-                        'estado_voo' : estadoVoo}
+                        'estado_voo' : estadoVoo, 'estados_voo_possiveis': ESTADOS_VOO}
             return render(request,"monitoracao_resultado.html",context)
-        except:
+        #except:
             return render(request,"monitoracao.html")
   return render(request,"monitoracao.html")
 
-def monitoracao_update(request):
-    if request.method == 'POST':
-        return render(request,"monitoracao_resultado.html")
+def monitoracao_update(request,vooBase):
+    permissionGroup = ['pilotos','funcionarios','operadores','torres','torres','torres','admin']
+    if  request.user.groups.filter(name__in=permissionGroup).exists():
+        if request.method == 'POST':
+            estado = request.POST["novo_estado"]
+            voo = VooBase.objects.get(codigo_voo = vooBase)
+
+            vooreal = VooReal.objects.get(voo_base=voo)
+            vooreal.estado_voo = estado
+            vooreal.save()
+
+            context = {'voo_id' : voo.codigo_voo, 'destino' : voo.destino, 'origem': voo.origem,
+                        'estado_voo' : vooreal.get_estado_voo_display , 'estados_voo_possiveis': ESTADOS_VOO}
+            return render(request,"monitoracao_resultado.html", context)
     return render(request,"monitoracao_resultado.html")
 
 def login_view(request):
