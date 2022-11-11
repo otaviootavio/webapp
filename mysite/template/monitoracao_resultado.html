@@ -38,15 +38,10 @@
               <div class="col-md-3">
                 <label for="destino">Atualizar estado do voo</label>
                 <select class="custom-select" id="inputGroupSelect01">
-                    <option selected>Novo estado...</option>
-                    <option value="EMB">Embarcando</option>
-                    <option value="CAN">Cancelado</option>
-                    <option value="PRG">Programado</option>
-                    <option value="TAX">Taxiando</option>
-                    <option value="PRT">Pronto</option>
-                    <option value="AUT">Autorizado</option>
-                    <option value="EMV">Em voo</option>
-                    <option value="ATE">Aterrisado</option>
+                  <option selected>Novo estado...</option>
+                  {% for item in estados_voo_possiveis %}
+                  <option value={{item.0}}>{{item.1}}</option>
+                  {% endfor %}
                   </select>
               </div>
               <div class="col-md-3">
