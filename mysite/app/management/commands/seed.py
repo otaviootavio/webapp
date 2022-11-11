@@ -102,13 +102,13 @@ def create_voo():
                                 horario_partida_base=1005, duracao_base=5,origem='SP',destino='TO')
     voo1.save()
 
-    vooreal1 = VooReal.objects.create(voo_base=voo1,estado_voo='Agendado',data_voo=datetime.date.today() )
+    vooreal1 = VooReal.objects.create(voo_base=voo1,estado_voo='AGD',data_voo=datetime.date.today() )
     vooreal1.save()
     voo2 = VooBase.objects.create(codigo_voo='012',companhia_aerea='Tesla',dia_da_semana='Terça',
                                 horario_partida_base=720, duracao_base=5,origem='RJ',destino='PE')
     voo2.save()
 
-    vooreal2 = VooReal.objects.create(voo_base=voo2,estado_voo='Aterrisado',data_voo=datetime.date.today() )
+    vooreal2 = VooReal.objects.create(voo_base=voo2,estado_voo='TAX',data_voo=datetime.date.today() )
     vooreal2.save()
 
 
