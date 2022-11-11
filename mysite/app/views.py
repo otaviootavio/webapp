@@ -16,7 +16,7 @@ def createBase(request):
         form = VooBaseForm(request.POST)
         if form.is_valid():
             form.save()
-        return redirect('crud')
+        return render(request, 'create-base.html', {'form': form})
     else:
         form = VooBaseForm()
     return render(request, 'create-base.html', {'form': form})

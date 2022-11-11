@@ -1,0 +1,25 @@
+{% load widget_tweaks %}
+  
+<form method="POST">
+  {% csrf_token %}
+  {% for hidden in form.hidden_fields %}
+  {{ hidden }}
+  {% endfor %}
+
+  {% for field in form.visible_fields %}
+      <div class="row mb-3 justify-content-center">
+        <label class="col-sm-2 col-form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+        <div class="col-sm-5">
+          {{ field|add_class:'form-control' }}
+        
+        {% for error in field.errors %}
+          <span class="help-block text-danger">{{ error }}</span>
+        {% endfor %}
+      </div>
+      </div>
+  {% endfor %}
+
+  <div class="text-center">
+    <input name="create" id="create" class="btn btn-primary" type="submit" value="Enviar">
+  </div>
+</form>

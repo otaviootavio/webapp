@@ -14,16 +14,12 @@ class VooBaseForm(forms.ModelForm):
                   'origem',
                   'destino')
         labels = {
-            'codigo_voo':'Codigo Voo',
+            'codigo_voo':'Código Voo',
             'companhia_aerea':'Companhia Aerea',
             'dia_da_semana':'Dia da semana',
             'horario_partida_base':'Horario de partida',
-            'duracao_base':'Duracao',
+            'duracao_base':'Duração',
             'origem':'Origem',
             'destino':'Destino'
         }
-        
-        
-    def __init__(self, *args, **kwargs):
-        super(VooBaseForm, self).__init__(*args, **kwargs)
         

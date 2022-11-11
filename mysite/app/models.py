@@ -13,11 +13,22 @@ DIAS_SEMANA = (
         ('DOM','Domingo')
     )
 
+ESTADOS_VOO = (
+     ('EMB','Embarcando'),
+     ('CAN','Cancelado'),
+     ('PRG','Programado'),
+     ('TAX','Taxiando'),
+     ('PRT','Pronto'),
+     ('AUT','Autorizado'),
+     ('EMV','Em voo'),
+     ('ATE','Aterrisado'),
+    )
+
 class VooBase(models.Model):
     codigo_voo = models.CharField(max_length=200, null=False)
     companhia_aerea = models.CharField(max_length=200, null=False)
-    dia_da_semana = models.CharField(max_length = 3, choices = DIAS_SEMANA)
-    horario_partida_base = models.IntegerField(null=True)
+    dia_da_semana = models.CharField(max_length = 3, choices = DIAS_SEMANA, null = False)
+    horario_partida_base = models.IntegerField(null=False)
     duracao_base = models.IntegerField(null=False)
     origem = models.CharField(max_length=200, null=False)
     destino = models.CharField(max_length=200, null=False)
@@ -50,18 +61,7 @@ class VooBase(models.Model):
     class Meta:
         db_table = 'voo_base'
 
-class VooReal(models.Model):
-    ESTADOS_VOO = (
-     ('EMB','Embarcando'),
-     ('CAN','Cancelado'),
-     ('PRG','Programado'),
-     ('TAX','Taxiando'),
-     ('PRT','Pronto'),
-     ('AUT','Autorizado'),
-     ('EMV','Em voo'),
-     ('ATE','Aterrisado'),
-    )
-    
+class VooReal(models.Model):    
     voo_base = models.ForeignKey(VooBase, on_delete=models.CASCADE)
     data_voo = models.DateField()
     estado_voo = models.CharField(max_length = 3, choices = ESTADOS_VOO)
