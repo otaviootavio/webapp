@@ -9,14 +9,14 @@ function Convert_HTML_To_PDF() {
 
     doc.html(elementHTML, {
         callback: function(doc) {
-            // Save the PDF
-            doc.save("document-html.pdf");
+          // Save the PDF
+          doc.save("document-html.pdf");
         },
         margin: [10, 10, 10, 10],
         autoPaging: 'text',
         x: 0,
         y: 0,
-        width: 190, //target width in the PDF document
+        width: 210, //target width in the PDF document
         windowWidth: 675 //window width in CSS pixels
     });
 }
