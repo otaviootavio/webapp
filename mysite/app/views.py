@@ -122,11 +122,27 @@ def login_view(request):
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user = user)
-            return redirect(home)
+        ## Define o numero de tentativas
+        num_max = 3
+        
+        if "load_count" in request.session:
+            count = request.session["load_count"]
         else:
-            return render(request, "login.html", {'error_message': 'Ops... usuário ou senha inválido'})
+            count = 0
+            request.session["load_count"] = 0
+        
+        if count > num_max:
+            return render(request, "login.html", {'error_message': 'Número de tentativas excedido'})
+            
+        if user is not None:
+            if count <= num_max:
+                request.session["load_count"] = 0
+                request.session.save()
+                login(request, user = user)
+                return redirect(home)
+        else:
+            request.session["load_count"] = request.session["load_count"] + 1
+            return render(request, "login.html", {'error_message': 'Ops... usuário ou senha inválido' })
     else:
         return render(request, "login.html")
     

@@ -26,7 +26,7 @@ ESTADOS_VOO = (
     )
 
 class VooBase(models.Model):
-    codigo_voo = models.CharField(max_length=200, null=False)
+    codigo_voo = models.CharField(max_length=200, null=False, blank = False)
     companhia_aerea = models.CharField(max_length=200, null=False)
     dia_da_semana = models.CharField(max_length = 3, choices = DIAS_SEMANA, null = False)
     horario_partida_base = models.IntegerField(null=False)
