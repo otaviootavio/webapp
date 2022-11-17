@@ -3,41 +3,42 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from datetime import datetime
 from django.shortcuts import render, redirect
-from app.models import VooBase, VooReal,ESTADOS_VOO
 from django.http import Http404
+from app.models import VooBase, VooReal,ESTADOS_VOO
 
-from app.forms import VooBaseForm
+from app.forms import VooBaseForm, VooRealForm
 
 # Create your views here.
 
 @login_required
 def createBase(request):
     if request.method == 'POST':
-        form = VooBaseForm(request.POST)
-        if form.is_valid():
-            form.save()
-        return render(request, 'create-base.html', {'form': form})
+        forms_voo_base = VooBaseForm(request.POST)
+        if forms_voo_base.is_valid():
+            forms_voo_base.save()
+            return redirect('update-base', pk = request.POST['codigo_voo'])
+        return render(request, 'create-base.html', {'forms_voo_base': forms_voo_base})
     else:
-        form = VooBaseForm()
-    return render(request, 'create-base.html', {'form': form})
+        forms_voo_base = VooBaseForm()
+    return render(request, 'create-base.html', {'forms_voo_base': forms_voo_base, 'title':"Formulário para creação de voo"})
     
 @login_required
 def updateBase(request, pk):
     try:
         voo_base_obj = VooBase.objects.get(codigo_voo = pk)
     except VooBase.DoesNotExist:
-        raise Http404("No MyModel matches the given query")
+        raise Http404("No matches to the given query")
     
-    form = VooBaseForm(instance = voo_base_obj)
+    forms_voo_base = VooBaseForm(instance = voo_base_obj)
                        
     if request.method == 'POST':
-        form = VooBaseForm(request.POST, instance = voo_base_obj)
-        if form.is_valid():
-            form.save()
+        forms_voo_base = VooBaseForm(request.POST, instance = voo_base_obj)
+        if forms_voo_base.is_valid():
+            forms_voo_base.save()
             return redirect('home')
     else:
-        form = VooBaseForm(instance = voo_base_obj)
-    return render(request, 'create-base.html', {'form': form})
+        forms_voo_base = VooBaseForm(instance = voo_base_obj)
+    return render(request, 'create-base.html', {'forms_voo_base': forms_voo_base, 'title':"Formulário para atualização de voo"})
 
 def string_to_date(str_format):
     try:
@@ -69,7 +70,7 @@ def crud(request):
             return redirect('update-base', pk = request.POST['id-voo'])
         except Exception as e:
             return render(request, "CRUD.html", {"error_message": e}) 
-    return render(request,"CRUD.html") 
+    return render(request,"CRUD.html")
 
 def olamundo(request):
     return render(request,"ola-mundo.html")
@@ -82,40 +83,33 @@ def home(request):
 
 @login_required
 def monitoracao(request):
-  permissionGroup = ['pilotos','funcionarios','operadores','torres','torres','torres','admin']
-  if  request.user.groups.filter(name__in=permissionGroup).exists():
     if request.method == 'POST':
-        VooId = request.POST["voo_id"]
-        if True:
-        #try:
-            voo = VooBase.objects.get(codigo_voo = VooId)
-            destino = voo.destino
-            origem = voo.origem
-            
-            vooreal = VooReal.objects.get(voo_base=voo)
-            estadoVoo = vooreal.get_estado_voo_display 
-            context = {'voo_id' : VooId, 'destino' : destino, 'origem': origem,
-                        'estado_voo' : estadoVoo, 'estados_voo_possiveis': ESTADOS_VOO}
-            return render(request,"monitoracao_resultado.html",context)
-        #except:
-            return render(request,"monitoracao.html")
-  return render(request,"monitoracao.html")
+        try:
+            voo_base_obj = VooBase.objects.get(codigo_voo = request.POST["id-voo"])
+            return redirect('monitoração_update', pk = request.POST['id-voo'])
+        except Exception as e:
+            return render(request, "monitoracao.html", {"error_message": e}) 
+    return render(request,"monitoracao.html")
 
-def monitoracao_update(request,vooBase):
-    permissionGroup = ['pilotos','funcionarios','operadores','torres','torres','torres','admin']
-    if  request.user.groups.filter(name__in=permissionGroup).exists():
-        if request.method == 'POST':
-            estado = request.POST["novo_estado"]
-            voo = VooBase.objects.get(codigo_voo = vooBase)
-
-            vooreal = VooReal.objects.get(voo_base=voo)
-            vooreal.estado_voo = estado
-            vooreal.save()
-
-            context = {'voo_id' : voo.codigo_voo, 'destino' : voo.destino, 'origem': voo.origem,
-                        'estado_voo' : vooreal.get_estado_voo_display , 'estados_voo_possiveis': ESTADOS_VOO}
-            return render(request,"monitoracao_resultado.html", context)
-    return render(request,"monitoracao_resultado.html")
+@login_required
+def monitoracao_update(request, pk):    
+    try:
+        voo_real_obj = VooReal.objects.filter(voo_base__codigo_voo = pk).first()
+        if voo_real_obj:
+            forms_voo_real = VooRealForm(instance = voo_real_obj)
+        else:
+            voo_base_obj = VooBase.objects.filter(codigo_voo = pk).first()
+    except (VooReal.DoesNotExist, VooBase.DoesNotExist) as e:
+        return render(request, "create-base.html", {"error_message": e}) 
+                       
+    if request.method == 'POST':
+        forms_voo_real = VooRealForm(request.POST, instance = voo_real_obj)
+        if forms_voo_real.is_valid():
+            forms_voo_real.save()
+            return redirect('home')
+    else:
+        forms_voo_real = VooRealForm(instance = voo_real_obj)
+    return render(request, 'create-real.html', {'forms_voo_real': forms_voo_real, 'title':'Formulário para atualizar status do voo'})
 
 def login_view(request):
     if request.method == 'POST':

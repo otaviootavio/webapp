@@ -1,6 +1,6 @@
 from dataclasses import fields
 from django import forms
-from app.models import DIAS_SEMANA, VooBase
+from app.models import DIAS_SEMANA, VooBase, VooReal
 
 class VooBaseForm(forms.ModelForm):
     
@@ -22,4 +22,27 @@ class VooBaseForm(forms.ModelForm):
             'origem':'Origem',
             'destino':'Destino'
         }
-        
+
+class VooRealForm(forms.ModelForm):
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['data_voo'].widget.attrs.update({'placeholder':'DD-MM-AAAA'})
+        self.fields['data_voo'].input_formats = [ '%d-%m-%Y' ]
+
+        self.fields['horario_real_chegada'].widget.attrs.update({'placeholder':'HH:MM'})
+        self.fields['horario_real_partida'].widget.attrs.update({'placeholder':'HH:MM'})
+    
+    class Meta:
+        model = VooReal
+        fields = (
+            'data_voo',
+            'estado_voo',
+            'horario_real_chegada',
+            'horario_real_partida')
+        labels = {
+            'data_voo':'Data de partida',
+            'estado_voo':'Estado do voo',
+            'horario_real_chegada':'Horario de chegada',
+            'horario_real_partida':'Horario de partida',
+        }

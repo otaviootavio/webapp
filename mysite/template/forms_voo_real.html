@@ -2,11 +2,11 @@
   
 <form method="POST">
   {% csrf_token %}
-  {% for hidden in forms_voo_base.hidden_fields %}
+  {% for hidden in forms_voo_real.hidden_fields %}
   {{ hidden }}
   {% endfor %}
 
-  {% for field in forms_voo_base.visible_fields %}
+  {% for field in forms_voo_real.visible_fields %}
       <div class="row mb-3 justify-content-center">
         <label class="col-sm-2 col-form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
         <div class="col-sm-5">

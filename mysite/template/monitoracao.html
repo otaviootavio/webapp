@@ -1,31 +1,21 @@
 {% extends 'base.html' %}
-{% load static %}  
-{% block content %}
 
-<body>
-  <div class="row align-items-center h-100">
-    <div class="col-sm">
-      <div class="card h-100">
-        <div class="card-body">
-          <h5 class="card-title">Buscar voo</h5>
-          <p class="card-text">Consulte um voo específico ou altere seu status.</p>
-            <form method="post">
-                {% csrf_token %}
-                <div class="form-row align-items-center">
-                  <div class="col-auto">
-                    <input type="text" class="form-control mb-2" name="voo_id" placeholder="Código do voo" aria-label="Código do voo">
-                  </div>
-                  <div class="col-auto">
-                    <button type="submit" class="btn btn-primary mb-2">Buscar</button>
-                    {% if error_message %}
-                        <p class="bg-danger p-d ml-b">{{ error_message }}</p>
-                    {% endif %}
-                  </div>
-                </div>
+{% block content %}
+<div class="row align-items-center h-100">
+  <div class="col-sm">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Buscar dados de um voo</h5>
+        <p class="card-text">Consulte e atualize o estado dos voos.</p>
+        <div>
+          <form class="d-flex" action="#" method="POST">    
+            {% csrf_token %}    
+            <input type="text" class="form-control" name="id-voo" id="id-voo" aria-describedby="helpId" placeholder="CEE3100">
+            <input type="submit" class="btn btn-primary">
+          </form>
         </div>
       </div>
     </div>
   </div>
-</body>
-
+</div>
 {% endblock %}
