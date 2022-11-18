@@ -83,9 +83,11 @@ def olamundo(request):
 
 @login_required
 def home(request):
+    obj_voo_real_origem = VooReal.objects.all().filter(voo_base__origem='SP')
+    obj_voo_real_chegada = VooReal.objects.all().filter(voo_base__destino='SP')
     if request.method == 'POST':
         return render(request,"home.html")
-    return render(request,"home.html")
+    return render(request,"home.html", {"dados_voo_real_origem": obj_voo_real_origem, "dados_voo_real_chegada": obj_voo_real_chegada})
 
 @login_required
 def monitoracao(request):

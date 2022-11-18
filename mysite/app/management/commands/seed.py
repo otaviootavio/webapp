@@ -127,12 +127,39 @@ def create_voo():
     
     voo_4 = VooBase.objects.create(codigo_voo='22',
                                   companhia_aerea = 'TAM',
-                                  dia_da_semana = 'TER',
-                                  horario_partida_base = datetime.time(10, 0, 0),
+                                  dia_da_semana = 'QUA',
+                                  horario_partida_base = datetime.time(8, 0, 0),
                                   duracao_base = datetime.time(3, 30, 0),
                                   origem = 'DF',
                                   destino = 'AM')
     voo_4.save()
+    
+    voo_5 = VooBase.objects.create(codigo_voo='29',
+                                  companhia_aerea = 'TAM',
+                                  dia_da_semana = 'QUI',
+                                  horario_partida_base = datetime.time(3, 0, 0),
+                                  duracao_base = datetime.time(3, 30, 0),
+                                  origem = 'DF',
+                                  destino = 'AM')
+    voo_5.save()
+    
+    voo_6 = VooBase.objects.create(codigo_voo='21',
+                                  companhia_aerea = 'TAM',
+                                  dia_da_semana = 'SEX',
+                                  horario_partida_base = datetime.time(12, 0, 0),
+                                  duracao_base = datetime.time(3, 30, 0),
+                                  origem = 'DF',
+                                  destino = 'AM')
+    voo_6.save()
+    
+    voo_7 = VooBase.objects.create(codigo_voo='23',
+                                  companhia_aerea = 'TAM',
+                                  dia_da_semana = 'SAB',
+                                  horario_partida_base = datetime.time(12, 0, 0),
+                                  duracao_base = datetime.time(3, 30, 0),
+                                  origem = 'AM',
+                                  destino = 'SP')
+    voo_7.save()
     
     voo_real_1 = VooReal.objects.create(voo_base = voo_1,
                                         estado_voo = 'AGD',
@@ -141,6 +168,39 @@ def create_voo():
                                         data_voo = datetime.date.today() )
     voo_real_1.save()
 
+    voo_real_2 = VooReal.objects.create(voo_base = voo_2,
+                                        estado_voo = 'AGD',
+                                        horario_real_chegada = datetime.time(15, 0, 0),
+                                        horario_real_partida = datetime.time(10, 0, 0),
+                                        data_voo = datetime.date.today() )
+    voo_real_2.save()
+    
+    voo_real_3 = VooReal.objects.create(voo_base = voo_3,
+                                        estado_voo = 'AGD',
+                                        horario_real_chegada = datetime.time(15, 0, 0),
+                                        horario_real_partida = datetime.time(10, 0, 0),
+                                        data_voo = datetime.date.today() )
+    voo_real_3.save()
+    
+    voo_real_4 = VooReal.objects.create(voo_base = voo_4,
+                                        estado_voo = 'AGD',
+                                        data_voo = datetime.date.today() )
+    voo_real_4.save()
+    
+    voo_real_5 = VooReal.objects.create(voo_base = voo_5,
+                                        estado_voo = 'AGD',
+                                        data_voo = datetime.date.today() )
+    voo_real_5.save()
+    
+    voo_real_6 = VooReal.objects.create(voo_base = voo_6,
+                                        estado_voo = 'AGD',
+                                        data_voo = datetime.date.today() )
+    voo_real_6.save()
+    
+    voo_real_7 = VooReal.objects.create(voo_base = voo_7,
+                                        estado_voo = 'AGD',
+                                        data_voo = datetime.date.today() )
+    voo_real_7.save()
 
 def run_seed(self, mode):
     """ Seed database based on mode
