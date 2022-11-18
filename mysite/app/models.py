@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta, time
+from django.core.exceptions import ValidationError
 from math import floor
 from django.db import models
 from django.forms import ModelForm
@@ -105,5 +106,14 @@ class VooReal(models.Model):
     horario_real_chegada = models.TimeField(auto_now=False, auto_now_add=False, null=True,blank=True)
     horario_real_partida = models.TimeField(auto_now=False, auto_now_add=False, null=True,blank=True)
     
+    def clean(self):
+        # Don't allow draft entries to have a pub_date.
+        if self.horario_real_chegada and self.horario_real_partida :
+            if self.horario_real_chegada < self.horario_real_partida: 
+                raise ValidationError({
+                                    'horario_real_chegada': ValidationError(('Horário de chegada não pode ser antes do horário de partida'), code='Invalid value'),
+                                    'horario_real_partida': ValidationError(('Horário de chegada não pode ser antes do horário de partida'), code='invalid value'),
+                })
+
     class Meta:
         db_table = 'voo_real'
