@@ -107,7 +107,6 @@ class VooReal(models.Model):
     horario_real_partida = models.TimeField(auto_now=False, auto_now_add=False, null=True,blank=True)
     
     def clean(self):
-        # Don't allow draft entries to have a pub_date.
         if self.horario_real_chegada and self.horario_real_partida :
             if self.horario_real_chegada < self.horario_real_partida: 
                 raise ValidationError({
