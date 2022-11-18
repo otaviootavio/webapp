@@ -16,7 +16,7 @@ def createBase(request):
         forms_voo_base = VooBaseForm(request.POST)
         if forms_voo_base.is_valid():
             forms_voo_base.save()
-            return redirect('update-base', pk = request.POST['codigo_voo'])
+            return redirect('crud')
         return render(request, 'create-base.html', {'forms_voo_base': forms_voo_base})
     else:
         forms_voo_base = VooBaseForm()
@@ -35,10 +35,19 @@ def updateBase(request, pk):
         forms_voo_base = VooBaseForm(request.POST, instance = voo_base_obj)
         if forms_voo_base.is_valid():
             forms_voo_base.save()
-            return redirect('home')
+            return redirect('crud')
     else:
         forms_voo_base = VooBaseForm(instance = voo_base_obj)
     return render(request, 'create-base.html', {'forms_voo_base': forms_voo_base, 'title':"Formulário para atualização de voo"})
+
+@login_required
+def deleteBase(request, pk):    
+    try:
+        voo_base_obj = VooBase.objects.filter(codigo_voo = pk).first()
+        voo_base_obj.delete()
+    except (VooBase.DoesNotExist) as e:
+        return redirect('crud')
+    return redirect('crud')
 
 def string_to_date(str_format):
     try:
@@ -46,16 +55,6 @@ def string_to_date(str_format):
         return date_format
     except:
         return("Error at method string_to_date")
-        
-def update(request):
-    if request.method == 'POST':
-        return render(request,"update.html")
-    return render(request,"update.html")
-
-def delete(request):
-    if request.method == 'POST':
-        return render(request,"crud.html")
-    return render(request,"crud.html")
 
 def flightData(request):
     if request.method == 'POST':
@@ -64,13 +63,14 @@ def flightData(request):
 
 @login_required
 def crud(request):
-    if request.method == 'POST' and request.POST['id-voo'] is not None:
+    all_voo_base = VooBase.objects.all()
+    if request.method == 'POST' and request.POST['id-voo'] is not '':
         try:
-            voo_base_obj = VooBase.objects.get(codigo_voo = request.POST["id-voo"])
-            return redirect('update-base', pk = request.POST['id-voo'])
+            filtered_voo_base = VooBase.objects.all().filter(codigo_voo = request.POST["id-voo"])
+            return render(request,"CRUD.html", context= {'dados_voo_base':filtered_voo_base})
         except Exception as e:
-            return render(request, "CRUD.html", {"error_message": e}) 
-    return render(request,"CRUD.html")
+            return render(request, "CRUD.html", {"error_message": e, 'dados_voo_base':all_voo_base}) 
+    return render(request,"CRUD.html", context= {'dados_voo_base':all_voo_base})
 
 def olamundo(request):
     return render(request,"ola-mundo.html")
