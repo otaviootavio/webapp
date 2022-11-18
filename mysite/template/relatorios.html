@@ -32,11 +32,6 @@
                 <p class="card-text">Gere relatórios de voos em um aeroporto em um determinado período de tempo.</p>
                 <form method="post">
                       {% csrf_token %}
-                      <div class="form-row align-items-center">
-                        <div class="col-auto">
-                          <input type="text" class="form-control mb-2" name="aeroporto_id" placeholder="Aeroporto" aria-label="Aeroporto">
-                        </div>
-                      </div>
                       <div class="row align-items-center">
                         <div class="col-md-6">
                           <input type="date" class="form-control mb-2" name="data_inicial_id" placeholder="Data Inicial" aria-label="Data Inicial">

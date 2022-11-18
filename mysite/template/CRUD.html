@@ -49,7 +49,7 @@
               <th scope="col">Origem</th>
               <th scope="col">Destino</th>
               <th scope="col">Editar</th>
-              <th scope="col">Programar</th>
+              <th scope="col">Agendar</th>
               <th scope="col">Deletar</th>
             </tr>
           </thead>
@@ -65,7 +65,7 @@
                 <td scope="row">{{voo.origem}}</td>
                 <td scope="row">{{voo.destino}}</td>
                 <td scope="row"><a href="{% url 'update-base' voo.codigo_voo %}">Editar</a></td>
-                <td scope="row"><a href="{% url 'schedule-new' voo.codigo_voo %}">Editar</a></td>
+                <td scope="row"><a href="{% url 'schedule-new' voo.codigo_voo %}">Agendar</a></td>
                 <td scope="row"><a href="{% url 'delete-base' voo.codigo_voo %}" class="confirmation" id="delete-button">Deletar</a></td>
               </tr>
               {% endfor %}

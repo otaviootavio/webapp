@@ -26,7 +26,7 @@ def createBase(request):
         return render(request, 'create-base.html', {'forms_voo_base': forms_voo_base})
     else:
         forms_voo_base = VooBaseForm()
-    return render(request, 'create-base.html', {'forms_voo_base': forms_voo_base, 'title':"Formulário para creação de voo"})
+    return render(request, 'create-base.html', {'forms_voo_base': forms_voo_base, 'title':"Formulário para criação de voo"})
     
 @login_required
 def updateBase(request, pk):
@@ -89,14 +89,33 @@ def home(request):
 
 @login_required
 def monitoracao(request):
-    all_voo_base = VooBase.objects.all()
+    all_voo_real = VooReal.objects.all()
     if request.method == 'POST':
         try:
             voo_base_obj = VooBase.objects.get(codigo_voo = request.POST["id-voo"])
             return redirect('monitoração_update', pk = request.POST['id-voo'])
         except Exception as e:
             return render(request, "monitoracao.html", {"error_message": e}) 
-    return render(request,"monitoracao.html", context= {'data_voo_base':all_voo_base})
+    return render(request,"monitoracao.html", context= {'dados_voo_real':all_voo_real})
+
+@login_required
+def scheduleNew(request, pk):
+  try:
+    voo_base_obj = VooBase.objects.get(codigo_voo = pk)
+  except VooBase.DoesNotExist:
+    raise Http404("No matches to the given query")
+    
+  if request.method == 'POST':
+    forms_voo_real = VooRealForm(request.POST)
+    if forms_voo_real.is_valid():
+      forms_voo_real.instance.voo_base = voo_base_obj
+      forms_voo_real.save()
+      return redirect('monitoração')
+    return render(request, 'create-real.html', {'forms_voo_real': forms_voo_real})
+    
+  else:
+    forms_voo_real = VooRealForm()
+    return render(request, 'create-real.html', {'forms_voo_real': forms_voo_real, 'title':"Formulário para programar um novo voo"})
 
 @login_required
 def monitoracao_update(request, pk):    
@@ -113,7 +132,7 @@ def monitoracao_update(request, pk):
         if forms_voo_real.is_valid():
             forms_voo_real.instance.voo_base = voo_base_obj
             forms_voo_real.save()
-            return redirect('home')
+            return redirect('monitoração')
     else:
         forms_voo_real = VooRealForm(instance = voo_real_obj)
         
@@ -154,11 +173,11 @@ def generate_report_airline(request, pk):
         x = x - line_break
         p.drawString(margin_sides + 1*margin_col, x, voo.voo_base.origem)
         p.drawString(margin_sides + 2*margin_col, x, voo.voo_base.destino)
-        p.drawString(margin_sides + 3*margin_col, x, voo.data_voo.strftime("%m/%d/%Y"))
+        p.drawString(margin_sides + 3*margin_col, x, voo.data_voo.strftime("%d/%m/%Y"))
         p.drawString(margin_sides + 4*margin_col, x, voo.estado_voo)
         x = x - line_break
-        p.drawString(margin_sides + 1*margin_col, x, voo.horario_real_chegada.strftime("%H:%M:%S"))
-        p.drawString(margin_sides + 2*margin_col, x, voo.horario_real_partida.strftime("%H:%M:%S"))
+        p.drawString(margin_sides + 1*margin_col, x, voo.horario_real_partida.strftime("%H:%M:%S"))
+        p.drawString(margin_sides + 2*margin_col, x, voo.horario_real_chegada.strftime("%H:%M:%S"))
         x = x - line_break
 
     # Close the PDF object cleanly, and we're done.
@@ -193,11 +212,11 @@ def generate_report_data(request, start_date, end_date):
         x = x - line_break
         p.drawString(margin_sides + 1*margin_col, x, voo.voo_base.origem)
         p.drawString(margin_sides + 2*margin_col, x, voo.voo_base.destino)
-        p.drawString(margin_sides + 3*margin_col, x, voo.data_voo.strftime("%m/%d/%Y"))
+        p.drawString(margin_sides + 3*margin_col, x, voo.data_voo.strftime("%d/%m/%Y"))
         p.drawString(margin_sides + 4*margin_col, x, voo.estado_voo)
         x = x - line_break
-        p.drawString(margin_sides + 1*margin_col, x, voo.horario_real_chegada.strftime("%H:%M:%S"))
-        p.drawString(margin_sides + 2*margin_col, x, voo.horario_real_partida.strftime("%H:%M:%S"))
+        p.drawString(margin_sides + 1*margin_col, x, voo.horario_real_partida.strftime("%H:%M:%S"))
+        p.drawString(margin_sides + 2*margin_col, x, voo.horario_real_chegada.strftime("%H:%M:%S"))
         x = x - line_break
 
     # Close the PDF object cleanly, and we're done.
@@ -247,7 +266,7 @@ def relatorios(request):
   if request.method == 'POST':
     if request.POST.get('cia_id'):
         return generate_report_airline(request, request.POST.get('cia_id'))
-    elif request.POST.get('aeroporto_id'):
+    elif request.POST.get('data_inicial_id'):
         ## data_inicial = string_to_date(request.POST.get('data_inicial_id'))
         ## data_final = string_to_date(request.POST.get('data_final_id'))
         data_inicial = request.POST.get('data_inicial_id')
