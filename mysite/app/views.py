@@ -1,5 +1,11 @@
 from distutils.log import error
+
+# report generating
+import io
 from django.http import FileResponse
+from reportlab.pdfgen import canvas
+####
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from datetime import datetime
@@ -51,7 +57,7 @@ def deleteBase(request, pk):
 
 def string_to_date(str_format):
     try:
-        date_format = datetime.strptime(str_format, "%Y-%m-%dT%H:%M")
+        date_format = datetime.strptime(str_format, "%Y-%m-%d")
         return date_format
     except:
         return("Error at method string_to_date")
@@ -125,6 +131,77 @@ def monitoracao_delete(request, pk):
         return redirect('monitoração')
     return redirect('monitoração')
 
+def generate_report_airline(request, pk):
+     # Create a file-like buffer to receive PDF data.
+    buffer = io.BytesIO()
+    line_break = 20
+    top_page = 700
+    margin_col = 90
+    margin_sides = 20
+    # Create the PDF object, using the buffer as its "file."
+    p = canvas.Canvas(buffer)
+
+    # Draw things on the PDF. Here's where the PDF generation happens.
+    # See the ReportLab documentation for the full list of functionality.
+    report_voo = VooBase.objects.all().filter(companhia_aerea = pk)
+    x = top_page
+    for voo in report_voo:
+        p.drawString(margin_sides, x, voo.codigo_voo)
+        p.drawString(margin_sides + 1*margin_col, x, voo.companhia_aerea)
+        p.drawString(margin_sides + 2*margin_col, x, voo.dia_da_semana)
+        p.drawString(margin_sides + 3*margin_col, x, voo.horario_partida_base.strftime("%H:%M:%S"))
+        p.drawString(margin_sides + 4*margin_col, x, voo.duracao_base.strftime("%H:%M:%S"))
+        p.drawString(margin_sides + 5*margin_col, x, voo.origem)
+        p.drawString(margin_sides + 6*margin_col, x, voo.destino)
+        x = x - line_break
+
+    # Close the PDF object cleanly, and we're done.
+    p.showPage()
+    p.save()
+
+    # FileResponse sets the Content-Disposition header so that browsers
+    # present the option to save the file.
+    buffer.seek(0)
+    return FileResponse(buffer, as_attachment=True, filename='report_by_airport.pdf')
+
+def generate_report_data(request, start_date, end_date):
+     # Create a file-like buffer to receive PDF data.
+    buffer = io.BytesIO()
+    line_break = 20
+    top_page = 700
+    margin_col = 90
+    margin_sides = 20
+    # Create the PDF object, using the buffer as its "file."
+    p = canvas.Canvas(buffer)
+
+    # Draw things on the PDF. Here's where the PDF generation happens.
+    # See the ReportLab documentation for the full list of functionality.
+    report_voo = VooReal.objects.all().filter( data_voo__range =[start_date, end_date])
+    x = top_page
+    for voo in report_voo:
+        p.drawString(margin_sides, x, voo.voo_base.codigo_voo)
+        p.drawString(margin_sides + 1*margin_col, x, voo.voo_base.companhia_aerea)
+        p.drawString(margin_sides + 2*margin_col, x, voo.voo_base.dia_da_semana)
+        p.drawString(margin_sides + 3*margin_col, x, voo.voo_base.horario_partida_base.strftime("%H:%M:%S"))
+        p.drawString(margin_sides + 4*margin_col, x, voo.voo_base.duracao_base.strftime("%H:%M:%S"))
+        x = x - line_break
+        p.drawString(margin_sides + 1*margin_col, x, voo.voo_base.origem)
+        p.drawString(margin_sides + 2*margin_col, x, voo.voo_base.destino)
+        p.drawString(margin_sides + 3*margin_col, x, voo.data_voo.strftime("%m/%d/%Y"))
+        p.drawString(margin_sides + 4*margin_col, x, voo.estado_voo)
+        x = x - line_break
+        p.drawString(margin_sides + 1*margin_col, x, voo.horario_real_chegada.strftime("%H:%M:%S"))
+        p.drawString(margin_sides + 2*margin_col, x, voo.horario_real_partida.strftime("%H:%M:%S"))
+        x = x - line_break
+
+    # Close the PDF object cleanly, and we're done.
+    p.showPage()
+    p.save()
+
+    # FileResponse sets the Content-Disposition header so that browsers
+    # present the option to save the file.
+    buffer.seek(0)
+    return FileResponse(buffer, as_attachment=True, filename='report_by_time.pdf')
 
 def login_view(request):
     if request.method == 'POST':
@@ -162,12 +239,16 @@ def logout_view(request):
 @login_required
 def relatorios(request):
   if request.method == 'POST':
-    if request.POST.get('cid_id'):
-        return render(request,"relatorios-pdf.html", {"voos_cia":VooBase.objects.all()})
+    if request.POST.get('cia_id'):
+        return generate_report_airline(request, request.POST.get('cia_id'))
     elif request.POST.get('aeroporto_id'):
-        return render(request,"relatorios-pdf.html")
+        ## data_inicial = string_to_date(request.POST.get('data_inicial_id'))
+        ## data_final = string_to_date(request.POST.get('data_final_id'))
+        data_inicial = request.POST.get('data_inicial_id')
+        data_final = request.POST.get('data_final_id')
+        return generate_report_data(request, data_inicial, data_final)
     else:
-        return render(request,"relatorios-pdf.html")
+        return generate_report_airline(request, 10)
   else:
     return render(request, "relatorios.html")
 
