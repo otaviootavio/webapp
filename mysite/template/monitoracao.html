@@ -5,14 +5,46 @@
   <div class="col-sm">
     <div class="card">
       <div class="card-body">
-        <h5 class="card-title">Buscar dados de um voo</h5>
-        <p class="card-text">Consulte e atualize o estado dos voos.</p>
-        <div>
-          <form class="d-flex" action="#" method="POST">    
-            {% csrf_token %}    
-            <input type="text" class="form-control" name="id-voo" id="id-voo" aria-describedby="helpId" placeholder="CEE3100">
-            <input type="submit" class="btn btn-primary">
-          </form>
+        <h5 class="card-title">Lista dos voos</h5>
+        <p class="card-text">Eis uma lista com todos os voos cadastrados</p>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col"></th>
+              <th scope="col">Codigo do voo</th>
+              <th scope="col">Companhia</th>
+              <th scope="col">Dia da semana</th>
+              <th scope="col">Horário previsto</th>
+              <th scope="col">Duracao</th>
+              <th scope="col">Origem</th>
+              <th scope="col">Destino</th>
+              <th scope="col">Data</th>
+              <th scope="col">Horário partida</th>
+              <th scope="col">Horário pouso</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+              {% for data in data_voo_base %}
+              <tr>
+                <th scope="col">{{data.id}}</th>
+                <td scope="row">{{data.codigo_voo}}</td>
+                <td scope="row">{{data.companhia_aerea}}</td>
+                <td scope="row">{{data.dia_da_semana}}</td>
+                <td scope="row">{{data.horario_partida_base|date:"H:i"}}</td>
+                <td scope="row">{{data.duracao_base|date:"H:i"}}</td>
+                <td scope="row">{{data.origem}}</td>
+                <td scope="row">{{data.destino}}</td>
+                <td scope="row">{{data.vooreal.data_voo|date:'d/m/Y'}}</td>
+                <td scope="row">{{data.vooreal.horario_real_chegada|date:"H:i"}}</td>
+                <td scope="row">{{data.vooreal.horario_real_partida|date:"H:i"}}</td>
+                <td scope="row">{{data.vooreal.estado_voo}}</td>
+                <td scope="row"><a href="{% url 'monitoração_update' data.codigo_voo %}">Atualizar</a></td>
+                <td scope="row"><a href="#">Delete</a></td>
+              </tr>
+              {% endfor %}
+          </tbody>
+        </table>
         </div>
       </div>
     </div>

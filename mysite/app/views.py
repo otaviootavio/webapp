@@ -83,32 +83,36 @@ def home(request):
 
 @login_required
 def monitoracao(request):
+    all_voo_base = VooBase.objects.all()
     if request.method == 'POST':
         try:
             voo_base_obj = VooBase.objects.get(codigo_voo = request.POST["id-voo"])
             return redirect('monitoração_update', pk = request.POST['id-voo'])
         except Exception as e:
             return render(request, "monitoracao.html", {"error_message": e}) 
-    return render(request,"monitoracao.html")
+    return render(request,"monitoracao.html", context= {'data_voo_base':all_voo_base})
 
 @login_required
 def monitoracao_update(request, pk):    
     try:
         voo_real_obj = VooReal.objects.filter(voo_base__codigo_voo = pk).first()
+        voo_base_obj = VooBase.objects.filter(codigo_voo = pk).first()
         if voo_real_obj:
             forms_voo_real = VooRealForm(instance = voo_real_obj)
-        else:
-            voo_base_obj = VooBase.objects.filter(codigo_voo = pk).first()
     except (VooReal.DoesNotExist, VooBase.DoesNotExist) as e:
         return render(request, "create-base.html", {"error_message": e}) 
-                       
+
     if request.method == 'POST':
         forms_voo_real = VooRealForm(request.POST, instance = voo_real_obj)
         if forms_voo_real.is_valid():
+            forms_voo_real.instance.voo_base = voo_base_obj
             forms_voo_real.save()
             return redirect('home')
     else:
         forms_voo_real = VooRealForm(instance = voo_real_obj)
+        
+        ## override old format ( YYYY-MM-DD )
+        forms_voo_real.initial["data_voo"] = forms_voo_real.instance.data_voo.strftime("%m-%d-%Y")
     return render(request, 'create-real.html', {'forms_voo_real': forms_voo_real, 'title':'Formulário para atualizar status do voo'})
 
 def login_view(request):

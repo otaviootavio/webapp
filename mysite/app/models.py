@@ -29,8 +29,8 @@ class VooBase(models.Model):
     codigo_voo = models.CharField(max_length=200, null=False, blank = False)
     companhia_aerea = models.CharField(max_length=200, null=False)
     dia_da_semana = models.CharField(max_length = 3, choices = DIAS_SEMANA, null = False)
-    horario_partida_base = models.IntegerField(null=False)
-    duracao_base = models.IntegerField(null=False)
+    horario_partida_base = models.TimeField(null=False)
+    duracao_base = models.TimeField(null=False)
     origem = models.CharField(max_length=200, null=False)
     destino = models.CharField(max_length=200, null=False)
 
@@ -63,7 +63,7 @@ class VooBase(models.Model):
         db_table = 'voo_base'
 
 class VooReal(models.Model):    
-    voo_base = models.ForeignKey(VooBase, on_delete=models.CASCADE, null=True, blank=True)
+    voo_base = models.OneToOneField(VooBase, on_delete=models.CASCADE, blank=True, primary_key=True)
     data_voo = models.DateField()
     estado_voo = models.CharField(max_length = 3, choices = ESTADOS_VOO)
     horario_real_chegada = models.TimeField(auto_now=False, auto_now_add=False, null=True)

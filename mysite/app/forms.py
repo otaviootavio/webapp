@@ -4,6 +4,14 @@ from app.models import DIAS_SEMANA, VooBase, VooReal
 
 class VooBaseForm(forms.ModelForm):
     
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['codigo_voo'].widget.attrs.update({'placeholder':'CEE3100'})
+        self.fields['horario_partida_base'].widget.attrs.update({'placeholder':'HH:MM'})
+        self.fields['duracao_base'].widget.attrs.update({'placeholder':'HH:MM'})
+
+        self.fields['horario_partida_base'].widget.attrs.update({'placeholder':'HH:MM'})
+            
     class Meta:
         model = VooBase
         fields = ('codigo_voo',
