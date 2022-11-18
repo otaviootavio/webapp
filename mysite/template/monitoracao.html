@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="row align-items-center h-100">
+
+<div class="row align-items-center h-100 mt-4">
   <div class="col-sm">
     <div class="card">
       <div class="card-body">
         <h5 class="card-title">Lista dos voos</h5>
-        <p class="card-text">Eis uma lista com todos os voos cadastrados</p>
+        <p class="card-text">Eis uma lista com todos os voos programados ou em andamento</p>
         <table class="table table-striped">
           <thead>
             <tr>
@@ -14,33 +15,35 @@
               <th scope="col">Codigo do voo</th>
               <th scope="col">Companhia</th>
               <th scope="col">Dia da semana</th>
-              <th scope="col">Horário previsto</th>
+              <th scope="col">Hora prevista</th>
               <th scope="col">Duracao</th>
               <th scope="col">Origem</th>
               <th scope="col">Destino</th>
               <th scope="col">Data</th>
-              <th scope="col">Horário partida</th>
-              <th scope="col">Horário pouso</th>
+              <th scope="col">Hora partida</th>
+              <th scope="col">Hora pouso</th>
               <th scope="col">Status</th>
+              <th scope="col">Atualizar</th>
+              <th scope="col">Deletar</th>
             </tr>
           </thead>
           <tbody>
-              {% for data in data_voo_base %}
+              {% for voo in dados_voo_real %}
               <tr>
-                <th scope="col">{{data.id}}</th>
-                <td scope="row">{{data.codigo_voo}}</td>
-                <td scope="row">{{data.get_companhia_aerea_display}}</td>
-                <td scope="row">{{data.get_dia_da_semana_display}}</td>
-                <td scope="row">{{data.horario_partida_base|date:"H:i"}}</td>
-                <td scope="row">{{data.duracao_base|date:"H:i"}}</td>
-                <td scope="row">{{data.origem}}</td>
-                <td scope="row">{{data.destino}}</td>
-                <td scope="row">{{data.vooreal.data_voo|date:'d/m/Y'}}</td>
-                <td scope="row">{{data.vooreal.horario_real_chegada|date:"H:i"}}</td>
-                <td scope="row">{{data.vooreal.horario_real_partida|date:"H:i"}}</td>
-                <td scope="row">{{data.vooreal.estado_voo}}</td>
-                <td scope="row"><a href="{% url 'monitoração_update' data.codigo_voo %}">Atualizar</a></td>
-                <td scope="row"><a href="{% url 'monitoração_delete' data.codigo_voo %}" class="confirmation" id="delete-button">Delete</a></td>
+                <th scope="col">{{voo.id}}</th>
+                <td scope="row">{{voo.voo_base.codigo_voo}}</td>
+                <td scope="row">{{voo.voo_base.get_companhia_aerea_display}}</td>
+                <td scope="row">{{voo.voo_base.get_dia_da_semana_display}}</td>
+                <td scope="row">{{voo.voo_base.horario_partida_base|date:"H:i"}}</td>
+                <td scope="row">{{voo.voo_base.duracao_base|date:"H:i"}}</td>
+                <td scope="row">{{voo.voo_base.origem}}</td>
+                <td scope="row">{{voo.voo_base.destino}}</td>
+                <td scope="row">{{voo.data_voo|date:'d/m/Y'}}</td>
+                <td scope="row">{{voo.horario_real_partida|date:"H:i"}}</td>
+                <td scope="row">{{voo.horario_real_chegada|date:"H:i"}}</td>
+                <td scope="row">{{voo.estado_voo}}</td>
+                <td scope="row"><a href="{% url 'monitoração_update' voo.voo_base.codigo_voo %}">Atualizar</a></td>
+                <td scope="row"><a href="{% url 'monitoração_delete' voo.voo_base.codigo_voo %}" class="confirmation" id="delete-button">Deletar</a></td>
               </tr>
               {% endfor %}
           </tbody>

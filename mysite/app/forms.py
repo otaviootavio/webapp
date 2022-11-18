@@ -37,20 +37,19 @@ class VooRealForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['data_voo'].widget.attrs.update({'placeholder':'DD-MM-AAAA'})
         self.fields['data_voo'].input_formats = [ '%d-%m-%Y' ]
-
-        self.fields['horario_real_chegada'].widget.attrs.update({'placeholder':'HH:MM'})
         self.fields['horario_real_partida'].widget.attrs.update({'placeholder':'HH:MM'})
-    
+        self.fields['horario_real_chegada'].widget.attrs.update({'placeholder':'HH:MM'})
+        
     class Meta:
         model = VooReal
         fields = (
             'data_voo',
             'estado_voo',
-            'horario_real_chegada',
-            'horario_real_partida')
+            'horario_real_partida',
+            'horario_real_chegada')
         labels = {
             'data_voo':'Data de partida',
             'estado_voo':'Estado do voo',
-            'horario_real_chegada':'Horario de chegada',
             'horario_real_partida':'Horario de partida',
+            'horario_real_chegada':'Horario de chegada',
         }
