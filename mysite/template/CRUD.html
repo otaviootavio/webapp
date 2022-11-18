@@ -18,8 +18,8 @@
     <div class="col-sm">
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title">Buscar dados de um voo</h5>
-          <p class="card-text">Consulte e atualize o estado dos voos.</p>
+          <h5 class="card-title">Filtrar dados de um voo base</h5>
+          <p class="card-text">Filtre os voos base.</p>
           <div>
             <form class="d-flex" action="#" method="POST">      
               {% csrf_token %}    
@@ -32,4 +32,56 @@
     </div>
   </div>
 
+  <div class="col-sm mt-4">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Lista dos voos</h5>
+        <p class="card-text">Eis uma lista com todos os voos bases cadastrados</p>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col"></th>
+              <th scope="col">Codigo do voo</th>
+              <th scope="col">Companhia</th>
+              <th scope="col">Dia da semana</th>
+              <th scope="col">Horário previsto</th>
+              <th scope="col">Duracao</th>
+              <th scope="col">Origem</th>
+              <th scope="col">Destino</th>
+              <th scope="col">Atualizar</th>
+              <th scope="col">Deletar</th>
+            </tr>
+          </thead>
+          <tbody>
+              {% for data in dados_voo_base %}
+              <tr>
+                <th scope="col">{{data.id}}</th>
+                <td scope="row">{{data.codigo_voo}}</td>
+                <td scope="row">{{data.companhia_aerea}}</td>
+                <td scope="row">{{data.dia_da_semana}}</td>
+                <td scope="row">{{data.horario_partida_base|date:"H:i"}}</td>
+                <td scope="row">{{data.duracao_base|date:"H:i"}}</td>
+                <td scope="row">{{data.origem}}</td>
+                <td scope="row">{{data.destino}}</td>
+                <td scope="row"><a href="{% url 'update-base' data.codigo_voo %}">Atualizar</a></td>
+                <td scope="row"><a href="{% url 'delete-base' data.codigo_voo %}" class="confirmation" id="delete-button">Deletar</a></td>
+              </tr>
+              {% endfor %}
+          </tbody>
+        </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script type="text/javascript">
+    var elems = document.getElementsByClassName('confirmation');
+    var confirmIt = function (e) {
+        if (!confirm('O item será deletado permanentemente, tem certeza?')) e.preventDefault();
+    };
+    for (var i = 0, l = elems.length; i < l; i++) {
+        elems[i].addEventListener('click', confirmIt, false);
+    }
+  </script>
 {% endblock %}
