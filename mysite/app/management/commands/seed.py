@@ -136,8 +136,8 @@ def create_voo():
     
     voo_real_1 = VooReal.objects.create(voo_base = voo_1,
                                         estado_voo = 'AGD',
-                                        horario_real_chegada = datetime.time(10, 0, 0),
-                                        horario_real_partida = datetime.time(15, 0, 0),
+                                        horario_real_chegada = datetime.time(15, 0, 0),
+                                        horario_real_partida = datetime.time(10, 0, 0),
                                         data_voo = datetime.date.today() )
     voo_real_1.save()
 
