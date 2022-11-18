@@ -99,8 +99,8 @@ def create_users():
 
 def create_voo():
     voo_1 = VooBase.objects.create(codigo_voo='011',
-                                  companhia_aerea = 'Gol',
-                                  dia_da_semana = 'Segunda',
+                                  companhia_aerea = 'GLO',
+                                  dia_da_semana = 'SEG',
                                   horario_partida_base = datetime.time(12, 0, 0),
                                   duracao_base = datetime.time(5, 0, 0),
                                   origem = 'SP',
@@ -108,8 +108,8 @@ def create_voo():
     voo_1.save()
 
     voo_2 = VooBase.objects.create(codigo_voo='021',
-                                  companhia_aerea = 'Latam',
-                                  dia_da_semana = 'Terca',
+                                  companhia_aerea = 'TAM',
+                                  dia_da_semana = 'TER',
                                   horario_partida_base = datetime.time(3, 0, 0),
                                   duracao_base = datetime.time(2, 0, 0),
                                   origem = 'SP',
@@ -117,8 +117,8 @@ def create_voo():
     voo_2.save()
     
     voo_3 = VooBase.objects.create(codigo_voo='092',
-                                  companhia_aerea = 'Latam',
-                                  dia_da_semana = 'Terca',
+                                  companhia_aerea = 'TAM',
+                                  dia_da_semana = 'SEX',
                                   horario_partida_base = datetime.time(10, 0, 0),
                                   duracao_base = datetime.time(5, 0, 0),
                                   origem = 'RJ',
@@ -126,8 +126,8 @@ def create_voo():
     voo_3.save()
     
     voo_4 = VooBase.objects.create(codigo_voo='22',
-                                  companhia_aerea = 'Latam',
-                                  dia_da_semana = 'Terca',
+                                  companhia_aerea = 'TAM',
+                                  dia_da_semana = 'TER',
                                   horario_partida_base = datetime.time(10, 0, 0),
                                   duracao_base = datetime.time(3, 30, 0),
                                   origem = 'DF',

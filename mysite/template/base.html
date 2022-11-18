@@ -44,8 +44,11 @@
                 <li class="nav-item"><a href="{% url 'monitoração' %}" class="nav-link">Monitoração</a></li>
                 <li class="nav-item"><a href="{% url 'relatorios' %}" class="nav-link">Relatórios</a></li>
                 <li class="nav-item"><a href="{% url 'olamundo' %}" class="nav-link">Olá Mundo</a></li>
-                <li class="nav-item"><a href="{% url 'login_view' %}" class="nav-link">Login</a></li>          
-                <li class="nav-item"><a href="{% url 'logout_view' %}" class="nav-link">Logout</a></li>          
+                {% if not user.is_authenticated %}        
+                <li class="nav-item"><a href="{% url 'login_view' %}" class="nav-link">Login</a></li>  
+                {% else  %}        
+                <li class="nav-item"><a href="{% url 'logout_view' %}" class="nav-link">Logout</a></li> 
+                {% endif %}         
             </ul>
         </div>
       </div>
