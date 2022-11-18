@@ -112,7 +112,7 @@ def monitoracao_update(request, pk):
         forms_voo_real = VooRealForm(instance = voo_real_obj)
         
         ## override old format ( YYYY-MM-DD )
-        forms_voo_real.initial["data_voo"] = forms_voo_real.instance.data_voo.strftime("%m-%d-%Y")
+        forms_voo_real.initial["data_voo"] = forms_voo_real.instance.data_voo.strftime("%d-%m-%Y")
     return render(request, 'create-real.html', {'forms_voo_real': forms_voo_real, 'title':'Formulário para atualizar status do voo'})
 
 @login_required
