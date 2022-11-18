@@ -1,11 +1,12 @@
 from distutils.log import error
+from django.http import FileResponse
+from reportlab.pdfgen import canvas
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from datetime import datetime
 from django.shortcuts import render, redirect
 from django.http import Http404
 from app.models import VooBase, VooReal,ESTADOS_VOO
-
 from app.forms import VooBaseForm, VooRealForm
 
 # Create your views here.
@@ -112,7 +113,8 @@ def monitoracao_update(request, pk):
         forms_voo_real = VooRealForm(instance = voo_real_obj)
         
         ## override old format ( YYYY-MM-DD )
-        forms_voo_real.initial["data_voo"] = forms_voo_real.instance.data_voo.strftime("%d-%m-%Y")
+        if forms_voo_real.instance.data_voo:
+            forms_voo_real.initial["data_voo"] = forms_voo_real.instance.data_voo.strftime("%d-%m-%Y")
     return render(request, 'create-real.html', {'forms_voo_real': forms_voo_real, 'title':'Formulário para atualizar status do voo'})
 
 @login_required
