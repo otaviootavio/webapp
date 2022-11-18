@@ -161,12 +161,12 @@ def logout_view(request):
 @login_required
 def relatorios(request):
   if request.method == 'POST':
-    if request.POST.get('btn_id')=="periodo" and request.POST.get('aeroporto_id') == "Congonhas" and request.POST.get('data_inicial_id') == "2022-10-01" and request.POST.get('data_final_id') == "2022-10-19":
-      return render(request,"relatorios-pdf.html")
-    elif request.POST.get('btn_id')=="cia" and request.POST.get('cia_id') == "Latam":
-      return render(request,"relatorios-pdf.html")
+    if request.POST.get('cid_id'):
+        return render(request,"relatorios-pdf.html", {"voos_cia":VooBase.objects.all()})
+    elif request.POST.get('aeroporto_id'):
+        return render(request,"relatorios-pdf.html")
     else:
-      return render(request, "relatorios.html")
+        return render(request,"relatorios-pdf.html")
   else:
     return render(request, "relatorios.html")
 

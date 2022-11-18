@@ -98,18 +98,48 @@ def create_users():
 
 
 def create_voo():
-    voo1 = VooBase.objects.create(codigo_voo='011',companhia_aerea='Tesla',dia_da_semana='Segunda',
-                                horario_partida_base=1005, duracao_base=5,origem='SP',destino='TO')
-    voo1.save()
+    voo_1 = VooBase.objects.create(codigo_voo='011',
+                                  companhia_aerea = 'Gol',
+                                  dia_da_semana = 'Segunda',
+                                  horario_partida_base = datetime.time(12, 0, 0),
+                                  duracao_base = datetime.time(5, 0, 0),
+                                  origem = 'SP',
+                                  destino = 'TO')
+    voo_1.save()
 
-    vooreal1 = VooReal.objects.create(voo_base=voo1,estado_voo='AGD',data_voo=datetime.date.today() )
-    vooreal1.save()
-    voo2 = VooBase.objects.create(codigo_voo='012',companhia_aerea='Tesla',dia_da_semana='Terça',
-                                horario_partida_base=720, duracao_base=5,origem='RJ',destino='PE')
-    voo2.save()
-
-    vooreal2 = VooReal.objects.create(voo_base=voo2,estado_voo='TAX',data_voo=datetime.date.today() )
-    vooreal2.save()
+    voo_2 = VooBase.objects.create(codigo_voo='021',
+                                  companhia_aerea = 'Latam',
+                                  dia_da_semana = 'Terca',
+                                  horario_partida_base = datetime.time(3, 0, 0),
+                                  duracao_base = datetime.time(2, 0, 0),
+                                  origem = 'SP',
+                                  destino = 'RJ')
+    voo_2.save()
+    
+    voo_3 = VooBase.objects.create(codigo_voo='092',
+                                  companhia_aerea = 'Latam',
+                                  dia_da_semana = 'Terca',
+                                  horario_partida_base = datetime.time(10, 0, 0),
+                                  duracao_base = datetime.time(5, 0, 0),
+                                  origem = 'RJ',
+                                  destino = 'AM')
+    voo_3.save()
+    
+    voo_4 = VooBase.objects.create(codigo_voo='22',
+                                  companhia_aerea = 'Latam',
+                                  dia_da_semana = 'Terca',
+                                  horario_partida_base = datetime.time(10, 0, 0),
+                                  duracao_base = datetime.time(3, 30, 0),
+                                  origem = 'DF',
+                                  destino = 'AM')
+    voo_4.save()
+    
+    voo_real_1 = VooReal.objects.create(voo_base = voo_1,
+                                        estado_voo = 'AGD',
+                                        horario_real_chegada = datetime.time(10, 0, 0),
+                                        horario_real_partida = datetime.time(15, 0, 0),
+                                        data_voo = datetime.date.today() )
+    voo_real_1.save()
 
 
 def run_seed(self, mode):
