@@ -115,6 +115,16 @@ def monitoracao_update(request, pk):
         forms_voo_real.initial["data_voo"] = forms_voo_real.instance.data_voo.strftime("%m-%d-%Y")
     return render(request, 'create-real.html', {'forms_voo_real': forms_voo_real, 'title':'Formulário para atualizar status do voo'})
 
+@login_required
+def monitoracao_delete(request, pk):    
+    try:
+        voo_base_obj = VooBase.objects.filter(codigo_voo = pk).first()
+        voo_base_obj.delete()
+    except (VooBase.DoesNotExist) as e:
+        return redirect('monitoração')
+    return redirect('monitoração')
+
+
 def login_view(request):
     if request.method == 'POST':
         username = request.POST['username']

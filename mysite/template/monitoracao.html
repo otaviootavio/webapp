@@ -40,7 +40,7 @@
                 <td scope="row">{{data.vooreal.horario_real_partida|date:"H:i"}}</td>
                 <td scope="row">{{data.vooreal.estado_voo}}</td>
                 <td scope="row"><a href="{% url 'monitoração_update' data.codigo_voo %}">Atualizar</a></td>
-                <td scope="row"><a href="#">Delete</a></td>
+                <td scope="row"><a href="{% url 'monitoração_delete' data.codigo_voo %}" class="confirmation" id="delete-button">Delete</a></td>
               </tr>
               {% endfor %}
           </tbody>
@@ -50,4 +50,14 @@
     </div>
   </div>
 </div>
+
+<script type="text/javascript">
+  var elems = document.getElementsByClassName('confirmation');
+  var confirmIt = function (e) {
+      if (!confirm('O item será deletado permanentemente, tem certeza?')) e.preventDefault();
+  };
+  for (var i = 0, l = elems.length; i < l; i++) {
+      elems[i].addEventListener('click', confirmIt, false);
+  }
+</script>
 {% endblock %}
