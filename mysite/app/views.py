@@ -20,7 +20,7 @@ def createBase(request):
         return render(request, 'create-base.html', {'forms_voo_base': forms_voo_base})
     else:
         forms_voo_base = VooBaseForm()
-    return render(request, 'create-base.html', {'forms_voo_base': forms_voo_base, 'title':"Formulário para creação de voo"})
+    return render(request, 'create-base.html', {'forms_voo_base': forms_voo_base, 'title':"Formulário para criação de voo"})
     
 @login_required
 def updateBase(request, pk):
@@ -83,14 +83,32 @@ def home(request):
 
 @login_required
 def monitoracao(request):
-    all_voo_base = VooBase.objects.all()
+    all_voo_real = VooReal.objects.all()
     if request.method == 'POST':
         try:
             voo_base_obj = VooBase.objects.get(codigo_voo = request.POST["id-voo"])
             return redirect('monitoração_update', pk = request.POST['id-voo'])
         except Exception as e:
             return render(request, "monitoracao.html", {"error_message": e}) 
-    return render(request,"monitoracao.html", context= {'data_voo_base':all_voo_base})
+    return render(request,"monitoracao.html", context= {'dados_voo_real':all_voo_real})
+
+@login_required
+def scheduleNew(request, pk):
+    try:
+        voo_base_obj = VooBase.objects.get(codigo_voo = pk)
+    except VooBase.DoesNotExist:
+        raise Http404("No matches to the given query")
+
+    if request.method == 'POST':
+        forms_voo_real = VooRealForm(request.POST)
+        if forms_voo_real.is_valid():
+            forms_voo_real.instance.voo_base = voo_base_obj
+            forms_voo_real.save()
+            return redirect('monitoração')
+        return render(request, 'create-real.html', {'forms_voo_real': forms_voo_real})
+    else:
+        forms_voo_real = VooRealForm()
+    return render(request, 'create-real.html', {'forms_voo_real': forms_voo_real, 'title':"Formulário para programar um novo voo"})
 
 @login_required
 def monitoracao_update(request, pk):    
@@ -107,7 +125,7 @@ def monitoracao_update(request, pk):
         if forms_voo_real.is_valid():
             forms_voo_real.instance.voo_base = voo_base_obj
             forms_voo_real.save()
-            return redirect('home')
+            return redirect('monitoração')
     else:
         forms_voo_real = VooRealForm(instance = voo_real_obj)
         

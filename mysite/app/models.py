@@ -99,7 +99,7 @@ class VooBase(models.Model):
         db_table = 'voo_base'
 
 class VooReal(models.Model):    
-    voo_base = models.OneToOneField(VooBase, on_delete=models.CASCADE, blank=True, primary_key=True)
+    voo_base = models.ForeignKey(VooBase, on_delete=models.CASCADE)
     data_voo = models.DateField()
     estado_voo = models.CharField(max_length = 3, choices = ESTADOS_VOO)
     horario_real_chegada = models.TimeField(auto_now=False, auto_now_add=False, null=True,blank=True)

@@ -6,8 +6,8 @@
     <div class="col-sm">
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title">Cadastrar voo</h5>
-            <p class="card-text">Crie, altere ou consulte voos no sistema.</p>
+          <h5 class="card-title">Cadastrar voo base</h5>
+            <p class="card-text">Crie voos base no sistema.</p>
             <div class="text-center">
               <a type="button" href="{% url 'create-base' %}"  class="btn-primary btn">Cadastrar</a>
             </div>
@@ -35,8 +35,8 @@
   <div class="col-sm mt-4">
     <div class="card">
       <div class="card-body">
-        <h5 class="card-title">Lista dos voos</h5>
-        <p class="card-text">Eis uma lista com todos os voos bases cadastrados</p>
+        <h5 class="card-title">Lista dos voos base</h5>
+        <p class="card-text">Eis uma lista com todos os voos base cadastrados</p>
         <table class="table table-striped">
           <thead>
             <tr>
@@ -48,23 +48,25 @@
               <th scope="col">Duracao</th>
               <th scope="col">Origem</th>
               <th scope="col">Destino</th>
-              <th scope="col">Atualizar</th>
+              <th scope="col">Editar</th>
+              <th scope="col">Programar</th>
               <th scope="col">Deletar</th>
             </tr>
           </thead>
           <tbody>
-              {% for data in dados_voo_base %}
+              {% for voo in dados_voo_base %}
               <tr>
-                <th scope="col">{{data.id}}</th>
-                <td scope="row">{{data.codigo_voo}}</td>
-                <td scope="row">{{data.companhia_aerea}}</td>
-                <td scope="row">{{data.dia_da_semana}}</td>
-                <td scope="row">{{data.horario_partida_base|date:"H:i"}}</td>
-                <td scope="row">{{data.duracao_base|date:"H:i"}}</td>
-                <td scope="row">{{data.origem}}</td>
-                <td scope="row">{{data.destino}}</td>
-                <td scope="row"><a href="{% url 'update-base' data.codigo_voo %}">Atualizar</a></td>
-                <td scope="row"><a href="{% url 'delete-base' data.codigo_voo %}" class="confirmation" id="delete-button">Deletar</a></td>
+                <th scope="col">{{voo.id}}</th>
+                <td scope="row">{{voo.codigo_voo}}</td>
+                <td scope="row">{{voo.companhia_aerea}}</td>
+                <td scope="row">{{voo.dia_da_semana}}</td>
+                <td scope="row">{{voo.horario_partida_base|date:"H:i"}}</td>
+                <td scope="row">{{voo.duracao_base|date:"H:i"}}</td>
+                <td scope="row">{{voo.origem}}</td>
+                <td scope="row">{{voo.destino}}</td>
+                <td scope="row"><a href="{% url 'update-base' voo.codigo_voo %}">Editar</a></td>
+                <td scope="row"><a href="{% url 'schedule-new' voo.codigo_voo %}">Editar</a></td>
+                <td scope="row"><a href="{% url 'delete-base' voo.codigo_voo %}" class="confirmation" id="delete-button">Deletar</a></td>
               </tr>
               {% endfor %}
           </tbody>
