@@ -3,6 +3,12 @@ from math import floor
 from django.db import models
 from django.forms import ModelForm
 
+COMPANHIAS_AEREAS = (
+     ('AZU','Azul'),
+     ('GLO','Gol'),
+     ('TAM','LATAM'),
+    )
+
 DIAS_SEMANA = (
         ('SEG','Segunda'),
         ('TER','Terca'),
@@ -25,14 +31,44 @@ ESTADOS_VOO = (
      ('ATE','Aterrisado'),
     )
 
+ESTADOS = (
+('AC','Acre'),
+('AL','Alagoas'),
+('AP','Amapá'),
+('AM','Amazonas'),
+('BA','Bahia'),
+('CE','Ceará'),
+('DF','Distrito Federal'),
+('ES','Espírito Santo'),
+('GO', 'Goiás'),
+('MA', 'Maranhão'),
+('MT', 'Mato Grosso'),
+('MS', 'Mato Grosso do Sul'),
+('MG', 'Minas Gerais'),
+('PA','Pará'),
+('PB', 'Paraíba'),
+('PR','Paraná'),
+('PE','Pernambuco'),
+('PI','Piauí'),
+('RJ', 'Rio de Janeiro'),
+('RN', 'Rio Grande do Norte'),
+('RS', 'Rio Grande do Sul'),
+('RO', 'Rondônia'),
+('RR', 'Roraima'),
+('SC','Santa Catarina'),
+('SP','São Paulo'),
+('SE','Sergipe'),
+('TO','Tocantins'),
+)
+
 class VooBase(models.Model):
     codigo_voo = models.CharField(max_length=200, null=False, blank = False)
-    companhia_aerea = models.CharField(max_length=200, null=False)
+    companhia_aerea = models.CharField(max_length=200,choices=COMPANHIAS_AEREAS ,null=False)
     dia_da_semana = models.CharField(max_length = 3, choices = DIAS_SEMANA, null = False)
     horario_partida_base = models.TimeField(null=False)
     duracao_base = models.TimeField(null=False)
-    origem = models.CharField(max_length=200, null=False)
-    destino = models.CharField(max_length=200, null=False)
+    origem = models.CharField(max_length=200,choices=ESTADOS, null=False)
+    destino = models.CharField(max_length=200,choices=ESTADOS, null=False)
 
     def get_horario_chegada(this):
         hour_duracao = floor(this.duracao_base / 3600)

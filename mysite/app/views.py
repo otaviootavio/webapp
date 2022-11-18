@@ -1,6 +1,5 @@
 from distutils.log import error
 from django.http import FileResponse
-from reportlab.pdfgen import canvas
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from datetime import datetime
