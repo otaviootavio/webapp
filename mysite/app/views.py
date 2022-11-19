@@ -39,11 +39,19 @@ def updateBase(request, pk):
                        
     if request.method == 'POST':
         forms_voo_base = VooBaseForm(request.POST, instance = voo_base_obj)
+        #Work arround to show the forms disabled AND the correct value at form
+        forms_voo_base.data._mutable = True
+        forms_voo_base.data['codigo_voo'] = voo_base_obj.codigo_voo
+        forms_voo_base.data['companhia_aerea'] = voo_base_obj.companhia_aerea
+        forms_voo_base.data._mutable = False
+        
         if forms_voo_base.is_valid():
             forms_voo_base.save()
             return redirect('crud')
     else:
         forms_voo_base = VooBaseForm(instance = voo_base_obj)
+        forms_voo_base.fields['codigo_voo'].disabled = True
+        forms_voo_base.fields['companhia_aerea'].disabled = True
     return render(request, 'create-base.html', {'forms_voo_base': forms_voo_base, 'title':"Formulário para atualização de voo"})
 
 @login_required
@@ -70,7 +78,7 @@ def flightData(request):
 @login_required
 def crud(request):
     all_voo_base = VooBase.objects.all()
-    if request.method == 'POST' and request.POST['id-voo'] is not '':
+    if request.method == 'POST' and request.POST['id-voo'] != '' and request.POST['id-voo'] != None:
         try:
             filtered_voo_base = VooBase.objects.all().filter(codigo_voo = request.POST["id-voo"])
             return render(request,"CRUD.html", context= {'dados_voo_base':filtered_voo_base})
