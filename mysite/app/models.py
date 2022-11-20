@@ -22,14 +22,14 @@ DIAS_SEMANA = (
 
 ESTADOS_VOO = (
      ('AGD','Agendado'),
-     ('EMB','Embarcando'),
-     ('CAN','Cancelado'),
      ('PRG','Programado'),
+     ('EMB','Embarcando'),
      ('TAX','Taxiando'),
      ('PRT','Pronto'),
      ('AUT','Autorizado'),
      ('EMV','Em voo'),
      ('ATE','Aterrisado'),
+     ('CAN','Cancelado'),
     )
 
 ESTADOS = (
