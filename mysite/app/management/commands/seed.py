@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User,Group
-from app.models import VooBase,VooReal
+from app.models import VooBase,VooReal, Group
 import random,datetime
 
 # python manage.py seed --mode=refresh
@@ -42,7 +42,7 @@ def create_users():
         piloto = User.objects.create_user('piloto', 'piloto@mail.com', 'piloto')
         piloto.save()
         print("piloto created.")
-    pilotos, created = Group.objects.get_or_create(name='pilotos')
+    pilotos, created = Group.objects.get_or_create(name=Group.pilotos)
     pilotos.user_set.add(piloto)
 
     try:
@@ -54,7 +54,7 @@ def create_users():
         funcionario = User.objects.create_user('funcionario', 'funcionario@mail.com', 'funcionario')
         funcionario.save()
         print("funcionário created.")
-    funcionarios, created = Group.objects.get_or_create(name='funcionarios')
+    funcionarios, created = Group.objects.get_or_create(name=Group.funcionarios)
     funcionarios.user_set.add(funcionario)
 
     try:
@@ -66,7 +66,7 @@ def create_users():
         operador = User.objects.create_user('operador', 'operador@mail.com', 'operador')
         operador.save()
         print("operador created.")
-    operadores, created = Group.objects.get_or_create(name='operadores')
+    operadores, created = Group.objects.get_or_create(name=Group.operadores)
     operadores.user_set.add(operador)
 
     try:
@@ -78,7 +78,7 @@ def create_users():
         torre = User.objects.create_user('torre', 'torre@mail.com', 'torre')
         torre.save()
         print("operador torre de controle.")
-    torres, created = Group.objects.get_or_create(name='torres')
+    torres, created = Group.objects.get_or_create(name=Group.torres)
     torres.user_set.add(torre)
 
     try:
@@ -90,7 +90,7 @@ def create_users():
         gerente = User.objects.create_user('gerente', 'gerente@mail.com', 'gerente')
         gerente.save()
         print("operador gerente.")
-    gerentes, created = Group.objects.get_or_create(name='gerentes')
+    gerentes, created = Group.objects.get_or_create(name=Group.gerentes)
     gerentes.user_set.add(gerente)
 
     return 

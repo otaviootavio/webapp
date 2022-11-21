@@ -32,14 +32,17 @@ Instale as dependências do projeto, lembrando de fazer o migrate, e execute-o.\
 ```cd mysite```\
 ```python manage.py makemigrations```\
 ```python manage.py migrate```\
-```python manage.py seed```\
 ```python manage.py runserver```
 
 Agora, para ver o projeto rodando acesse a url ```localhost:8000/olamundo/```
 
-# Testagem
+# Popular o banco de dados
+Para inserir dados no banco de dados é necessário rodar o comando abaixo:
+```python manage.py seed```\
+Assim, podemos seguir para a testagem. O login e senha de um certo grupo será o seu login e senha. Exemplo: Para simular um usuário que pertence ao grupo ```funcionarios``` é possível faze-lo acessando o sistema com as credenciais ```(funcionario, funcionario )```
 
-Para testar é necessário estar no ambiente virtual. Dado isso, acesse a pasta com o app:
+# Testagem
+Para testar é necessário estar no ambiente virtual e com o banco de dados diferente de vazio. Dado isso, acesse a pasta com o app:
 ```cd webapp```
 Em seguida, execute os testes:
 ```python manage.py test```
@@ -49,3 +52,5 @@ Em seguida, execute os testes:
 Utilizaremos a autenticação padrão do django. Assim, deveremos executar os seguintes passos para criar o usuário mestre ( super user )
 ```python manage.py createsuperuser```
 Assim, criaremos nosso usuário que terá todas as permissões.
+
+Para simular usuários com os grupos é possível configurá-los manualmente através da página Django Admin ou basta utilizar o método para popular o banco de dados.
