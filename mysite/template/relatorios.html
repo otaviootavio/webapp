@@ -1,61 +1,57 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{% load auth_extras %}
-{% if request.user|has_group:"torres" or request.user|has_group:"gerentes" %}
-    <div class="row align-items-center h-100">
-        <div class="col-sm">
-            <div class="card h-100">
-                <div class="card-body">
-                <h5 class="card-title">Relatório por Companhia Aérea</h5>
-                <p class="card-text">Gere relatórios de partida e/ou chegada de uma companhia aérea.</p>
-                <form method="post">
-                  {% csrf_token %}
-                    <div class="form-row align-items-center">
-                      <div class="col-auto">
-                        <input type="text" class="form-control mb-2" name="cia_id" placeholder="Companhia Aérea" aria-label="Companhia Aérea">
-                      </div>
-                      <div class="col-auto">
-                        <input type="submit" name="btn_id" value="Gerar relatório" class="btn btn-primary mb-2">
-                        {% if error_message %}
-                            <p class="bg-danger p-d ml-b">{{ error_message }}</p>
-                        {% endif %}
-                      </div>
-                    </div>
-                  </form>
+<div class="row align-items-center h-100">
+    <div class="col-sm">
+        <div class="card h-100">
+            <div class="card-body">
+            <h5 class="card-title">Relatório por Companhia Aérea</h5>
+            <p class="card-text">Gere relatórios de partida e/ou chegada de uma companhia aérea.</p>
+            <form method="post">
+              {% csrf_token %}
+                <div class="form-row align-items-center">
+                  <div class="col-auto">
+                    <input type="text" class="form-control mb-2" name="cia_id" placeholder="Companhia Aérea" aria-label="Companhia Aérea">
+                  </div>
+                  <div class="col-auto">
+                    <input type="submit" name="btn_id" value="Gerar relatório" class="btn btn-primary mb-2">
+                    {% if error_message %}
+                        <p class="bg-danger p-d ml-b">{{ error_message }}</p>
+                    {% endif %}
+                  </div>
                 </div>
+              </form>
             </div>
         </div>
-        <div class="col-sm">
-            <div class="card h-100">
-                <div class="card-body">
-                <h5 class="card-title">Relatório por Período de Tempo</h5>
-                <p class="card-text">Gere relatórios de voos em um aeroporto em um determinado período de tempo.</p>
-                <form method="post">
-                      {% csrf_token %}
-                      <div class="row align-items-center">
-                        <div class="col-md-6">
-                          <input type="date" class="form-control mb-2" name="data_inicial_id" placeholder="Data Inicial" aria-label="Data Inicial">
-                        </div>
-                        <div class="col-md-6">
-                          <input type="date" class="form-control mb-2" name="data_final_id" placeholder="Data Final" aria-label="Data Final">
-                        </div>
-                      </div>
-                      <div class="row align-items-center">
-                        <div class="col-auto">
-                          <input type="submit" name="btn_id" value="Gerar relatório" class="btn btn-primary mb-2">
-                          {% if error_message %}
-                              <p class="bg-danger p-d ml-b">{{ error_message }}</p>
-                          {% endif %}
-                        </div>
-                      </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    
     </div>
-{% else %}
-  <p>Usuário não tem as permissões necessárias</p>
-{% endif %}
+    <div class="col-sm">
+        <div class="card h-100">
+            <div class="card-body">
+            <h5 class="card-title">Relatório por Período de Tempo</h5>
+            <p class="card-text">Gere relatórios de voos em um aeroporto em um determinado período de tempo.</p>
+            <form method="post">
+                  {% csrf_token %}
+                  <div class="row align-items-center">
+                    <div class="col-md-6">
+                      <input type="date" class="form-control mb-2" name="data_inicial_id" placeholder="Data Inicial" aria-label="Data Inicial">
+                    </div>
+                    <div class="col-md-6">
+                      <input type="date" class="form-control mb-2" name="data_final_id" placeholder="Data Final" aria-label="Data Final">
+                    </div>
+                  </div>
+                  <div class="row align-items-center">
+                    <div class="col-auto">
+                      <input type="submit" name="btn_id" value="Gerar relatório" class="btn btn-primary mb-2">
+                      {% if error_message %}
+                          <p class="bg-danger p-d ml-b">{{ error_message }}</p>
+                      {% endif %}
+                    </div>
+                  </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
 {% endblock %}

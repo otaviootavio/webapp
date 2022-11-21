@@ -2,7 +2,15 @@ from datetime import time
 from django.core.exceptions import ValidationError
 from math import floor
 from django.db import models
+from enum import Enum
 
+class Group(Enum):
+    gerentes = "gerentes"
+    torres = "torres"
+    pilotos = "pilotos"
+    operadores = "operadores"
+    funcionarios = "funcionarios"
+    
 COMPANHIAS_AEREAS = (
      ('AZU','Azul'),
      ('GLO','Gol'),
