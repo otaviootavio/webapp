@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
+{% load auth_extras %}
+{% if request.user|has_group:"funcionarios" or request.user|has_group:"pilotos" %} 
 
   <div class="row align-items-center h-100">
     <div class="col-sm">
@@ -86,4 +88,7 @@
         elems[i].addEventListener('click', confirmIt, false);
     }
   </script>
+{% else %}
+  <p>Usuário não tem as permissões necessárias</p>
+{% endif %}
 {% endblock %}

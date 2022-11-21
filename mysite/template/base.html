@@ -1,4 +1,5 @@
 {% load static %}
+{% load auth_extras %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -30,6 +31,9 @@
   
     <nav class="navbar navbar-dark bg-dark">
       <div class="container">
+        {% if request.user|has_group:"funcionarios" %} 
+          <p>Funcionario</p> 
+        {% endif %}
         <a href="{% url 'home' %}" class="navbar-brand">
           <img src="https://www.gov.br/infraestrutura/pt-br/acesso-a-informacao/air/aviao.png/@@images/95bb6fa9-0dc8-4472-9625-79f79294c717.png"
           width="30" height="30" class="d-inline-block align-top" alt="">
@@ -48,7 +52,7 @@
                 <li class="nav-item"><a href="{% url 'login_view' %}" class="nav-link">Login</a></li>  
                 {% else  %}        
                 <li class="nav-item"><a href="{% url 'logout_view' %}" class="nav-link">Logout</a></li> 
-                {% endif %}         
+                {% endif %}
             </ul>
         </div>
       </div>

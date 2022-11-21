@@ -246,23 +246,23 @@ def login_view(request):
         ## Define o numero de tentativas
         num_max = 3
         
-        if "load_count" in request.session:
-            count = request.session["load_count"]
-        else:
-            count = 0
-            request.session["load_count"] = 0
+        #for each post there will be a try
         
-        if count > num_max:
+        if "load_count" not in request.session:
+            request.session["load_count"] = 1
+        else:
+            request.session["load_count"] = request.session["load_count"] + 1
+        
+        if request.session["load_count"] >= num_max:
             return render(request, "login.html", {'error_message': 'Número de tentativas excedido'})
             
         if user is not None:
-            if count <= num_max:
+            if request.session["load_count"] <= num_max:
                 request.session["load_count"] = 0
                 request.session.save()
                 login(request, user = user)
                 return redirect(home)
         else:
-            request.session["load_count"] = request.session["load_count"] + 1
             return render(request, "login.html", {'error_message': 'Ops... usuário ou senha inválido' })
     else:
         return render(request, "login.html")
