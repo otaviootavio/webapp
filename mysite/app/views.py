@@ -252,7 +252,7 @@ def generate_report_airline(request, pk):
     x = x - line_break
 
     p.drawString(margin_sides, x, str(report_voo.count()))
-    p.drawString(margin_sides + 1 * margin_col, x, str(report_voo.filter(estado_voo='AGD').count()))
+    p.drawString(margin_sides + 1 * margin_col, x, str(report_voo.filter(estado_voo='CAN').count()))
     
     a = VooReal.objects.aggregate(price_diff=Avg(F('horario_real_chegada') - F('horario_real_partida')))['price_diff']
     p.drawString(margin_sides + 3 * margin_col, x, str(a))
@@ -331,7 +331,7 @@ def generate_report_data(request, start_date, end_date):
     x = x - line_break
 
     p.drawString(margin_sides, x, str(report_voo.count()))
-    p.drawString(margin_sides + 1 * margin_col, x, str(report_voo.filter(estado_voo='AGD').count()))
+    p.drawString(margin_sides + 1 * margin_col, x, str(report_voo.filter(estado_voo='CAN').count()))
     
     a = VooReal.objects.aggregate(price_diff=Avg(F('horario_real_chegada') - F('horario_real_partida')))['price_diff']
     p.drawString(margin_sides + 3 * margin_col, x, str(a))
