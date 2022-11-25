@@ -41,19 +41,24 @@ class VooRealForm(forms.ModelForm):
     
     def clean(self):
         cleaned_data = super().clean()
-        estado_antigo = VooReal.objects.get(voo_base = self.data['voo_base'] ).estado_voo
-        num_estado_antigo = int(list(map(lambda x: x[0],list(ESTADOS_VOO))).index(estado_antigo))
         estado_novo = cleaned_data.get("estado_voo")
         num_estado_novo = int(list(map(lambda x: x[0],list(ESTADOS_VOO))).index(estado_novo))
-        
-        if(num_estado_novo != num_estado_antigo + 1 and num_estado_novo != len(ESTADOS_VOO) - 1):
-            self.add_error('estado_voo', "Estado invalido, siga a ordem correta")
+            
+        if(self.instance.id):
+            estado_antigo = VooReal.objects.get(id = self.instance.id ).estado_voo
+            num_estado_antigo = int(list(map(lambda x: x[0],list(ESTADOS_VOO))).index(estado_antigo))
+            if(estado_novo != "CAN" and num_estado_novo != num_estado_antigo + 1):
+                self.add_error('estado_voo', "Estado invalido, siga a ordem correta")
         
         if(estado_novo == "EMV" and cleaned_data.get("horario_real_partida") is None):
             self.add_error('horario_real_partida', "O horário é obrigatório")
-            if(cleaned_data.get("horario_real_chegada") is not None):
-                self.add_error('horario_real_partida', "Preencha apenas na aterrissagem")
-            
+        
+        if(estado_novo != "EMV" and cleaned_data.get("horario_real_partida") is not None):
+            self.add_error('horario_real_partida', "O horário ainda não deve ser inserido")
+        
+        if(estado_novo != "ATE" and cleaned_data.get("horario_real_chegada") is not None):
+            self.add_error('horario_real_chegada', "O horário ainda não deve ser inserido")
+        
         if(estado_novo == "ATE" and cleaned_data.get("horario_real_chegada") is None):
             self.add_error('horario_real_chegada', "O horário é obrigatório")
             

@@ -42,8 +42,8 @@
                 <td scope="row">{{voo.horario_real_partida|date:"H:i"}}</td>
                 <td scope="row">{{voo.horario_real_chegada|date:"H:i"}}</td>
                 <td scope="row">{{voo.estado_voo}}</td>
-                <td scope="row"><a href="{% url 'monitoração_update' voo.voo_base.codigo_voo %}">Atualizar</a></td>
-                <td scope="row"><a href="{% url 'monitoração_delete' voo.voo_base.codigo_voo %}" class="confirmation" id="delete-button">Deletar</a></td>
+                <td scope="row"><a href="{% url 'monitoração_update' voo.id %}">Atualizar</a></td>
+                <td scope="row"><a href="{% url 'monitoração_delete' voo.id %}" class="confirmation" id="delete-button">Deletar</a></td>
               </tr>
               {% endfor %}
           </tbody>

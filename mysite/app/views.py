@@ -152,6 +152,7 @@ def monitoracao(request):
 
 @login_required
 def scheduleNew(request, pk):
+    forms_voo_real = VooRealForm()
     try:
         voo_base_obj = VooBase.objects.get(codigo_voo=pk)
     except VooBase.DoesNotExist:
@@ -159,12 +160,21 @@ def scheduleNew(request, pk):
 
     if request.method == "POST":
         forms_voo_real = VooRealForm(request.POST)
+        forms_voo_real.data._mutable = True
+        forms_voo_real.data["voo_base"] = voo_base_obj.id
+        forms_voo_real.data._mutable = False
         if forms_voo_real.is_valid():
-            forms_voo_real.instance.voo_base = voo_base_obj
             forms_voo_real.save()
-            return redirect("monitoração")
-        return render(request, "create-real.html", {"forms_voo_real": forms_voo_real})
-
+            return redirect("crud")
+        else:
+            return render(
+            request,
+            "create-real.html",
+            {
+                "forms_voo_real": forms_voo_real,
+                "title": "Formulário para programar um novo voo",
+            },
+        )
     else:
         forms_voo_real = VooRealForm()
         return render(
@@ -180,8 +190,8 @@ def scheduleNew(request, pk):
 @login_required
 def monitoracao_update(request, pk):
     try:
-        voo_real_obj = VooReal.objects.filter(voo_base__codigo_voo=pk).first()
-        voo_base_obj = VooBase.objects.filter(codigo_voo=pk).first()
+        voo_real_obj = VooReal.objects.filter(id=pk).first()
+        voo_base_obj = VooBase.objects.filter( id = voo_real_obj.voo_base.id).first()
         if voo_real_obj:
             forms_voo_real = VooRealForm(instance=voo_real_obj)
     except (VooReal.DoesNotExist, VooBase.DoesNotExist) as e:
@@ -198,9 +208,7 @@ def monitoracao_update(request, pk):
 
         ## override old format ( YYYY-MM-DD )
         if forms_voo_real.instance.data_voo:
-            forms_voo_real.initial[
-                "data_voo"
-            ] = forms_voo_real.instance.data_voo.strftime("%d-%m-%Y")
+            forms_voo_real.initial["data_voo"] = forms_voo_real.instance.data_voo.strftime("%d-%m-%Y")
     return render(
         request,
         "create-real.html",
@@ -214,8 +222,8 @@ def monitoracao_update(request, pk):
 @login_required
 def monitoracao_delete(request, pk):
     try:
-        voo_base_obj = VooBase.objects.filter(codigo_voo=pk).first()
-        voo_base_obj.delete()
+        voo_real_obj = VooReal.objects.filter(id=pk).first()
+        voo_real_obj.delete()
     except (VooBase.DoesNotExist) as e:
         return redirect("monitoração")
     return redirect("monitoração")
