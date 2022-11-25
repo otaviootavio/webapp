@@ -13,6 +13,7 @@ from django.http import Http404
 from app.models import VooBase, VooReal, ESTADOS_VOO, Group
 from app.forms import VooBaseForm, VooRealForm
 from app.decorators import check_user_able_to_see_page
+from django.db.models import Avg, FloatField,Sum,Count,F
 
 # Create your views here.
 
@@ -235,6 +236,20 @@ def generate_report_airline(request, pk):
     # See the ReportLab documentation for the full list of functionality.
     report_voo = VooReal.objects.all().filter(voo_base__companhia_aerea=pk)
     x = top_page
+
+    p.drawString(margin_sides, x, "Total de voos:")
+    p.drawString(margin_sides + 1 * margin_col, x, "Total voos cancelados:")
+    p.drawString(margin_sides + 3 * margin_col, x, "Duração média dos voos:")
+    
+    x = x - line_break
+
+    p.drawString(margin_sides, x, str(report_voo.count()))
+    p.drawString(margin_sides + 1 * margin_col, x, str(report_voo.filter(estado_voo='AGD').count()))
+    
+    a = VooReal.objects.aggregate(price_diff=Avg(F('horario_real_chegada') - F('horario_real_partida')))['price_diff']
+    p.drawString(margin_sides + 3 * margin_col, x, str(a))
+
+    x = x - 2*line_break
     for voo in report_voo:
         
         horario_partida_base_str = voo.voo_base.horario_partida_base.strftime("%H:%M:%S") if voo.voo_base.horario_partida_base else '---'
@@ -300,6 +315,21 @@ def generate_report_data(request, start_date, end_date):
     # See the ReportLab documentation for the full list of functionality.
     report_voo = VooReal.objects.all().filter(data_voo__range=[start_date, end_date])
     x = top_page
+
+    p.drawString(margin_sides, x, "Total de voos:")
+    p.drawString(margin_sides + 1 * margin_col, x, "Total voos cancelados:")
+    p.drawString(margin_sides + 3 * margin_col, x, "Duração média dos voos:")
+    
+    x = x - line_break
+
+    p.drawString(margin_sides, x, str(report_voo.count()))
+    p.drawString(margin_sides + 1 * margin_col, x, str(report_voo.filter(estado_voo='AGD').count()))
+    
+    a = VooReal.objects.aggregate(price_diff=Avg(F('horario_real_chegada') - F('horario_real_partida')))['price_diff']
+    p.drawString(margin_sides + 3 * margin_col, x, str(a))
+
+    x = x - 2*line_break
+
     for voo in report_voo:
         p.drawString(margin_sides, x, voo.voo_base.codigo_voo)
         p.drawString(margin_sides + 1 * margin_col, x, voo.voo_base.companhia_aerea)
