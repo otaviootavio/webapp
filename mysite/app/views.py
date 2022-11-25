@@ -14,6 +14,10 @@ from app.models import VooBase, VooReal, ESTADOS_VOO, Group
 from app.forms import VooBaseForm, VooRealForm
 from app.decorators import check_user_able_to_see_page
 
+# Messaging
+from django.contrib import messages
+###
+
 # Create your views here.
 
 
@@ -23,6 +27,7 @@ def createBase(request):
         forms_voo_base = VooBaseForm(request.POST)
         if forms_voo_base.is_valid():
             forms_voo_base.save()
+            messages.add_message(request, messages.INFO, 'Voo criado com sucesso')
             return redirect("crud")
         return render(request, "create-base.html", {"forms_voo_base": forms_voo_base})
     else:
@@ -53,6 +58,7 @@ def updateBase(request, pk):
 
         if forms_voo_base.is_valid():
             forms_voo_base.save()
+            messages.add_message(request, messages.INFO, 'Voo editado com sucesso')
             return redirect("crud")
     else:
         forms_voo_base = VooBaseForm(instance=voo_base_obj)
@@ -73,6 +79,7 @@ def deleteBase(request, pk):
     try:
         voo_base_obj = VooBase.objects.filter(codigo_voo=pk).first()
         voo_base_obj.delete()
+        messages.add_message(request, messages.INFO, 'Voo deletado com sucesso')
     except (VooBase.DoesNotExist) as e:
         return redirect("crud")
     return redirect("crud")
@@ -165,6 +172,7 @@ def scheduleNew(request, pk):
         forms_voo_real.data._mutable = False
         if forms_voo_real.is_valid():
             forms_voo_real.save()
+            messages.add_message(request, messages.INFO, 'Voo agendado com sucesso')
             return redirect("crud")
         else:
             return render(
@@ -202,6 +210,7 @@ def monitoracao_update(request, pk):
         if forms_voo_real.is_valid():
             forms_voo_real.instance.voo_base = voo_base_obj
             forms_voo_real.save()
+            messages.add_message(request, messages.INFO, 'Voo atualizado com sucesso')
             return redirect("monitoração")
     else:
         forms_voo_real = VooRealForm(instance=voo_real_obj)
@@ -224,6 +233,7 @@ def monitoracao_delete(request, pk):
     try:
         voo_real_obj = VooReal.objects.filter(id=pk).first()
         voo_real_obj.delete()
+        messages.add_message(request, messages.INFO, 'Voo deletado com sucesso')
     except (VooBase.DoesNotExist) as e:
         return redirect("monitoração")
     return redirect("monitoração")
@@ -414,8 +424,10 @@ def relatorios(request):
 
 @check_user_able_to_see_page(Group.torres, Group.gerentes)
 def relatoriosPdf(request):
+    messages.add_message(request, messages.INFO, 'Relatorio gerado com suceso')
     return render(request, "relatorios-pdf.html")
 
 @check_user_able_to_see_page(Group.torres, Group.gerentes)
 def relatoriosBase(request):
+    messages.add_message(request, messages.INFO, 'Relatorio gerado com sucesso')
     return render(request, "relatorios-base.html")
