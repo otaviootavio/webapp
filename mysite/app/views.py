@@ -339,36 +339,44 @@ def generate_report_data(request, start_date, end_date):
     x = x - 2*line_break
 
     for voo in report_voo:
+
+         
+        horario_partida_base_str = voo.voo_base.horario_partida_base.strftime("%H:%M:%S") if voo.voo_base.horario_partida_base else '---'
+        data_voo_str = voo.data_voo.strftime("%d/%m/%Y") if voo.data_voo else '---'
+        horario_real_partida_str = voo.horario_real_partida.strftime("%H:%M:%S") if voo.horario_real_partida else '---'
+        horario_real_chegada_str = voo.horario_real_chegada.strftime("%H:%M:%S") if voo.horario_real_chegada else '---'
+        duracao_base_srt = voo.voo_base.duracao_base.strftime("%H:%M:%S") if voo.voo_base.duracao_base else '---'
+        
         p.drawString(margin_sides, x, voo.voo_base.codigo_voo)
         p.drawString(margin_sides + 1 * margin_col, x, voo.voo_base.companhia_aerea)
         p.drawString(margin_sides + 2 * margin_col, x, voo.voo_base.dia_da_semana)
         p.drawString(
             margin_sides + 3 * margin_col,
             x,
-            voo.voo_base.horario_partida_base.strftime("%H:%M:%S"),
+            horario_partida_base_str,
         )
         p.drawString(
             margin_sides + 4 * margin_col,
             x,
-            voo.voo_base.duracao_base.strftime("%H:%M:%S"),
+            duracao_base_srt,
         )
         x = x - line_break
         p.drawString(margin_sides + 1 * margin_col, x, voo.voo_base.origem)
         p.drawString(margin_sides + 2 * margin_col, x, voo.voo_base.destino)
         p.drawString(
-            margin_sides + 3 * margin_col, x, voo.data_voo.strftime("%d/%m/%Y")
+            margin_sides + 3 * margin_col, x, data_voo_str
         )
         p.drawString(margin_sides + 4 * margin_col, x, voo.estado_voo)
         x = x - line_break
         p.drawString(
             margin_sides + 1 * margin_col,
             x,
-            voo.horario_real_partida.strftime("%H:%M:%S"),
+            horario_real_partida_str,
         )
         p.drawString(
             margin_sides + 2 * margin_col,
             x,
-            voo.horario_real_chegada.strftime("%H:%M:%S"),
+            horario_real_chegada_str,
         )
         x = x - line_break
 
