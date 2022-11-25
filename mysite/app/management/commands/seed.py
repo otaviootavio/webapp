@@ -163,21 +163,21 @@ def create_voo():
     
     voo_real_1 = VooReal.objects.create(voo_base = voo_1,
                                         estado_voo = 'AGD',
-                                        horario_real_chegada = datetime.time(15, 0, 0),
+                                        horario_real_chegada = datetime.time(17, 0, 0),
                                         horario_real_partida = datetime.time(10, 0, 0),
                                         data_voo = datetime.date.today() )
     voo_real_1.save()
 
     voo_real_2 = VooReal.objects.create(voo_base = voo_2,
                                         estado_voo = 'AGD',
-                                        horario_real_chegada = datetime.time(15, 0, 0),
+                                        horario_real_chegada = datetime.time(12, 0, 0),
                                         horario_real_partida = datetime.time(10, 0, 0),
                                         data_voo = datetime.date.today() )
     voo_real_2.save()
     
     voo_real_3 = VooReal.objects.create(voo_base = voo_3,
                                         estado_voo = 'AGD',
-                                        horario_real_chegada = datetime.time(15, 0, 0),
+                                        horario_real_chegada = datetime.time(12, 30, 0),
                                         horario_real_partida = datetime.time(10, 0, 0),
                                         data_voo = datetime.date.today() )
     voo_real_3.save()
