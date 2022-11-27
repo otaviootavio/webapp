@@ -27,7 +27,7 @@ def createBase(request):
         forms_voo_base = VooBaseForm(request.POST)
         if forms_voo_base.is_valid():
             forms_voo_base.save()
-            messages.add_message(request, messages.INFO, 'Voo criado com sucesso')
+            messages.add_message(request, messages.SUCCESS, 'Voo criado com sucesso')
             return redirect("crud")
         return render(request, "create-base.html", {"forms_voo_base": forms_voo_base})
     else:
@@ -58,7 +58,7 @@ def updateBase(request, pk):
 
         if forms_voo_base.is_valid():
             forms_voo_base.save()
-            messages.add_message(request, messages.INFO, 'Voo editado com sucesso')
+            messages.add_message(request, messages.SUCCESS, 'Voo editado com sucesso')
             return redirect("crud")
     else:
         forms_voo_base = VooBaseForm(instance=voo_base_obj)
@@ -79,7 +79,7 @@ def deleteBase(request, pk):
     try:
         voo_base_obj = VooBase.objects.filter(codigo_voo=pk).first()
         voo_base_obj.delete()
-        messages.add_message(request, messages.INFO, 'Voo deletado com sucesso')
+        messages.add_message(request, messages.SUCCESS, 'Voo deletado com sucesso')
     except (VooBase.DoesNotExist) as e:
         return redirect("crud")
     return redirect("crud")
@@ -117,10 +117,11 @@ def crud(request):
                 request, "CRUD.html", context={"dados_voo_base": filtered_voo_base}
             )
         except Exception as e:
+            messages.warning(request, e)
             return render(
                 request,
                 "CRUD.html",
-                {"error_message": e, "dados_voo_base": all_voo_base},
+                {"dados_voo_base": all_voo_base},
             )
     return render(request, "CRUD.html", context={"dados_voo_base": all_voo_base})
 
@@ -153,7 +154,8 @@ def monitoracao(request):
             voo_base_obj = VooBase.objects.get(codigo_voo=request.POST["id-voo"])
             return redirect("monitoração_update", pk=request.POST["id-voo"])
         except Exception as e:
-            return render(request, "monitoracao.html", {"error_message": e})
+            messages.warning(request, e)
+            return render(request, "monitoracao.html")
     return render(request, "monitoracao.html", context={"dados_voo_real": all_voo_real})
 
 
@@ -172,7 +174,7 @@ def scheduleNew(request, pk):
         forms_voo_real.data._mutable = False
         if forms_voo_real.is_valid():
             forms_voo_real.save()
-            messages.add_message(request, messages.INFO, 'Voo agendado com sucesso')
+            messages.add_message(request, messages.SUCCESS, 'Voo agendado com sucesso')
             return redirect("crud")
         else:
             return render(
@@ -203,14 +205,15 @@ def monitoracao_update(request, pk):
         if voo_real_obj:
             forms_voo_real = VooRealForm(instance=voo_real_obj)
     except (VooReal.DoesNotExist, VooBase.DoesNotExist) as e:
-        return render(request, "create-base.html", {"error_message": e})
+        messages.warning(request, e)
+        return render(request, "create-base.html")
 
     if request.method == "POST":
         forms_voo_real = VooRealForm(request.POST, instance=voo_real_obj)
         if forms_voo_real.is_valid():
             forms_voo_real.instance.voo_base = voo_base_obj
             forms_voo_real.save()
-            messages.add_message(request, messages.INFO, 'Voo atualizado com sucesso')
+            messages.add_message(request, messages.SUCCESS, 'Voo atualizado com sucesso')
             return redirect("monitoração")
     else:
         forms_voo_real = VooRealForm(instance=voo_real_obj)
@@ -233,7 +236,7 @@ def monitoracao_delete(request, pk):
     try:
         voo_real_obj = VooReal.objects.filter(id=pk).first()
         voo_real_obj.delete()
-        messages.add_message(request, messages.INFO, 'Voo deletado com sucesso')
+        messages.add_message(request, messages.SUCCESS, 'Voo deletado com sucesso')
     except (VooBase.DoesNotExist) as e:
         return redirect("monitoração")
     return redirect("monitoração")
@@ -252,6 +255,11 @@ def generate_report_airline(request, pk):
     # Draw things on the PDF. Here's where the PDF generation happens.
     # See the ReportLab documentation for the full list of functionality.
     report_voo = VooReal.objects.all().filter(voo_base__companhia_aerea=pk)
+    
+    if not report_voo:
+        messages.warning(request, 'Não há voos para serem mostrados no relatorio')
+        return render(request, "relatorios.html")
+        
     x = top_page
     for voo in report_voo:
         
@@ -301,6 +309,7 @@ def generate_report_airline(request, pk):
     # FileResponse sets the Content-Disposition header so that browsers
     # present the option to save the file.
     buffer.seek(0)
+    messages.success(request, 'Relatório criado com sucesso')
     return FileResponse(buffer, as_attachment=True, filename="report_by_airport.pdf")
 
 @check_user_able_to_see_page(Group.torres, Group.gerentes)
@@ -317,6 +326,11 @@ def generate_report_data(request, start_date, end_date):
     # Draw things on the PDF. Here's where the PDF generation happens.
     # See the ReportLab documentation for the full list of functionality.
     report_voo = VooReal.objects.all().filter(data_voo__range=[start_date, end_date])
+    
+    if not report_voo:
+        messages.warning(request, 'Não há voos para serem mostrados no relatorio')
+        return render(request, "relatorios.html")
+    
     x = top_page
     for voo in report_voo:
         p.drawString(margin_sides, x, voo.voo_base.codigo_voo)
@@ -359,6 +373,7 @@ def generate_report_data(request, start_date, end_date):
     # FileResponse sets the Content-Disposition header so that browsers
     # present the option to save the file.
     buffer.seek(0)
+    messages.success(request, 'Relatório criado com sucesso')
     return FileResponse(buffer, as_attachment=True, filename="report_by_time.pdf")
 
 
@@ -378,11 +393,8 @@ def login_view(request):
             request.session["load_count"] = request.session["load_count"] + 1
 
         if request.session["load_count"] >= num_max:
-            return render(
-                request,
-                "login.html",
-                {"error_message": "Número de tentativas excedido"},
-            )
+            messages.warning(request, 'Número de tentativas excedido')
+            return render(request,"login.html")
 
         if user is not None:
             if request.session["load_count"] <= num_max:
@@ -391,11 +403,8 @@ def login_view(request):
                 login(request, user=user)
                 return redirect(home)
         else:
-            return render(
-                request,
-                "login.html",
-                {"error_message": "Ops... usuário ou senha inválido"},
-            )
+            messages.warning(request,"Ops... usuário ou senha inválido")
+            return render(request,"login.html")
     else:
         return render(request, "login.html")
 
@@ -424,10 +433,10 @@ def relatorios(request):
 
 @check_user_able_to_see_page(Group.torres, Group.gerentes)
 def relatoriosPdf(request):
-    messages.add_message(request, messages.INFO, 'Relatorio gerado com suceso')
+    messages.add_message(request, messages.SUCCESS, 'Relatorio gerado com suceso')
     return render(request, "relatorios-pdf.html")
 
 @check_user_able_to_see_page(Group.torres, Group.gerentes)
 def relatoriosBase(request):
-    messages.add_message(request, messages.INFO, 'Relatorio gerado com sucesso')
+    messages.add_message(request, messages.SUCCESS, 'Relatorio gerado com sucesso')
     return render(request, "relatorios-base.html")
