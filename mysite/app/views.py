@@ -459,13 +459,11 @@ def relatorios(request):
         if request.POST.get("cia_id"):
             return generate_report_airline(request, request.POST.get("cia_id"))
         elif request.POST.get("data_inicial_id"):
-            ## data_inicial = string_to_date(request.POST.get('data_inicial_id'))
-            ## data_final = string_to_date(request.POST.get('data_final_id'))
             data_inicial = request.POST.get("data_inicial_id")
             data_final = request.POST.get("data_final_id")
             return generate_report_data(request, data_inicial, data_final)
         else:
-            return generate_report_airline(request, 10)
+            return render(request, "relatorios.html")
     else:
         return render(request, "relatorios.html")
 
