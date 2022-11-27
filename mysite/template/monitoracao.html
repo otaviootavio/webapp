@@ -2,9 +2,11 @@
 
 {% block content %}
 
+{% if not dados_voo_real %}
+{% else %}
 <div class="row align-items-center h-100 mt-4">
   <div class="col-sm">
-    <div class="card">
+    <div class="card">      
       <div class="card-body">
         <h5 class="card-title">Lista dos voos</h5>
         <p class="card-text">Eis uma lista com todos os voos programados ou em andamento</p>
@@ -53,6 +55,7 @@
     </div>
   </div>
 </div>
+{% endif %}
 
 <script type="text/javascript">
   var elems = document.getElementsByClassName('confirmation');

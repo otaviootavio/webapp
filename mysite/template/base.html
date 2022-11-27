@@ -53,14 +53,12 @@
       </div>
     </nav>
 
-      {% if error_message %}
-      <div class="bg-danger p-d ml-b">
-        <p class="container">
-          {{ error_message }}
-        </p>
-      </div>
-      {% endif %}
-
+    {% if messages %}
+      {% for message in messages %}
+        <div {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+    
     <div class="mx-5 my-5">
       {% block content %}
       {% endblock %}
