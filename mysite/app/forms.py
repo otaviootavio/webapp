@@ -67,17 +67,17 @@ class VooRealForm(forms.ModelForm):
         ## Aonde deveria ser inserido o estado do voo?
         ## Nessa caso, ocorre na sua criação
         if not (self.instance.id):
-            if(origem == 'SP' and estado_novo != 'EMV'):
-                self.add_error('estado_voo', "Todos os voos de chegada devem começar em EMV")
+            if(origem == 'SP' and estado_novo != 'AGD'):
+                self.add_error('estado_voo', "Todos os voos de partida devem começar em AGD")
             
-            if(destino == 'SP' and estado_novo != 'AGD'):
-                self.add_error('estado_voo', "Todos os voos de chegada devem começar em AGD")
+            if(destino == 'SP' and estado_novo != 'EMV'):
+                self.add_error('estado_voo', "Todos os voos de chegada devem começar em EMV")
         
         if(estado_novo != "CAN"):
             if(estado_novo == "EMV" and cleaned_data.get("horario_real_partida") is None):
                 self.add_error('horario_real_partida', "O horário é obrigatório")
             
-            if(estado_novo != "EMV" and cleaned_data.get("horario_real_partida") is not None):
+            if(estado_novo != "EMV" and estado_novo != "ATE" and cleaned_data.get("horario_real_partida") is not None):
                 self.add_error('horario_real_partida', "O horário ainda não deve ser inserido")
             
             if(estado_novo != "ATE" and cleaned_data.get("horario_real_chegada") is not None):

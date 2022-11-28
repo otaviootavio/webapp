@@ -121,7 +121,7 @@ def create_voo():
                                   dia_da_semana = 'SEX',
                                   horario_partida_base = datetime.time(10, 0, 0),
                                   duracao_base = datetime.time(5, 0, 0),
-                                  origem = 'RJ',
+                                  origem = 'SP',
                                   destino = 'AM')
     voo_3.save()
     
@@ -130,7 +130,7 @@ def create_voo():
                                   dia_da_semana = 'QUA',
                                   horario_partida_base = datetime.time(8, 0, 0),
                                   duracao_base = datetime.time(3, 30, 0),
-                                  origem = 'DF',
+                                  origem = 'SP',
                                   destino = 'AM')
     voo_4.save()
     
@@ -140,7 +140,7 @@ def create_voo():
                                   horario_partida_base = datetime.time(3, 0, 0),
                                   duracao_base = datetime.time(3, 30, 0),
                                   origem = 'DF',
-                                  destino = 'AM')
+                                  destino = 'SP')
     voo_5.save()
     
     voo_6 = VooBase.objects.create(codigo_voo='21',
@@ -149,7 +149,7 @@ def create_voo():
                                   horario_partida_base = datetime.time(12, 0, 0),
                                   duracao_base = datetime.time(3, 30, 0),
                                   origem = 'DF',
-                                  destino = 'AM')
+                                  destino = 'SP')
     voo_6.save()
     
     voo_7 = VooBase.objects.create(codigo_voo='23',
@@ -187,20 +187,16 @@ def create_voo():
                                         data_voo = datetime.date.today() )
     voo_real_4.save()
     
-    voo_real_5 = VooReal.objects.create(voo_base = voo_5,
+    voo_real_5 = VooReal.objects.create(voo_base = voo_4,
                                         estado_voo = 'AGD',
                                         data_voo = datetime.date.today() )
     voo_real_5.save()
     
-    voo_real_6 = VooReal.objects.create(voo_base = voo_6,
+    voo_real_6 = VooReal.objects.create(voo_base = voo_4,
                                         estado_voo = 'AGD',
                                         data_voo = datetime.date.today() )
     voo_real_6.save()
     
-    voo_real_7 = VooReal.objects.create(voo_base = voo_7,
-                                        estado_voo = 'AGD',
-                                        data_voo = datetime.date.today() )
-    voo_real_7.save()
 
 def run_seed(self, mode):
     """ Seed database based on mode
