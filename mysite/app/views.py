@@ -43,7 +43,7 @@ def createBase(request):
 @check_user_able_to_see_page(Group.funcionarios, Group.pilotos)
 def updateBase(request, pk):
     try:
-        voo_base_obj = VooBase.objects.get(codigo_voo=pk)
+        voo_base_obj = VooBase.objects.get(id=pk)
     except VooBase.DoesNotExist:
         raise Http404("No matches to the given query")
 
@@ -78,7 +78,7 @@ def updateBase(request, pk):
 @check_user_able_to_see_page(Group.funcionarios, Group.pilotos)
 def deleteBase(request, pk):
     try:
-        voo_base_obj = VooBase.objects.filter(codigo_voo=pk).first()
+        voo_base_obj = VooBase.objects.filter(id=pk)
         voo_base_obj.delete()
         messages.add_message(request, messages.SUCCESS, 'Voo deletado com sucesso')
     except (VooBase.DoesNotExist) as e:
@@ -164,7 +164,8 @@ def monitoracao(request):
 def scheduleNew(request, pk):
     forms_voo_real = VooRealForm()
     try:
-        voo_base_obj = VooBase.objects.get(codigo_voo=pk)
+        voo_base_obj = VooBase.objects.get(id=pk)
+        forms_voo_base = VooBaseForm(instance = voo_base_obj)
     except VooBase.DoesNotExist:
         raise Http404("No matches to the given query")
 
@@ -182,18 +183,20 @@ def scheduleNew(request, pk):
             request,
             "create-real.html",
             {
+                "forms_voo_base": forms_voo_base,
                 "forms_voo_real": forms_voo_real,
-                "title": "Formulário para programar um novo voo",
             },
         )
     else:
+        voo_base_obj = VooBase.objects.get(id = pk)
         forms_voo_real = VooRealForm()
         return render(
             request,
             "create-real.html",
             {
+                "forms_voo_base": forms_voo_base,
                 "forms_voo_real": forms_voo_real,
-                "title": "Formulário para programar um novo voo",
+                "title": "Dados do novo voo a ser agendado",
             },
         )
 

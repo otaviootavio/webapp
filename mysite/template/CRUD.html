@@ -63,9 +63,9 @@
                 <td scope="row">{{voo.duracao_base|date:"H:i"}}</td>
                 <td scope="row">{{voo.origem}}</td>
                 <td scope="row">{{voo.destino}}</td>
-                <td scope="row"><a href="{% url 'update-base' voo.codigo_voo %}">Editar</a></td>
-                <td scope="row"><a href="{% url 'schedule-new' voo.codigo_voo %}">Agendar</a></td>
-                <td scope="row"><a href="{% url 'delete-base' voo.codigo_voo %}" class="confirmation" id="delete-button">Deletar</a></td>
+                <td scope="row"><a href="{% url 'update-base' voo.id %}">Editar</a></td>
+                <td scope="row"><a href="{% url 'schedule-new' voo.id %}">Agendar</a></td>
+                <td scope="row"><a href="{% url 'delete-base' voo.id %}" class="confirmation" id="delete-button">Deletar</a></td>
               </tr>
               {% endfor %}
           </tbody>

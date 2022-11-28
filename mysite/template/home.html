@@ -48,8 +48,8 @@
               <th scope="col">Codigo do voo</th>
               <th scope="col">Companhia</th>
               <th scope="col">Dia da semana</th>
-              <th scope="col">Hora prevista</th>
-              <th scope="col">Duracao</th>
+              <th scope="col">Hora de partida</th>
+              <th scope="col">Hora de chegada</th>
               <th scope="col">Origem</th>
               <th scope="col">Destino</th>
               <th scope="col">Data</th>
@@ -64,7 +64,7 @@
                 <td scope="row">{{voo.voo_base.get_companhia_aerea_display}}</td>
                 <td scope="row">{{voo.voo_base.get_dia_da_semana_display}}</td>
                 <td scope="row">{{voo.voo_base.horario_partida_base|date:"H:i"}}</td>
-                <td scope="row">{{voo.voo_base.duracao_base|date:"H:i"}}</td>
+                <td scope="row">{{voo.voo_base.horario_chegada_base|date:"H:i"}}</td>
                 <td scope="row">{{voo.voo_base.origem}}</td>
                 <td scope="row">{{voo.voo_base.destino}}</td>
                 <td scope="row">{{voo.data_voo|date:'d/m/Y'}}</td>
@@ -81,8 +81,8 @@
               <th scope="col">Codigo do voo</th>
               <th scope="col">Companhia</th>
               <th scope="col">Dia da semana</th>
-              <th scope="col">Hora prevista</th>
-              <th scope="col">Duracao</th>
+              <th scope="col">Hora de partida</th>
+              <th scope="col">Hora de chegada</th>
               <th scope="col">Origem</th>
               <th scope="col">Destino</th>
               <th scope="col">Data</th>
@@ -97,7 +97,7 @@
                 <td scope="row">{{voo.voo_base.get_companhia_aerea_display}}</td>
                 <td scope="row">{{voo.voo_base.get_dia_da_semana_display}}</td>
                 <td scope="row">{{voo.voo_base.horario_partida_base|date:"H:i"}}</td>
-                <td scope="row">{{voo.voo_base.duracao_base|date:"H:i"}}</td>
+                <td scope="row">{{voo.voo_base.horario_chegada_base|date:"H:i"}}</td>
                 <td scope="row">{{voo.voo_base.origem}}</td>
                 <td scope="row">{{voo.voo_base.destino}}</td>
                 <td scope="row">{{voo.data_voo|date:'d/m/Y'}}</td>
