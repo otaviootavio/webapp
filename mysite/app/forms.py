@@ -11,6 +11,16 @@ class VooBaseForm(forms.ModelForm):
         self.fields['duracao_base'].widget.attrs.update({'placeholder':'HH:MM'})
 
         self.fields['horario_partida_base'].widget.attrs.update({'placeholder':'HH:MM'})
+    
+    def clean(self):
+        cleaned_data = super().clean()
+        cidade_origem = cleaned_data.get("origem")
+        cidade_destino = cleaned_data.get("destino")
+        
+        
+        if(cidade_origem != 'SP' and cidade_destino != 'SP'):
+            self.add_error('origem', "O voo deve conter SP em sua trajetoria")
+            self.add_error('destino', "O voo deve conter SP em sua trajetoria")                
             
     class Meta:
         model = VooBase
@@ -50,17 +60,31 @@ class VooRealForm(forms.ModelForm):
             if(estado_novo != "CAN" and num_estado_novo != num_estado_antigo + 1):
                 self.add_error('estado_voo', "Estado invalido, siga a ordem correta")
         
-        if(estado_novo == "EMV" and cleaned_data.get("horario_real_partida") is None):
-            self.add_error('horario_real_partida', "O horário é obrigatório")
+        origem = cleaned_data.get("voo_base").origem
+        destino = cleaned_data.get("voo_base").destino
         
-        if(estado_novo != "EMV" and cleaned_data.get("horario_real_partida") is not None):
-            self.add_error('horario_real_partida', "O horário ainda não deve ser inserido")
+        ## TODO
+        ## Aonde deveria ser inserido o estado do voo?
+        ## Nessa caso, ocorre na sua criação
+        if not (self.instance.id):
+            if(origem == 'SP' and estado_novo != 'EMV'):
+                self.add_error('estado_voo', "Todos os voos de chegada devem começar em EMV")
+            
+            if(destino == 'SP' and estado_novo != 'AGD'):
+                self.add_error('estado_voo', "Todos os voos de chegada devem começar em AGD")
         
-        if(estado_novo != "ATE" and cleaned_data.get("horario_real_chegada") is not None):
-            self.add_error('horario_real_chegada', "O horário ainda não deve ser inserido")
-        
-        if(estado_novo == "ATE" and cleaned_data.get("horario_real_chegada") is None):
-            self.add_error('horario_real_chegada', "O horário é obrigatório")
+        if(estado_novo != "CAN"):
+            if(estado_novo == "EMV" and cleaned_data.get("horario_real_partida") is None):
+                self.add_error('horario_real_partida', "O horário é obrigatório")
+            
+            if(estado_novo != "EMV" and cleaned_data.get("horario_real_partida") is not None):
+                self.add_error('horario_real_partida', "O horário ainda não deve ser inserido")
+            
+            if(estado_novo != "ATE" and cleaned_data.get("horario_real_chegada") is not None):
+                self.add_error('horario_real_chegada', "O horário ainda não deve ser inserido")
+            
+            if(estado_novo == "ATE" and cleaned_data.get("horario_real_chegada") is None):
+                self.add_error('horario_real_chegada', "O horário é obrigatório")
             
     class Meta:
         model = VooReal

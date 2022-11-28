@@ -3,6 +3,7 @@ from django.core.exceptions import ValidationError
 from math import floor
 from django.db import models
 from enum import Enum
+import datetime
 
 class Group(Enum):
     gerentes = "gerentes"
@@ -77,31 +78,21 @@ class VooBase(models.Model):
     duracao_base = models.TimeField(null=False)
     origem = models.CharField(max_length=200,choices=ESTADOS, null=False)
     destino = models.CharField(max_length=200,choices=ESTADOS, null=False)
-
-    def get_horario_chegada(this):
-        hour_duracao = floor(this.duracao_base / 3600)
-        minute_duracao = floor((this.duracao_base - hour_duracao*3600) / 60 )
-        seconds_duracao = this.duracao_base - hour_duracao*3600 - minute_duracao*60
+    
+    @property
+    def horario_chegada_base(self):
+        time_delta_temp = datetime.timedelta(hours=self.duracao_base.hour, minutes=self.duracao_base.minute)
+        horario_partida_base_temp = self.horario_partida_base
         
-        hour_base = this.horario_partida_base.hour
-        minute_base = this.horario_partida_base.minute
-        second_base = this.horario_partida_base.second
-        
-        seconds_total = second_base + seconds_duracao
-        hour_total = hour_base + hour_duracao
-        minute_total = minute_base + minute_duracao
-        
-        if(seconds_total > 60 ):
-            minutes_total = minutes_total + floor(seconds_total/60)
-            seconds_total = seconds_total % 60
-        
-        if(minute_total > 60 ):
-            hour_total = hour_total + floor(minute_total/60)
-            minute_total = minute_total % 60
-        
-        time_total = time(hour = hour_total, minute = minute_total, second = seconds_total)
-
-        return time_total
+        #Work arround to add date and time
+        start = datetime.datetime(
+            2000, 1, 1,
+            hour=horario_partida_base_temp.hour, 
+            minute=horario_partida_base_temp.minute, 
+            second=horario_partida_base_temp.second)
+        end = start + time_delta_temp
+        ####
+        return end.time()
 
     class Meta:
         db_table = 'voo_base'
@@ -109,7 +100,7 @@ class VooBase(models.Model):
 class VooReal(models.Model):    
     voo_base = models.ForeignKey(VooBase, on_delete=models.CASCADE, blank=True ,null=True)
     data_voo = models.DateField()
-    estado_voo = models.CharField(max_length = 3, choices = ESTADOS_VOO)
+    estado_voo = models.CharField(max_length = 3, choices = ESTADOS_VOO, null=True, blank=True)
     horario_real_chegada = models.TimeField(auto_now=False, auto_now_add=False, null=True,blank=True)
     horario_real_partida = models.TimeField(auto_now=False, auto_now_add=False, null=True,blank=True)
     
