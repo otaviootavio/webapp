@@ -227,7 +227,7 @@ def monitoracao_update(request, pk):
             forms_voo_real.initial["data_voo"] = forms_voo_real.instance.data_voo.strftime("%d-%m-%Y")
     return render(
         request,
-        "create-real.html",
+        "update-real.html",
         {
             "forms_voo_real": forms_voo_real,
             "title": "Formulário para atualizar status do voo",
@@ -457,13 +457,15 @@ def logout_view(request):
 
 @check_user_able_to_see_page(Group.torres, Group.gerentes)
 def relatorios(request):
-    
     if request.method == "POST":
         if request.POST.get("cia_id"):
             return generate_report_airline(request, request.POST.get("cia_id"))
         elif request.POST.get("data_inicial_id"):
             data_inicial = request.POST.get("data_inicial_id")
             data_final = request.POST.get("data_final_id")
+            if(data_inicial > data_final):
+                messages.warning(request, 'A data inicial deve ocorrer antes da data final')
+                return render(request, "relatorios.html")
             return generate_report_data(request, data_inicial, data_final)
         else:
             return render(request, "relatorios.html")
