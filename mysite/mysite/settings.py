@@ -17,7 +17,7 @@ from django.contrib.messages import constants as messages
 ###
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 # Quick-start development settings - unsuitable for production
@@ -25,12 +25,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'cg#p$g+j9egg!#a3sam@1$8obt2_+&k3q+pmu)5%asj6yjpkag')
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 DEBUG = False
 
 
-ALLOWED_HOSTS = ["127.0.0.1"]
+
+ALLOWED_HOST = ['*']
 
 
 # Application definition
@@ -84,7 +86,7 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': BASE_DIR + "/" + 'db.sqlite3',
     }
 }
 
