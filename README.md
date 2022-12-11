@@ -34,7 +34,7 @@ Instale as dependências do projeto, lembrando de fazer o migrate, e execute-o.\
 ```python manage.py migrate```\
 ```python manage.py runserver```
 
-Agora, para ver o projeto rodando acesse a url ```localhost:8000/olamundo/```
+Agora, para ver o projeto rodando acesse a url ```localhost:8000/```
 
 # Popular o banco de dados
 Para inserir dados no banco de dados é necessário rodar o comando abaixo:

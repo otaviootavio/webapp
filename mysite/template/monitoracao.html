@@ -2,13 +2,13 @@
 
 {% block content %}
 
-{% if not dados_voo_real %}
+{% if not dados_voo_real_chegada %}
 {% else %}
-<div class="row align-items-center h-100 mt-4">
+<div class="row align-items-center">
   <div class="col-sm">
     <div class="card">      
       <div class="card-body">
-        <h5 class="card-title">Lista dos voos</h5>
+        <h5 class="card-title">Lista dos voos de chegada</h5>
         <p class="card-text">Eis uma lista com todos os voos programados ou em andamento</p>
         <table class="table table-striped">
           <thead>
@@ -30,7 +30,7 @@
             </tr>
           </thead>
           <tbody>
-              {% for voo in dados_voo_real %}
+              {% for voo in dados_voo_real_chegada %}
               <tr>
                 <th scope="col">{{voo.id}}</th>
                 <td scope="row">{{voo.voo_base.codigo_voo}}</td>
@@ -53,7 +53,60 @@
         </div>
       </div>
     </div>
-  </div>
+</div>
+{% endif %}
+
+{% if not dados_voo_real_origem %}
+{% else %}
+<div class="row align-items-center my-4">
+  <div class="col-sm">
+    <div class="card">      
+      <div class="card-body">
+        <h5 class="card-title">Lista dos voos de partida</h5>
+        <p class="card-text">Eis uma lista com todos os voos programados ou em andamento</p>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col"></th>
+              <th scope="col">Codigo do voo</th>
+              <th scope="col">Companhia</th>
+              <th scope="col">Dia da semana</th>
+              <th scope="col">Hora prevista</th>
+              <th scope="col">Duracao</th>
+              <th scope="col">Origem</th>
+              <th scope="col">Destino</th>
+              <th scope="col">Data</th>
+              <th scope="col">Hora partida</th>
+              <th scope="col">Hora pouso</th>
+              <th scope="col">Status</th>
+              <th scope="col">Atualizar</th>
+              <th scope="col">Deletar</th>
+            </tr>
+          </thead>
+          <tbody>
+              {% for voo in dados_voo_real_origem %}
+              <tr>
+                <th scope="col">{{voo.id}}</th>
+                <td scope="row">{{voo.voo_base.codigo_voo}}</td>
+                <td scope="row">{{voo.voo_base.get_companhia_aerea_display}}</td>
+                <td scope="row">{{voo.voo_base.get_dia_da_semana_display}}</td>
+                <td scope="row">{{voo.voo_base.horario_partida_base|date:"H:i"}}</td>
+                <td scope="row">{{voo.voo_base.duracao_base|date:"H:i"}}</td>
+                <td scope="row">{{voo.voo_base.origem}}</td>
+                <td scope="row">{{voo.voo_base.destino}}</td>
+                <td scope="row">{{voo.data_voo|date:'d/m/Y'}}</td>
+                <td scope="row">{{voo.horario_real_partida|date:"H:i"}}</td>
+                <td scope="row">{{voo.horario_real_chegada|date:"H:i"}}</td>
+                <td scope="row">{{voo.estado_voo}}</td>
+                <td scope="row"><a href="{% url 'monitoração_update' voo.id %}">Atualizar</a></td>
+                <td scope="row"><a href="{% url 'monitoração_delete' voo.id %}" class="confirmation" id="delete-button">Deletar</a></td>
+              </tr>
+              {% endfor %}
+          </tbody>
+        </table>
+        </div>
+      </div>
+    </div>
 </div>
 {% endif %}
 

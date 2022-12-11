@@ -51,7 +51,7 @@ def updateBase(request, pk):
 
     if request.method == "POST":
         forms_voo_base = VooBaseForm(request.POST, instance=voo_base_obj)
-        # Work arround to show the forms disabled AND the correct value at form
+        #Workaround to show the forms disabled AND the correct value at form
         forms_voo_base.data._mutable = True
         forms_voo_base.data["codigo_voo"] = voo_base_obj.codigo_voo
         forms_voo_base.data["companhia_aerea"] = voo_base_obj.companhia_aerea
@@ -74,7 +74,6 @@ def updateBase(request, pk):
         },
     )
 
-
 @check_user_able_to_see_page(Group.funcionarios, Group.pilotos)
 def deleteBase(request, pk):
     try:
@@ -84,21 +83,6 @@ def deleteBase(request, pk):
     except (VooBase.DoesNotExist) as e:
         return redirect("crud")
     return redirect("crud")
-
-
-def string_to_date(str_format):
-    try:
-        date_format = datetime.strptime(str_format, "%Y-%m-%d")
-        return date_format
-    except:
-        return "Error at method string_to_date"
-
-
-def flightData(request):
-    if request.method == "POST":
-        return render(request, "crud.html")
-    return render(request, "flight-data.html")
-
 
 @check_user_able_to_see_page(Group.funcionarios, Group.pilotos)
 def crud(request):
@@ -126,12 +110,6 @@ def crud(request):
             )
     return render(request, "CRUD.html", context={"dados_voo_base": all_voo_base})
 
-
-def olamundo(request):
-    return render(request, "ola-mundo.html")
-
-
-@login_required
 def home(request):
     obj_voo_real_origem = VooReal.objects.all().filter(voo_base__origem="SP")
     obj_voo_real_chegada = VooReal.objects.all().filter(voo_base__destino="SP")
@@ -147,9 +125,10 @@ def home(request):
     )
 
 
-@login_required
+@check_user_able_to_see_page(Group.funcionarios, Group.pilotos, Group.torres, Group.gerentes)
 def monitoracao(request):
-    all_voo_real = VooReal.objects.all()
+    obj_voo_real_origem = VooReal.objects.all().filter(voo_base__origem="SP")
+    obj_voo_real_chegada = VooReal.objects.all().filter(voo_base__destino="SP")
     if request.method == "POST":
         try:
             voo_base_obj = VooBase.objects.get(codigo_voo=request.POST["id-voo"])
@@ -157,7 +136,11 @@ def monitoracao(request):
         except Exception as e:
             messages.warning(request, e)
             return render(request, "monitoracao.html")
-    return render(request, "monitoracao.html", context={"dados_voo_real": all_voo_real})
+    return render(request, "monitoracao.html",
+                  context={
+                      "dados_voo_real_origem": obj_voo_real_origem,
+                      "dados_voo_real_chegada": obj_voo_real_chegada,
+                  })
 
 
 @login_required
@@ -222,9 +205,11 @@ def monitoracao_update(request, pk):
     else:
         forms_voo_real = VooRealForm(instance=voo_real_obj)
 
-        ## override old format ( YYYY-MM-DD )
+        ## override old format ( YYYY-MM-DD ) and disable Date input
         if forms_voo_real.instance.data_voo:
             forms_voo_real.initial["data_voo"] = forms_voo_real.instance.data_voo.strftime("%d-%m-%Y")
+            forms_voo_real.fields["data_voo"].disabled = True
+        
     return render(
         request,
         "update-real.html",

@@ -3,14 +3,12 @@ from django.urls import path
 from app import views
 
 urlpatterns = [
-    path('', views.login_view, name=''),
+    path('', views.home, name=''),
     path('admin/', admin.site.urls, name='admin'),
-    path('olamundo/', views.olamundo, name='olamundo'),
     path('create/base', views.createBase, name='create-base'),
     path('create/novo/<str:pk>', views.scheduleNew, name='schedule-new'),
     path('update/base/<str:pk>', views.updateBase, name='update-base'),
     path('delete/base/<str:pk>', views.deleteBase, name='delete-base'),
-    path('flight-data/', views.flightData, name='flight-data'),
     path('crud/', views.crud, name='crud'),
     path('home/', views.home, name='home'),
     path('login/', views.login_view, name='login_view'),

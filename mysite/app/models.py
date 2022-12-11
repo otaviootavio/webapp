@@ -84,7 +84,7 @@ class VooBase(models.Model):
         time_delta_temp = datetime.timedelta(hours=self.duracao_base.hour, minutes=self.duracao_base.minute)
         horario_partida_base_temp = self.horario_partida_base
         
-        #Work arround to add date and time
+        #Workaround to add date and time
         start = datetime.datetime(
             2000, 1, 1,
             hour=horario_partida_base_temp.hour, 

@@ -39,7 +39,7 @@ def create_users():
         piloto = None
     if not piloto:
         print("Creating piloto")
-        piloto = User.objects.create_user('piloto', 'piloto@mail.com', 'piloto')
+        piloto = User.objects.create_user('piloto', 'piloto@mail.com', '1234')
         piloto.save()
         print("piloto created.")
     pilotos, created = Group.objects.get_or_create(name='pilotos')
@@ -51,7 +51,7 @@ def create_users():
         funcionario = None
     if not funcionario:
         print("Creating funcionário")
-        funcionario = User.objects.create_user('funcionario', 'funcionario@mail.com', 'funcionario')
+        funcionario = User.objects.create_user('funcionario', 'funcionario@mail.com', '1234')
         funcionario.save()
         print("funcionário created.")
     funcionarios, created = Group.objects.get_or_create(name='funcionarios')
@@ -63,7 +63,7 @@ def create_users():
         operador = None 
     if not operador:
         print("Creating operador")
-        operador = User.objects.create_user('operador', 'operador@mail.com', 'operador')
+        operador = User.objects.create_user('operador', 'operador@mail.com', '1234')
         operador.save()
         print("operador created.")
     operadores, created = Group.objects.get_or_create(name='operadores')
@@ -75,7 +75,7 @@ def create_users():
         torre = None
     if not torre:
         print("Creating torre de controle")
-        torre = User.objects.create_user('torre', 'torre@mail.com', 'torre')
+        torre = User.objects.create_user('torre', 'torre@mail.com', '1234')
         torre.save()
         print("operador torre de controle.")
     torres, created = Group.objects.get_or_create(name='torres')
@@ -87,7 +87,7 @@ def create_users():
         gerente = None
     if not gerente:
         print("Creating gerente")
-        gerente = User.objects.create_user('gerente', 'gerente@mail.com', 'gerente')
+        gerente = User.objects.create_user('gerente', 'gerente@mail.com', '1234')
         gerente.save()
         print("operador gerente.")
     gerentes, created = Group.objects.get_or_create(name='gerentes')
