@@ -29,15 +29,15 @@ DIAS_SEMANA = (
     )
 
 ESTADOS_VOO = (
-     ('AGD','Agendado'),
-     ('PRG','Programado'),
-     ('EMB','Embarcando'),
-     ('TAX','Taxiando'),
-     ('PRT','Pronto'),
-     ('AUT','Autorizado'),
-     ('EMV','Em voo'),
-     ('ATE','Aterrisado'),
-     ('CAN','Cancelado'),
+    (None, '---'),
+     ('Embarcando','Embarcando'),
+     ('Programado','Programado'),
+     ('Taxiando','Taxiando'),
+     ('Pronto','Pronto'),
+     ('Autorizado','Autorizado'),
+     ('Em voo','Em voo'),
+     ('Aterrisado','Aterrisado'),
+     ('Cancelado','Cancelado'),
     )
 
 ESTADOS = (
@@ -72,8 +72,8 @@ ESTADOS = (
 
 class VooBase(models.Model):
     codigo_voo = models.CharField(max_length=200, null=False, blank = False)
-    companhia_aerea = models.CharField(max_length=200,choices=COMPANHIAS_AEREAS ,null=False)
-    dia_da_semana = models.CharField(max_length = 3, choices = DIAS_SEMANA, null = False)
+    companhia_aerea = models.CharField(max_length=200,choices=COMPANHIAS_AEREAS ,null=True)
+    data_voo = models.DateField(null=False, blank=False)
     horario_partida_base = models.TimeField(null=False)
     duracao_base = models.TimeField(null=False)
     origem = models.CharField(max_length=200,choices=ESTADOS, null=False)
@@ -94,13 +94,16 @@ class VooBase(models.Model):
         ####
         return end.time()
 
+    @property
+    def dia_da_semana(self):
+        return list(DIAS_SEMANA)[self.data_voo.weekday()][1]
+    
     class Meta:
         db_table = 'voo_base'
 
 class VooReal(models.Model):    
     voo_base = models.ForeignKey(VooBase, on_delete=models.CASCADE, blank=True ,null=True)
-    data_voo = models.DateField()
-    estado_voo = models.CharField(max_length = 3, choices = ESTADOS_VOO, null=True, blank=True)
+    estado_voo = models.CharField(max_length = 20, choices = ESTADOS_VOO, null=True, blank=True)
     horario_real_chegada = models.TimeField(auto_now=False, auto_now_add=False, null=True,blank=True)
     horario_real_partida = models.TimeField(auto_now=False, auto_now_add=False, null=True,blank=True)
     

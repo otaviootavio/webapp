@@ -35,15 +35,19 @@
                 <th scope="col">{{voo.id}}</th>
                 <td scope="row">{{voo.voo_base.codigo_voo}}</td>
                 <td scope="row">{{voo.voo_base.get_companhia_aerea_display}}</td>
-                <td scope="row">{{voo.voo_base.get_dia_da_semana_display}}</td>
+                <td scope="row">{{voo.voo_base.dia_da_semana}}</td>
                 <td scope="row">{{voo.voo_base.horario_partida_base|date:"H:i"}}</td>
                 <td scope="row">{{voo.voo_base.duracao_base|date:"H:i"}}</td>
                 <td scope="row">{{voo.voo_base.origem}}</td>
                 <td scope="row">{{voo.voo_base.destino}}</td>
-                <td scope="row">{{voo.data_voo|date:'d/m/Y'}}</td>
+                <td scope="row">{{voo.voo_base.data_voo|date:'d/m/Y'}}</td>
                 <td scope="row">{{voo.horario_real_partida|date:"H:i"}}</td>
                 <td scope="row">{{voo.horario_real_chegada|date:"H:i"}}</td>
+                {% if voo.estado_voo %}
                 <td scope="row">{{voo.estado_voo}}</td>
+                {% else %}
+                <td scope="row">Previsto</td>
+                {% endif %}
                 <td scope="row"><a href="{% url 'monitoração_update' voo.id %}">Atualizar</a></td>
                 <td scope="row"><a href="{% url 'monitoração_delete' voo.id %}" class="confirmation" id="delete-button">Deletar</a></td>
               </tr>
@@ -89,15 +93,19 @@
                 <th scope="col">{{voo.id}}</th>
                 <td scope="row">{{voo.voo_base.codigo_voo}}</td>
                 <td scope="row">{{voo.voo_base.get_companhia_aerea_display}}</td>
-                <td scope="row">{{voo.voo_base.get_dia_da_semana_display}}</td>
+                <td scope="row">{{voo.voo_base.dia_da_semana}}</td>
                 <td scope="row">{{voo.voo_base.horario_partida_base|date:"H:i"}}</td>
                 <td scope="row">{{voo.voo_base.duracao_base|date:"H:i"}}</td>
                 <td scope="row">{{voo.voo_base.origem}}</td>
                 <td scope="row">{{voo.voo_base.destino}}</td>
-                <td scope="row">{{voo.data_voo|date:'d/m/Y'}}</td>
+                <td scope="row">{{voo.voo_base.data_voo|date:'d/m/Y'}}</td>
                 <td scope="row">{{voo.horario_real_partida|date:"H:i"}}</td>
                 <td scope="row">{{voo.horario_real_chegada|date:"H:i"}}</td>
+                {% if voo.estado_voo %}
                 <td scope="row">{{voo.estado_voo}}</td>
+                {% else %}
+                <td scope="row">Previsto</td>
+                {% endif %}
                 <td scope="row"><a href="{% url 'monitoração_update' voo.id %}">Atualizar</a></td>
                 <td scope="row"><a href="{% url 'monitoração_delete' voo.id %}" class="confirmation" id="delete-button">Deletar</a></td>
               </tr>

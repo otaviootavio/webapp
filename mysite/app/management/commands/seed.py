@@ -211,4 +211,3 @@ def run_seed(self, mode):
 
     # Creating users
     create_users()
-    create_voo()

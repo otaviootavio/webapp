@@ -6,7 +6,7 @@
     <div class="col-sm">
       <div class="card h-100">
         <div class="card-body">
-          <h5 class="card-title">Menu de CRUD</h5>
+          <h5 class="card-title">Lista de voos base</h5>
           <p class="card-text">Crie, altere ou consulte voos no
             sistema.</p>
           <a href="{% url 'crud' %}" class="btn btn-primary">Acesse aqui</a>
@@ -16,7 +16,7 @@
     <div class="col-sm">
       <div class="card h-100">
         <div class="card-body">
-          <h5 class="card-title">Monitoração</h5>
+          <h5 class="card-title">Lista de voos reais</h5>
           <p class="card-text">Consulte e atualize o estado dos voos.</p>
           <a href="{% url 'monitoração' %}" class="btn btn-primary">Acesse aqui</a>
         </div>
@@ -25,9 +25,8 @@
     <div class="col-sm">
       <div class="card h-100">
         <div class="card-body">
-          <h5 class="card-title">Gerar Relatórios</h5>
-          <p class="card-text">Gere relatórios em pdf, contendo os dados
-            coletados de maneira formatada e legível.</p>
+          <h5 class="card-title">Relatórios</h5>
+          <p class="card-text">Gere relatórios administrativos em pdf</p>
           <a href="{% url 'relatorios' %}" class="btn btn-primary">Acesse aqui</a>
         </div>
       </div>
@@ -40,8 +39,14 @@
     <div class="card">
       <div class="card-body">
         <h5 class="card-title">Painel de voos</h5>
-        <div class="mt-5 my-2 d-flex justify-content-center">Voos de chegada</div>
+        {% if not dados_voo_real_chegada %}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          <strong>Sem voos de partida...</strong>
+        </div>
+        {% else %}
         <table class="table table-striped">
+          <div class="mt-5 my-2 d-flex justify-content-center">Voos de chegada</div>
           <thead>
             <tr>
               <th scope="col"></th>
@@ -62,17 +67,39 @@
                 <th scope="col">{{voo.id}}</th>
                 <td scope="row">{{voo.voo_base.codigo_voo}}</td>
                 <td scope="row">{{voo.voo_base.get_companhia_aerea_display}}</td>
-                <td scope="row">{{voo.voo_base.get_dia_da_semana_display}}</td>
-                <td scope="row">{{voo.voo_base.horario_partida_base|date:"H:i"}}</td>
-                <td scope="row">{{voo.voo_base.horario_chegada_base|date:"H:i"}}</td>
+                <td scope="row">{{voo.voo_base.dia_da_semana}}</td>
+                
+                {% if voo.horario_real_partida%}
+                <td scope="row"><b>{{voo.horario_real_partida|date:"H:i"}}</b></td>   
+                {% else %}
+                <td scope="row">{{voo.voo_base.horario_partida_base|date:"H:i"}}</td>  
+                {% endif %}
+                
+                {% if voo.horario_real_chegada%}
+                <td scope="row"><b>{{voo.horario_real_chegada|date:"H:i"}}</b></td>   
+                {% else %}
+                <td scope="row">{{voo.voo_base.horario_partida_base|date:"H:i"}}</td>  
+                {% endif %}
+
                 <td scope="row">{{voo.voo_base.origem}}</td>
                 <td scope="row">{{voo.voo_base.destino}}</td>
-                <td scope="row">{{voo.data_voo|date:'d/m/Y'}}</td>
+                <td scope="row">{{voo.voo_base.data_voo|date:'d/m/Y'}}</td>
+                {% if voo.estado_voo %}
                 <td scope="row">{{voo.estado_voo}}</td>
+                {% else %}
+                <td scope="row">Previsto</td>
+                {% endif %}
               </tr>
               {% endfor %}
           </tbody>
         </table>
+        {% endif %}
+        {% if not dados_voo_real_chegada %}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          <strong>Sem voos de chegada...</strong>
+        </div>
+        {% else %}
         <div class="mt-5 my-2 d-flex justify-content-center">Voos de partida</div>
         <table class="table table-striped">
           <thead>
@@ -95,18 +122,33 @@
                 <th scope="col">{{voo.id}}</th>
                 <td scope="row">{{voo.voo_base.codigo_voo}}</td>
                 <td scope="row">{{voo.voo_base.get_companhia_aerea_display}}</td>
-                <td scope="row">{{voo.voo_base.get_dia_da_semana_display}}</td>
-                <td scope="row">{{voo.voo_base.horario_partida_base|date:"H:i"}}</td>
-                <td scope="row">{{voo.voo_base.horario_chegada_base|date:"H:i"}}</td>
+                <td scope="row">{{voo.voo_base.dia_da_semana}}</td>
+                
+                {% if voo.horario_real_partida%}
+                <td scope="row"><b>{{voo.horario_real_partida|date:"H:i"}}</b></td>   
+                {% else %}
+                <td scope="row">{{voo.voo_base.horario_partida_base|date:"H:i"}}</td>  
+                {% endif %}
+                
+                {% if voo.horario_real_chegada%}
+                <td scope="row"><b>{{voo.horario_real_chegada|date:"H:i"}}</b></td>   
+                {% else %}
+                <td scope="row">{{voo.voo_base.horario_partida_base|date:"H:i"}}</td>  
+                {% endif %}
+                
                 <td scope="row">{{voo.voo_base.origem}}</td>
                 <td scope="row">{{voo.voo_base.destino}}</td>
-                <td scope="row">{{voo.data_voo|date:'d/m/Y'}}</td>
+                <td scope="row">{{voo.voo_base.data_voo|date:'d/m/Y'}}</td>
+                {% if voo.estado_voo %}
                 <td scope="row">{{voo.estado_voo}}</td>
+                {% else %}
+                <td scope="row">Previsto</td>
+                {% endif %}
               </tr>
               {% endfor %}
           </tbody>
         </table>
-
+        {% endif %}
         </div>
       </div>
     </div>
