@@ -197,6 +197,14 @@ def monitoracao_update(request, pk):
 
     if request.method == "POST":
         forms_voo_real = VooRealForm(request.POST, instance=voo_real_obj)
+        
+        #Workaround to send correct data to database
+        if forms_voo_real.instance.data_voo:
+            forms_voo_real.data._mutable = True
+            forms_voo_real.data["data_voo"] = voo_real_obj.data_voo.strftime("%d-%m-%Y")
+            forms_voo_real.fields["data_voo"].disabled = True
+            forms_voo_real.data._mutable = False
+                
         if forms_voo_real.is_valid():
             forms_voo_real.instance.voo_base = voo_base_obj
             forms_voo_real.save()

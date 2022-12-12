@@ -20,11 +20,11 @@ COMPANHIAS_AEREAS = (
 
 DIAS_SEMANA = (
         ('SEG','Segunda'),
-        ('TER','Terca'),
+        ('TER','Terça'),
         ('QUA','Quarta'),
         ('QUI','Quinta'),
         ('SEX','Sexta'),
-        ('SAB','Sabado'),
+        ('SAB','Sábado'),
         ('DOM','Domingo')
     )
 
