@@ -3,6 +3,10 @@
 {% block content %}
 
 {% if not dados_voo_real_chegada %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  <strong>Sem voos de chegada...</strong>
+</div>
 {% else %}
 <div class="row align-items-center">
   <div class="col-sm">
@@ -61,6 +65,10 @@
 {% endif %}
 
 {% if not dados_voo_real_origem %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  <strong>Sem voos de partida...</strong>
+</div>
 {% else %}
 <div class="row align-items-center my-4">
   <div class="col-sm">

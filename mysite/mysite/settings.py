@@ -32,7 +32,7 @@ DEBUG = False
 
 
 
-ALLOWED_HOST = ['*']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
