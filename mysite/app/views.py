@@ -149,45 +149,6 @@ def monitoracao(request):
                   })
 
 
-@check_user_able_to_see_page(Group.operadores, Group.funcionarios)
-def scheduleNew(request, pk):
-    forms_voo_real = VooRealForm()
-    try:
-        voo_base_obj = VooBase.objects.get(id=pk)
-        forms_voo_base = VooBaseForm(instance = voo_base_obj)
-    except VooBase.DoesNotExist:
-        raise Http404("No matches to the given query")
-
-    if request.method == "POST":
-        forms_voo_real = VooRealForm(request.POST)
-        forms_voo_real.data._mutable = True
-        forms_voo_real.data["voo_base"] = voo_base_obj.id
-        forms_voo_real.data._mutable = False
-        if forms_voo_real.is_valid():
-            forms_voo_real.save()
-            messages.add_message(request, messages.SUCCESS, 'Voo agendado com sucesso')
-            return redirect("crud")
-        else:
-            return render(
-            request,
-            "create-real.html",
-            {
-                "forms_voo_base": forms_voo_base,
-                "forms_voo_real": forms_voo_real,
-            },
-        )
-    else:
-        voo_base_obj = VooBase.objects.get(id = pk)
-        forms_voo_real = VooRealForm()
-        return render(
-            request,
-            "create-real.html",
-            {
-                "forms_voo_base": forms_voo_base,
-                "forms_voo_real": forms_voo_real,
-                "title": "Dados do novo voo a ser agendado",
-            },
-        )
 
 
 @check_user_able_to_see_page(Group.torres, Group.funcionarios, Group.pilotos)

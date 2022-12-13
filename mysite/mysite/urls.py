@@ -6,7 +6,6 @@ urlpatterns = [
     path('', views.home, name=''),
     path('admin/', admin.site.urls, name='admin'),
     path('create/base', views.createBase, name='create-base'),
-    path('create/novo/<str:pk>', views.scheduleNew, name='schedule-new'),
     path('update/base/<str:pk>', views.updateBase, name='update-base'),
     path('delete/base/<str:pk>', views.deleteBase, name='delete-base'),
     path('crud/', views.crud, name='crud'),

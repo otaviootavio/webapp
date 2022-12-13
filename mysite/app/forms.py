@@ -64,9 +64,7 @@ class VooRealForm(forms.ModelForm):
         origem = cleaned_data.get("voo_base").origem
         destino = cleaned_data.get("voo_base").destino
         
-        ## TODO
-        ## Aonde deveria ser inserido o estado do voo?
-        ## Nessa caso, ocorre na sua criação
+    
         if not (VooReal.objects.get(id = self.instance.id ).estado_voo):
             if(origem == 'SP' and estado_novo != 'Embarcando'):
                 self.add_error('estado_voo', "Todos os voos de partida devem começar em embarcando")
